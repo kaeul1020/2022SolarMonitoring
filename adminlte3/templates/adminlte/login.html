@@ -29,26 +29,29 @@
                 {% endblock login_errors %}
                 <p class="login-box-msg">아이디와 비밀번호를 입력해주세요.</p>
                 {% block login_form %}
-                    <form action="" method="post">
+                    <form action="{{ app_path }}" method="post" id="login-form">
                         {% csrf_token %}
                         {% if message %}
                             <p class="login-box-msg" style="color: red;">{{ message }}</p>
                         {% endif %}
                         <div class="input-group mb-3">
-                          <input type="id" class="form-control" placeholder="{% trans 'ID' %}">
+                          <input type="text" id="id_username" name="username" class="form-control" placeholder="{% trans 'ID' %}" >
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-user"></span>
                             </div>
                           </div>
+                          {{ form.username.errors }}
                         </div>
                         <div class="input-group mb-3">
-                          <input type="password" class="form-control" placeholder="{% trans 'Password' %}">
+                          <input type="password" id="id_password" name="password" class="form-control" placeholder="{% trans 'Password' %}" >
                           <div class="input-group-append">
                             <div class="input-group-text">
                               <span class="fas fa-lock"></span>
                             </div>
                           </div>
+                          {{ form.password.errors }}
+                          <input type="hidden" name="next" value="{{ next }}"/>
                         </div>
                         <div class="row">
                             <div class="col-xs-8">
@@ -78,6 +81,15 @@
                 <p class="mb-0">
                     <a href="register.html" class="text-center">회원가입</a>
                 </p>
+
+                {% if user.is_authenticated %}
+                <p class="alert alert-danger">
+                    {% blocktrans trimmed %}
+                        You are authenticated as {{ username }}, but are not authorized to
+                        access this page. Would you like to login to a different account?
+                    {% endblocktrans %}
+                </p>
+                {% endif %}
 
             </div>
             <!-- /.login-card-body -->
