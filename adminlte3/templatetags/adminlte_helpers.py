@@ -9,9 +9,14 @@ from adminlte3.compat import is_authenticated
 register = template.Library()
 
 
-@register.simple_tag()
-def logout_url():
-    return getattr(settings, 'LOGOUT_URL', '/admin/logout/')
+@register.simple_tag(takes_context=True)
+def logout_url(context):
+    user = context['request'].user
+    if user.is_superuser:
+        return getattr(settings, 'LOGOUT_URL', '/admin/logout/')
+    else : 
+        return getattr(settings, 'LOGOUT_URL', '/login/')
+    
 
 
 @register.simple_tag(takes_context=True)

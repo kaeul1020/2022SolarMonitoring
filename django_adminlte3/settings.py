@@ -135,3 +135,6 @@ STATIC_URL = '/static/'
 
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'
+
+LOGIN_URL = '/login'
+
