@@ -79,7 +79,7 @@ DATABASES = {
    'default': {
        'NAME': 'SolarMonitoring',
        'ENGINE': 'sql_server.pyodbc',
-       'HOST': 'DESKTOP-HU641T5',
+       'HOST': 'DESKTOP-HU641T5,55555',
        'USER': 'dalab',
        'PASSWORD': 'dalab',
        'driver': 'SQL Server',
