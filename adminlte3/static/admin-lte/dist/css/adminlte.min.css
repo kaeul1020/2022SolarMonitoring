@@ -23,7 +23,7 @@
   --white: #fff;
   --gray: #6c757d;
   --gray-dark: #343a40;
-  --primary: #007bff;
+  --primary: #5969FF;
   --secondary: #6c757d;
   --success: #28a745;
   --info: #17a2b8;
@@ -2440,36 +2440,37 @@ a.btn.disabled,
 fieldset:disabled a.btn {
   pointer-events: none;
 }
+
 .btn-primary {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #5969FF;
+  border-color: #5969FF;
   box-shadow: none;
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background-color: #4d5bdf;
+  border-color: #4350c0;
 }
 .btn-primary.focus,
 .btn-primary:focus {
   color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background-color: #4d5bdf;
+  border-color: #4350c0;
   box-shadow: 0 0 0 0 rgba(38, 143, 255, 0.5);
 }
 .btn-primary.disabled,
 .btn-primary:disabled {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: #5969FF;
+  border-color: #5969FF;
 }
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
 .show > .btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #0062cc;
-  border-color: #005cbf;
+  background-color: #4350c0;
+  border-color: #404cb4;
 }
 .btn-primary:not(:disabled):not(.disabled).active:focus,
 .btn-primary:not(:disabled):not(.disabled):active:focus,
@@ -13896,9 +13897,7 @@ body.text-sm .control-sidebar {
 .form-group-sm .form-control + .form-control-feedback.svg-inline--fa {
   line-height: calc(1.8125rem + 2px);
 }
-label:not(.form-check-label):not(.custom-file-label) {
-  font-weight: 700;
-}
+
 .warning-feedback {
   font-size: 80%;
   color: #ffc107;
@@ -20824,20 +20823,18 @@ a.disabled.mailbox-attachment-close {
 }
 .login-logo,
 .register-logo {
-  font-size: 2.1rem;
-  font-weight: 300;
+  font-size: 2.5rem;
+  font-weight: bolder;
   margin-bottom: 0.9rem;
   text-align: center;
+  color : #5969FF
 }
-.login-logo a,
-.register-logo a {
-  color: #495057;
-}
+
 .login-page,
 .register-page {
   -ms-flex-align: center;
   align-items: center;
-  background-color: #e9ecef;
+  background-color: #343A40;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
