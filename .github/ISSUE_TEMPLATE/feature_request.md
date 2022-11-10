@@ -1,20 +1,16 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: 기능 관련
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## 선행 이슈
+ex) #1 test
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## 설명
+이 이슈 카드에 대한 설명, 최대한 다른 사람이 알아볼 수 있도록 자세히 적어줄 것.
+필요에 따라서 체크박스를 만들어 사용할 것.
+- [x]
