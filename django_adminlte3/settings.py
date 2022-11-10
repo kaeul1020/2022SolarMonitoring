@@ -132,6 +132,10 @@ USE_TZ = False
 # ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'adminlte3', 'static'),
+    os.path.join(BASE_DIR, 'adminlte3_theme', 'static')
+]
 
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'
