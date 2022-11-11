@@ -130,11 +130,10 @@ USE_TZ = False
 # STATICFILES_DIRS = [
 #      os.path.join(BASE_DIR+'/bower_components'),
 # ]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'adminlte3', 'static'),
-    os.path.join(BASE_DIR, 'adminlte3_theme', 'static')
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # 로그인 성공후 이동하는 URL
