@@ -1,5 +1,6 @@
 {% load adminlte_helpers i18n %}
 {% load static %}
+
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
 
 
@@ -162,7 +163,7 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <a href="{% block change_password_url %}{% url 'admin:password_change' %}{% endblock %}" class="btn btn-default btn-flat">{% trans 'Change Password'%}</a>
-                    <a href="{% block logout_url %}{% logout_url %}{% endblock %}" class="btn btn-default btn-flat float-right">{% trans 'Sign Out'%}<a>
+                    <a href="{% block logout_url %}{% url 'logout' %}{% endblock %}" class="btn btn-default btn-flat float-right">{% trans 'Sign Out'%}<a>
                   </li>
                 </ul>
               </li>
