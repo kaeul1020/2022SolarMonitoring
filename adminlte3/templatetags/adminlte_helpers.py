@@ -3,19 +3,21 @@ from hashlib import md5
 from django import template
 from django.conf import settings
 from django.urls import reverse
+from django.contrib import auth
 
 from adminlte3.compat import is_authenticated
 
 register = template.Library()
 
-
+"""
 @register.simple_tag(takes_context=True)
 def logout_url(context):
     user = context['request'].user
     if user.is_superuser:
-        return getattr(settings, 'LOGOUT_URL', '/admin/logout/')
+        setattr(settings, 'LOGOUT_REDIRECT_URL', '/admin')
     else : 
-        return getattr(settings, 'LOGOUT_URL', '/login/')
+        setattr(settings, 'LOGOUT_REDIRECT_URL', '/')
+    return auth.logout(context['request'])"""
     
 
 

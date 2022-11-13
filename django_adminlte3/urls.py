@@ -23,5 +23,6 @@ from adminlte3 import views as login_view
 urlpatterns=[
     url(r'^$', login_view.login.as_view(template_name='adminlte/index.html')),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='adminlte/login.html')),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
 ]
