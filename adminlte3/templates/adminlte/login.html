@@ -67,24 +67,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-3">
+                        <div class="row mt-3 mb-3">
                             <div class="col">
                                 <button type="submit" class="btn btn-primary btn-block font-weight-bold">로그인</button>
                             </div>
                         </div>
                     </form>
                 {% endblock login_form %}
-                <hr>
-                <p class="mb-1">
-                    <a href="/admin/login/">관리자 버전</a>
-                </p>
-                <p class="mb-1">
-                    <a href="forgot-password.html">비밀번호 찾기</a>
-                </p>
-                <p class="mb-0">
-                    <a href="register.html" class="text-center">회원가입</a>
-                </p>
-
+                <div class="row border-top pt-2">
+                        <a href="forgot-password.html" class="col-5 text-center border-right">비밀번호 찾기</a>
+                        <a href="register.html" class="col-3 text-center border-right">회원가입</a>
+                        <a href="/admin/login/" class="col-4 text-center">관리자 버전</a>
+                </div>
                 {% if user.is_authenticated %}
                 <p class="alert alert-danger">
                     {% blocktrans trimmed %}
