@@ -26,5 +26,6 @@ urlpatterns=[
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('login/forgot-password/', TemplateView.as_view(template_name='adminlte/forgot-password.html')),
     path('login/forgot-password-success/', TemplateView.as_view(template_name='adminlte/forgot-password-success.html')),
+    path('login/register', TemplateView.as_view(template_name='adminlte/register.html')),
     path('admin/', admin.site.urls),
 ]
