@@ -1,0 +1,27 @@
+{% extends "adminlte/base.html" %}
+{% load i18n static %}
+
+{% block body_class %}login-page{% endblock %}
+{% block body %}
+  <div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <div class="text-center font-weight-bolder text-dark h4">
+          <p>환영합니다!<p>
+        </div>
+        <p class="login-box-msg">회원가입을 축하드립니다.</p>
+
+        <div class="row">
+          <div class="col-12">
+              <a class="btn btn-primary btn-block font-weight-bold" href="/login">로그인</a>
+          </div>
+          <!-- /.col -->
+        </div>
+    
+      <!-- /.login-card-body -->
+    </div>
+  </div>
+  <!-- /.login-box -->
+{% endblock %}
+
