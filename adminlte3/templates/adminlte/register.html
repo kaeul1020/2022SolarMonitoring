@@ -1,0 +1,71 @@
+{% extends "adminlte/base.html" %}
+{% load i18n static %}
+
+{% block body_class %}hold-transition register-page{% endblock %}
+{% block body %}
+    <div class="register-box">
+        <div class="card">
+            <div class="card-body register-card-body">
+                <div class="text-center font-weight-bolder text-dark h4">
+                    <p>회원가입</p>
+                </div>        
+                <p class="login-box-msg">회원정보를 입력해 주세요.</p>
+                <!-- 회원가입화면과 데이터베이스 연결해야함. -->
+                <form action="~" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="ID">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Retype password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="E-mail">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="icheck-primary">
+                        <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                        <label for="agreeTerms">
+                            <a href="#">약관</a>에 동의해 주세요.
+                        </label>
+                    </div>
+                    <div class="row mt-3 mb-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block font-weight-bold">회원가입</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row border-top mt-3 pt-2">
+                    <a href="/login" class="col-4 text-center border-right">로그인</a>
+                    <a href="/login/forgot-password" class="col-4 text-center border-right">비밀번호 찾기</a>
+                    <a href="/admin/login/" class="col-4 text-center">관리자 버전</a>
+                </div>
+            </div>
+            <!-- /.form-box -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.register-box -->
+{% endblock %}
