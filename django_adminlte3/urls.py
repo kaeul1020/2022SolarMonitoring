@@ -18,11 +18,13 @@ from django.urls import path
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
 from adminlte3 import views as login_view
-
+from django.views.generic.base import TemplateView
 
 urlpatterns=[
     url(r'^$', login_view.login.as_view(template_name='adminlte/index.html')),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='adminlte/login.html')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('login/forgot-password/', TemplateView.as_view(template_name='adminlte/forgot-password.html')),
+    path('login/forgot-password-success/', TemplateView.as_view(template_name='adminlte/forgot-password-success.html')),
     path('admin/', admin.site.urls),
 ]
