@@ -21,12 +21,12 @@ from home import views as login_view
 from django.views.generic.base import TemplateView
 
 urlpatterns=[
-    url(r'^$', login_view.login.as_view(template_name='adminlte/index.html')),
-    url(r'^login/$', auth_views.LoginView.as_view(template_name='adminlte/login.html')),
+    url(r'^$', login_view.login.as_view(template_name='home/index.html')),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='home/login.html')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('login/forgot-password/', TemplateView.as_view(template_name='adminlte/forgot-password.html')),
-    path('login/forgot-password-success/', TemplateView.as_view(template_name='adminlte/forgot-password-success.html')),
-    path('login/register/', TemplateView.as_view(template_name='adminlte/register.html')),
-    path('login/register-success/', TemplateView.as_view(template_name='adminlte/register-success.html')),
+    path('login/forgot-password/', TemplateView.as_view(template_name='home/forgot-password.html')),
+    path('login/forgot-password-success/', TemplateView.as_view(template_name='home/forgot-password-success.html')),
+    path('login/register/', TemplateView.as_view(template_name='home/register.html')),
+    path('login/register-success/', TemplateView.as_view(template_name='home/register-success.html')),
     path('admin/', admin.site.urls),
 ]

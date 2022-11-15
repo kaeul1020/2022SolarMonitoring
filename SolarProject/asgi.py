@@ -1,5 +1,5 @@
 """
-ASGI config for django_adminlte3 project.
+ASGI config for django_home3 project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

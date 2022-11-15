@@ -1,4 +1,4 @@
-{% extends 'adminlte/base.html' %}
+{% extends 'home/base.html' %}
 
 {% block content %}
     <div class="card">
@@ -14,8 +14,8 @@
                 {% for page in pager.items %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td><a target="_blank" href="{% url 'adminlte.example.pages' page_id=page.id %}">{{ page.title }}</a></td>
-                        <td><a href="{% url 'adminlte.example.page.edit' page_id=page.id %}">编辑</a></td>
+                        <td><a target="_blank" href="{% url 'home.example.pages' page_id=page.id %}">{{ page.title }}</a></td>
+                        <td><a href="{% url 'home.example.page.edit' page_id=page.id %}">编辑</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -29,7 +29,7 @@
         </div>
         <!-- /.box-body -->
         <div class="card-footer clearfix">
-            {% include 'adminlte/lib/_pagination.html' %}
+            {% include 'home/lib/_pagination.html' %}
         </div>
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@
     {% endblock %}
 
     {% block stylesheets %}
-        {% include 'adminlte/lib/_styles.html' %}
+        {% include 'home/lib/_styles.html' %}
         {% block style_sheets %}{% endblock %}
     {% endblock %}
 
@@ -25,11 +25,11 @@
 {% block body %}
     <div class="wrapper">
         {% block nav_header %}
-            {% include 'adminlte/lib/_main_header.html' %}
+            {% include 'home/lib/_main_header.html' %}
         {% endblock %}
 
         {% block nav_sidebar %}
-            {% include 'adminlte/lib/_main_sidebar.html' %}
+            {% include 'home/lib/_main_sidebar.html' %}
         {% endblock %}
 
         {% block content_wrapper %}
@@ -56,7 +56,7 @@
             {% block content_outer %}
             <section class="content">
                 {% block messages %}
-                    {% include 'adminlte/lib/_messages.html' %}
+                    {% include 'home/lib/_messages.html' %}
                 {% endblock %}
 
                 {% block content_block_wrap %}
@@ -69,7 +69,7 @@
         {% endblock content_wrapper %}
         
         {% block nav_footer %}
-            {% include 'adminlte/lib/_main_footer.html' %}
+            {% include 'home/lib/_main_footer.html' %}
         {% endblock %}
 
 
@@ -78,7 +78,7 @@
 {% endblock body %}
 
 {% block javascript %}
-{% include 'adminlte/lib/_scripts.html' %}
+{% include 'home/lib/_scripts.html' %}
 {% block js %}{% endblock %}
 {% endblock %}
 

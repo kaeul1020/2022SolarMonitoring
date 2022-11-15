@@ -46,12 +46,12 @@ it in some ways to meet your needs. In particular, no navigation is provided (we
 this shortly).
 
 To add & modify the functionality of the base template you should create your own base
-template. This template should extend ``adminlte/base.html``. Several blocks are available
+template. This template should extend ``home/base.html``. Several blocks are available
 for you to extend.
 
 .. code:: jinja
 
-    {% extends 'adminlte/base.html' %}
+    {% extends 'home/base.html' %}
 
     {% block title %}My App{% endblock %}
     {% block content %}
@@ -65,7 +65,7 @@ Adding navigation
 
 The base template includes a number of other templates in order to create the whole.
 
-For example, the sidebar navigation resides in ``adminlte/lib/_main_sidebar.html``. To customise
+For example, the sidebar navigation resides in ``home/lib/_main_sidebar.html``. To customise
 this template you should create a template of the same path & name in your app's templates folder.
 
 .. important::
@@ -73,11 +73,11 @@ this template you should create a template of the same path & name in your app's
     Your app(s) must be listed before ``django_adminlte2`` in ``INSTALLED_APPS``. Otherwise
     Django will find the default default provided by ``django-adminlte2`` before your customised one.
 
-In **your own app** create the template ``adminlte/lib/_main_sidebar.html``:
+In **your own app** create the template ``home/lib/_main_sidebar.html``:
 
 .. code:: jinja
 
-    {% extends 'adminlte/lib/_main_sidebar.html' %}
+    {% extends 'home/lib/_main_sidebar.html' %}
 
     {% block nav_links %}
         <li>
