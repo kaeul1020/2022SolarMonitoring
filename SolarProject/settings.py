@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django_adminlte3.urls'
+ROOT_URLCONF = 'SolarProject.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_adminlte3.wsgi.application'
+WSGI_APPLICATION = 'SolarProject.wsgi.application'
 
 
 # Database
