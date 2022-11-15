@@ -5,7 +5,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.contrib import auth
 
-from adminlte3.compat import is_authenticated
+from home.compat import is_authenticated
 
 register = template.Library()
 
