@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 
 INSTALLED_APPS = [
     'adminlte3',
-    'adminlte3_theme',
+    'adminpage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
