@@ -17,16 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
-from home import views as login_view
-from django.views.generic.base import TemplateView
+from home import views as index_view
 
 urlpatterns=[
-    url(r'^$', login_view.login.as_view(template_name='home/index.html')),
-    url(r'^login/$', auth_views.LoginView.as_view(template_name='home/login.html')),
+    path('', index_view.login.as_view(template_name='home/index.html')),
+    path('login/', include('login.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('login/forgot-password/', TemplateView.as_view(template_name='home/forgot-password.html')),
-    path('login/forgot-password-success/', TemplateView.as_view(template_name='home/forgot-password-success.html')),
-    path('login/register/', TemplateView.as_view(template_name='home/register.html')),
-    path('login/register-success/', TemplateView.as_view(template_name='home/register-success.html')),
     path('admin/', admin.site.urls),
 ]

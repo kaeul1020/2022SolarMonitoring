@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 INSTALLED_APPS = [
     'home',
     'adminpage',
+    'login',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,6 +140,8 @@ STATICFILES_DIRS = [
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'
 
+# 로그인 실패후 이동하는 URL
 LOGIN_URL = '/login'
 
+# 로그아웃 성공후 이동하는 URL
 LOGOUT_REDIRECT_URL = '/'
