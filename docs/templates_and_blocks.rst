@@ -13,7 +13,7 @@ Note than when overriding some blocks it may make sense to make use of
 Base templates
 --------------
 
-adminlte/base.html
+home/base.html
 ~~~~~~~~~~~~~~~~~~
 
 The primary base template which provides a sidebar, top navigation with user information, and footer.
@@ -68,7 +68,7 @@ Block reference
 '''''''''''''''
 
     All ``<style>`` tags which appear in the pages ``<head>``. By default this includes all content
-    from ``adminlte/lib/_styles.html``.
+    from ``home/lib/_styles.html``.
 
     Consider making use of ``{{ block.super }}`` when overriding this block.
 
@@ -88,11 +88,11 @@ Block reference
     Wrapper around the entirety of the main header. Default::
 
         {% block nav_header %}
-            {% include 'adminlte/lib/_main_header.html' %}
+            {% include 'home/lib/_main_header.html' %}
         {% endblock %}
 
     If you wish to customise the entirety of the main header you may override this block, otherwise
-    you can redefine ``adminlte/lib/_main_header.html`` to get finer control over your changes.
+    you can redefine ``home/lib/_main_header.html`` to get finer control over your changes.
 
 ``nav_sidebar``
 '''''''''''''''
@@ -100,11 +100,11 @@ Block reference
     Wrapper around the entirety of the sidebar. Default::
 
         {% block nav_sidebar %}
-            {% include 'adminlte/lib/_main_sidebar.html' %}
+            {% include 'home/lib/_main_sidebar.html' %}
         {% endblock %}
 
     If you wish to customise the entirety of the sidebar you may override this block, otherwise
-    you can redefine ``adminlte/lib/_main_header.html`` to get finer control over your changes.
+    you can redefine ``home/lib/_main_header.html`` to get finer control over your changes.
 
 ``content_wrapper``
 '''''''''''''''''''
@@ -183,7 +183,7 @@ Block reference
     Wrapper around the entirety of the message area. Default::
 
         {% block messages %}
-            {% include 'adminlte/lib/_messages.html' %}
+            {% include 'home/lib/_messages.html' %}
         {% endblock %}
 
     See the `Django messages framework`_.
@@ -204,17 +204,17 @@ Block reference
     Wrapper around the entirety of the main footer. Default::
 
         {% block nav_footer %}
-            {% include 'adminlte/lib/_main_footer.html' %}
+            {% include 'home/lib/_main_footer.html' %}
         {% endblock %}
 
     If you wish to customise the entirety of the main footer you may override this block, otherwise
-    you can redefine ``adminlte/lib/_main_footer.html`` to get finer control over your changes.
+    you can redefine ``home/lib/_main_footer.html`` to get finer control over your changes.
 
 ``javascript``
 ''''''''''''''
 
     All ``<script>`` tags which appear before the ``</body>`` tag. By default this includes all content
-    from ``adminlte/lib/_scripts.html``.
+    from ``home/lib/_scripts.html``.
 
     Consider making use of ``{{ block.super }}`` when overriding this block.
 
@@ -230,13 +230,13 @@ Block reference
     Define if you wish to replace the entire body of the page
 
 
-adminlte/login.html
+home/login.html
 ~~~~~~~~~~~~~~~~~~~
 
 Base template for a login interface. This excludes the navigational elements which are usually
 present. Example::
 
-        {% extends "adminlte/login.html" %}
+        {% extends "home/login.html" %}
 
         {% block form %}
             <form method="post">
@@ -248,7 +248,7 @@ present. Example::
 Block reference
 """""""""""""""
 
-The login form defines some blocks in addition to those available on `adminlte/base.html`_.
+The login form defines some blocks in addition to those available on `home/base.html`_.
 
 ``logo``
 ''''''''
@@ -289,7 +289,7 @@ Include templates
 -----------------
 
 Much of the HTML rendering is done in included template files. These files
-reside in ``adminlte/lib/``.
+reside in ``home/lib/``.
 
 The easiest way to do this is to create a file of the same path and name in your
 app's templates folder. This new template can then extend the original template and
@@ -297,10 +297,10 @@ tweak blocks as necessary (or, if you wish, forgo the extending the reimplement 
 template).
 
 Here is an example of the overriding and extension. We will be overriding the
-sidebar template (``adminlte/lib/_main_sidebar.html``), so we'll create
-a template called ``my_app_name/templates/adminlte/lib/_main_sidebar.html``::
+sidebar template (``home/lib/_main_sidebar.html``), so we'll create
+a template called ``my_app_name/templates/home/lib/_main_sidebar.html``::
 
-    {% extends 'adminlte/lib/_main_sidebar.html' %}
+    {% extends 'home/lib/_main_sidebar.html' %}
 
     {% block nav_links %}
         <li>
@@ -315,7 +315,7 @@ a template called ``my_app_name/templates/adminlte/lib/_main_sidebar.html``::
         </li>
     {% endblock nav_links %}
 
-adminlte/lib/_main_sidebar.html
+home/lib/_main_sidebar.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Renders the sidebar navigation. You'll likely need to implement this template
@@ -353,7 +353,7 @@ Block Reference
 
     You probably want to use `nav_links`_.
 
-adminlte/lib/_main_header.html
+home/lib/_main_header.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Renders the header. Contains the site name and details regarding the currently logged in user.
@@ -454,7 +454,7 @@ Block Reference
     setting, or ``/logout`` if not set.
 
 
-adminlte/lib/_main_footer.html
+home/lib/_main_footer.html
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Renders the footer containing (by default) a legal notice and software version.
