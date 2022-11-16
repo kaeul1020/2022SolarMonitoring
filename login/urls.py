@@ -5,6 +5,8 @@ from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 
 
+app_name = 'login'
+
 password_reset_patterns=[
     path('', auth_views.PasswordResetView.as_view(template_name='login/password_reset.html'), name='password_reset'),
     path('done/', auth_views.PasswordResetDoneView.as_view(), name="password_reset_done"),
@@ -13,8 +15,8 @@ password_reset_patterns=[
 ]
 
 register_patterns=[
-    path('', TemplateView.as_view(template_name='login/register.html')),
-    path('done/', TemplateView.as_view(template_name='login/register_done.html')),
+    path('', TemplateView.as_view(template_name='login/register.html'), name='register'),
+    path('done/', TemplateView.as_view(template_name='login/register_done.html'), name='register_done'),
 ]
 
 urlpatterns=[
