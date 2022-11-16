@@ -6,10 +6,10 @@ from django.views.generic.base import TemplateView
 
  
 password_reset_patterns=[
-    path('', auth_views.PasswordResetView.as_view(template_name='login/forgot-password.html')),
+    path('', auth_views.PasswordResetView.as_view(template_name='login/password_reset.html')),
     path('done/', auth_views.PasswordResetDoneView.as_view()),
     path('confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view()),
-    path('complete/', auth_views.PasswordResetCompleteView.as_view(template_name='login/forgot-password-success.html'))
+    path('complete/', auth_views.PasswordResetCompleteView.as_view(template_name='login/password_reset_complete.html'))
 ]
 
 urlpatterns=[
