@@ -53,3 +53,8 @@ coverage.xml
 /dist
 /env
 .vscode/
+
+
+# secret informations #
+#######################
+secrets.json
