@@ -23,7 +23,7 @@ password_reset_patterns=[
 ]
 
 register_patterns=[
-    path('', TemplateView.as_view(template_name='login/register.html'), name='register'),
+    path('', login_views.register, name='register'),
     path('done/', TemplateView.as_view(template_name='login/register_done.html'), name='register_done'),
 ]
 

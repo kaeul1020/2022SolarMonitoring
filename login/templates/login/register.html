@@ -11,18 +11,19 @@
                 </div>        
                 <p class="login-box-msg">회원정보를 입력해 주세요.</p>
                 <!-- 회원가입화면과 데이터베이스 연결해야함. -->
-                <form action="" method="post">
+                <form action="{% url 'login:register' %}" method="post" novalidate>
                     {% csrf_token %}
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="ID">
+                        <input type="text" class="form-control" name="username" id="username" placeholder="ID" value="{{ form.username.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
+
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" value="{{ form.password1.value|default_if_none:'' }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -30,7 +31,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Retype password">
+                        <input type="password" class="form-control"  name="password2" id="password2" placeholder="Retype password" value="{{ form.password2.value|default_if_none:'' }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -38,7 +39,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="E-mail">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" value="{{ form.email.value|default_if_none:'' }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
