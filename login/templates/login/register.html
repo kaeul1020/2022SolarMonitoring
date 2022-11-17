@@ -11,7 +11,8 @@
                 </div>        
                 <p class="login-box-msg">회원정보를 입력해 주세요.</p>
                 <!-- 회원가입화면과 데이터베이스 연결해야함. -->
-                <form action="~" method="post">
+                <form action="" method="post">
+                    {% csrf_token %}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="ID">
                         <div class="input-group-append">

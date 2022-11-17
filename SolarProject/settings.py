@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 import os, json
 from django.core.exceptions import ImproperlyConfigured
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -187,5 +188,5 @@ EMAIL_USE_TLS = True
 # 사이트와 관련한 자동응답을 받을 이메일 주소
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+#EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
