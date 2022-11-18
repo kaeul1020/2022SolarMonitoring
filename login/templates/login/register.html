@@ -10,14 +10,16 @@
                     <p>회원가입</p>
                 </div>        
                 <p class="login-box-msg">회원정보를 입력해 주세요.</p>
-                {% for field in form %}
-                {% if field.errors %}
-                <span style = "color:red">{{field.errors}}</span>
-                {% endif %}
-                {% endfor %}
-                
                 <form action="{% url 'login:register' %}" method="post" class="needs-validation" onvalidate>
                     {% csrf_token %}
+                    <!-- username -->
+                    {% if form.username.errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.username.errors %}
+                        <span>{{error}}</br></span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="username" id="username" placeholder="ID" value="{{ form.username.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
@@ -25,8 +27,19 @@
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
-
                     </div>
+                    <!-- /.username -->
+                    <!-- password1 -->
+                    {% if form.password1.errors or form.password2.errors  %}
+                    <div class="alert alert-danger">
+                        {% for error in form.password1.errors %}
+                        <span>{{error}}</br></span>
+                        {% endfor %}
+                        {% for error in form.password2.errors %}
+                        <span>{{error}}</br></span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     <div class="input-group mb-3">
                         <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" value="{{ form.password1.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
@@ -35,6 +48,8 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /.password1 -->
+                    <!-- password2 -->
                     <div class="input-group mb-3">
                         <input type="password" class="form-control"  name="password2" id="password2" placeholder="Retype password" value="{{ form.password2.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
@@ -43,6 +58,15 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /.password2 -->
+                    <!-- email -->
+                    {% if form.email.errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.email.errors %}
+                        <span>{{error}}</br></span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" value="{{ form.email.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
@@ -51,6 +75,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /.email -->
                     <div class="icheck-primary">
                         <input type="checkbox" id="agreeTerms" name="terms" value="agree">
                         <label for="agreeTerms">
