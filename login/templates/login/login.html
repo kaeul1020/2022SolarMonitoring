@@ -11,47 +11,32 @@
                 <div class="login-logo">
                     <p>DAEYEON C&I</p>
                 </div>
+                <p class="login-box-msg">아이디와 비밀번호를 입력해주세요.</p>
                 {% block login_errors %}
-                    {% if form.errors and not form.non_field_errors %}
-                        <p class="alert alert-danger">
-                            {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}
-                                {% trans "Please correct the errors below." %}{% endif %}
-                        </p>
-                    {% endif %}
-
-                    {% if form.non_field_errors %}
-                        {% for error in form.non_field_errors %}
-                            <p class="alert alert-danger">
-                                {{ error }}
-                            </p>
-                        {% endfor %}
+                    {% if form.errors %}
+                    <p class="alert alert-danger">ID 또는 Password가 정확하지 않습니다. 다시 입력해 주세요.</p>
                     {% endif %}
                 {% endblock login_errors %}
-                <p class="login-box-msg">아이디와 비밀번호를 입력해주세요.</p>
                 {% block login_form %}
-                    <form action="{{ app_path }}" method="post" id="login-form">
+                    <form action="{{ app_path }}" method="post" id="login-form" novalidate>
                         {% csrf_token %}
-                        {% if message %}
-                            <p class="login-box-msg" style="color: red;">{{ message }}</p>
-                        {% endif %}
+                        <label for="username">ID</label>
                         <div class="input-group mb-3">
-                          <input type="text" id="id_username" name="username" class="form-control" placeholder="{% trans 'ID' %}" >
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-user"></span>
+                            <input type="text" id="iusername" name="username" class="form-control" placeholder="{% trans 'ID' %}" required>
+                            <div class="input-group-append">
+                                <div class="input-group-text ">
+                                    <span class="fas fa-user"></span>
+                                </div>
                             </div>
-                          </div>
-                          {{ form.username.errors }}
                         </div>
+                        <label for="password">Password</label>
                         <div class="input-group mb-3">
-                          <input type="password" id="id_password" name="password" class="form-control" placeholder="{% trans 'Password' %}" >
-                          <div class="input-group-append">
-                            <div class="input-group-text">
-                              <span class="fas fa-lock"></span>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="{% trans 'Password' %}" >
+                            <div class="input-group-append">
+                                <div class="input-group-text ">
+                                    <span class="fas fa-lock"></span>
+                                </div>
                             </div>
-                          </div>
-                          {{ form.password.errors }}
-                          <input type="hidden" name="next" value="{{ next }}"/>
                         </div>
                         <div class="row">
                             <div class="col-xs-8">
@@ -59,8 +44,8 @@
                                 {% endblock %}
                             </div>
                             <div class="col">
-                                <div class="icheck-primary">
-                                    <input type="checkbox" id="remember">
+                                <div class="icheck-primary ">
+                                    <input type="checkbox" class="form-check-input border-radius" id="remember">
                                     <label for="remember">
                                         로그인 정보 기억하기
                                     </label>
@@ -70,6 +55,7 @@
                         <div class="row mt-3 mb-3">
                             <div class="col">
                                 <button type="submit" class="btn btn-primary btn-block font-weight-bold">로그인</button>
+                                <input type="hidden" name="next" value="{{ next }}"/>
                             </div>
                         </div>
                     </form>
