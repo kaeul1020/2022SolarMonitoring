@@ -10,47 +10,81 @@
                     <p>회원가입</p>
                 </div>        
                 <p class="login-box-msg">회원정보를 입력해 주세요.</p>
-                <!-- 회원가입화면과 데이터베이스 연결해야함. -->
-                <form action="" method="post">
+                <form action="{% url 'login:register' %}" method="post" class="needs-validation" onvalidate>
                     {% csrf_token %}
+                    <!-- username -->
+                    {% if form.username.errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.username.errors %}
+                        <span>{{error}}</br></span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="ID">
+                        <input type="text" class="form-control" name="username" id="username" placeholder="ID" value="{{ form.username.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
                             </div>
                         </div>
                     </div>
+                    <!-- /.username -->
+                    <!-- /.username -->
+                    <div class="mb-3 row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="성" value="{{ form.last_name.value|default_if_none:'' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="이름" value="{{ form.first_name.value|default_if_none:'' }}">
+                        </div>
+                    </div>
+                    <!-- password1 -->
+                    {% if form.password1.errors or form.password2.errors  %}
+                    <div class="alert alert-danger">
+                        {% for error in form.password1.errors %}
+                        <span>{{error}}</br></span>
+                        {% endfor %}
+                        {% for error in form.password2.errors %}
+                        <span>{{error}}</br></span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" value="{{ form.password1.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
                     </div>
+                    <!-- /.password1 -->
+                    <!-- password2 -->
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Retype password">
+                        <input type="password" class="form-control"  name="password2" id="password2" placeholder="Retype password" value="{{ form.password2.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
                     </div>
+                    <!-- /.password2 -->
+                    <!-- email -->
+                    {% if form.email.errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.email.errors %}
+                        <span>{{error}}</br></span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="E-mail">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" value="{{ form.email.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="icheck-primary">
-                        <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                        <label for="agreeTerms">
-                            <a href="#">약관</a>에 동의해 주세요.
-                        </label>
-                    </div>
+                    <!-- /.email -->
                     <div class="row mt-3 mb-3">
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-block font-weight-bold">회원가입</button>
