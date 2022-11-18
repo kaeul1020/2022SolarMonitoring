@@ -18,7 +18,7 @@
                     {% endif %}
                 {% endblock login_errors %}
                 {% block login_form %}
-                    <form action="{{ app_path }}" method="post" id="login-form" novalidate>
+                    <form action="{{ app_path }}" method="post" id="login-form" onvalidate>
                         {% csrf_token %}
                         <label for="username">ID</label>
                         <div class="input-group mb-3">
@@ -31,7 +31,7 @@
                         </div>
                         <label for="password">Password</label>
                         <div class="input-group mb-3">
-                            <input type="password" id="password" name="password" class="form-control" placeholder="{% trans 'Password' %}" >
+                            <input type="password" id="password" name="password" class="form-control" placeholder="{% trans 'Password' %}" required>
                             <div class="input-group-append">
                                 <div class="input-group-text ">
                                     <span class="fas fa-lock"></span>

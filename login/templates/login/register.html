@@ -10,8 +10,13 @@
                     <p>회원가입</p>
                 </div>        
                 <p class="login-box-msg">회원정보를 입력해 주세요.</p>
-                <!-- 회원가입화면과 데이터베이스 연결해야함. -->
-                <form action="{% url 'login:register' %}" method="post" novalidate>
+                {% for field in form %}
+                {% if field.errors %}
+                <span style = "color:red">{{field.errors}}</span>
+                {% endif %}
+                {% endfor %}
+                
+                <form action="{% url 'login:register' %}" method="post" class="needs-validation" onvalidate>
                     {% csrf_token %}
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="username" id="username" placeholder="ID" value="{{ form.username.value|default_if_none:'' }}" required>
@@ -23,7 +28,7 @@
 
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" value="{{ form.password1.value|default_if_none:'' }}">
+                        <input type="password" class="form-control" name="password1" id="password1" placeholder="Password" value="{{ form.password1.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -31,7 +36,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control"  name="password2" id="password2" placeholder="Retype password" value="{{ form.password2.value|default_if_none:'' }}">
+                        <input type="password" class="form-control"  name="password2" id="password2" placeholder="Retype password" value="{{ form.password2.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -39,7 +44,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" value="{{ form.email.value|default_if_none:'' }}">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" value="{{ form.email.value|default_if_none:'' }}" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
