@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
-from home import views as index_view
+
 
 urlpatterns=[
-    path('', index_view.login.as_view(template_name='home/index.html')),
+    path('', include('home.urls')),
     path('login/', include('login.urls')),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('FAQ/', include('faq.urls')),
