@@ -1,20 +1,18 @@
-{% load humanize %}
-<div class="info-box bg-{{ color }}">
-    {% if not hide_icon %}
-        <span class="info-box-icon"><i class="fa fa-{{ icon }}"></i></span>
-    {% endif %}
-    <div class="info-box-content">
-        <span class="info-box-text">{{ header }}</span>
-        <span class="info-box-number">{{ number }} {{ unit }}</span>
-        {% if percent %}
-            <div class="progress">
-                <div class="progress-bar" style="width: {{ percent }}%"></div>
-            </div>
-            {% if how_long %}
-                <span class="progress-description">
-                    {{ percent }}% Increase in {{ how_long }}
-                </span>
-            {% endif %}
-        {% endif %}
-    </div><!-- /.info-box-content -->
-</div><!-- /.info-box -->
+{% load static %}
+<div class="col-12 col-sm-6 col-md-2">
+    <div class="info-box">
+        <div class="info-box-content">
+            <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+            <span class = "info-box-text"> <small>현재 발전량 </small></span> 
+            <span class = "info-box-number">
+                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+                672
+                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+                <small>kW</small>
+            </span>
+        </div><!-- info-box text-->
+        <span class="info-box-icon bg-info elevation-1">
+            <i class="fas fa-cog"></i>
+        </span>
+    </div><!-- /.info-box -->
+</div>

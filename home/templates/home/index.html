@@ -1,5 +1,13 @@
 {% extends 'home/base.html' %}
 {% block body_class %}dark-mode{% endblock %}
 {% block content %}
-your awesome content
+<!-- status 정보 나타내는 부분-->
+<div class="row">
+    {% include 'home/components/info_box.html' %}
+    {% include 'home/components/info_box.html' %}
+    {% include 'home/components/info_box.html' %}
+    {% include 'home/components/info_box.html' %}
+    {% include 'home/components/info_box.html' %}
+    {% include 'home/components/info_box.html' %}
+</div>
 {% endblock %}
