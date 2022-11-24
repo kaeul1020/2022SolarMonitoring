@@ -41,12 +41,18 @@ def add_active(context, url_name, *args, **kwargs):
     path = reverse(url_name, args=args, kwargs=kwargs)
     current_path = context.request.path
 
+    if (not current_path == '/') and (path == '/'):
+        return ''
+
     if not_when and any(nw in current_path for nw in not_when):
         return ''
 
     if not exact_match and current_path.startswith(path):
         return ' active '
+
+
     elif exact_match and current_path == path:
         return ' active '
     else:
         return ''
+

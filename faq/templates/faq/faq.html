@@ -1,0 +1,32 @@
+{% extends 'home/base.html' %}
+{% block body_class %}dark-mode{% endblock %}
+{% block content %}
+<!-- Main content -->
+
+<div class="row">
+    <div class="col-12" id="accordion">
+        {% for faq in FAQs %}
+        <div class="card">
+            <a class="d-block w-100" data-toggle="collapse" href="#collapse{{faq.id}}">
+                <div class="card-header bg-info">
+                    <p class="card-title font-weight-bold text-white">
+                        {{faq.id}}. {{faq.title}}
+                    </p>
+                </div>
+            </a>
+            {% if faq.id == 1 %}
+            <div id="collapse{{faq.id}}" class="collapse show" data-parent="#accordion">
+            {% else %}
+            <div id="collapse{{faq.id}}" class="collapse" data-parent="#accordion">
+            {% endif %}
+                <div class="card-body">
+                    {{faq.content}}
+                </div>
+            </div>
+        </div>
+        {% endfor%}
+    </div>
+</div>
+
+<!-- /.content -->
+{% endblock %}

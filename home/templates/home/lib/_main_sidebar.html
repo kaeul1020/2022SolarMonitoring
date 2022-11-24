@@ -11,11 +11,11 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         {% block nav_links_ul %}
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
             {% block nav_links_outer %}
             <li class="nav-header nav-header border-bottom border-info">MAIN</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link active">
+                    <a href="{% url 'home:home' %}" class="nav-link {% add_active 'home:home' %}">
                         <i class="nav-icon fas fa-home fa-fw"></i> 
                         <p>Home</p>
                     </a>
@@ -55,7 +55,7 @@
             </li>
             <li class="nav-header border-bottom border-info">Help</li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'faq:faq' %}" class="nav-link {% add_active 'faq:faq' %}">
                     <i class="nav-icon far fa-question-circle"></i>
                     <p>FAQ</p>
                 </a>
