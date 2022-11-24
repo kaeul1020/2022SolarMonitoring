@@ -25,4 +25,5 @@ urlpatterns=[
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('FAQ/', include('faq.urls')),
     path('admin/', admin.site.urls),
+    path("pow_gen/", include('pow_gen.urls'))
 ]
