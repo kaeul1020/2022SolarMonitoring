@@ -2,5 +2,105 @@
 {% block body_class %} dark-mode {% endblock %}
 {% block page_name %} 알림 {% endblock %}
 {% block content %}
-알림 화면
+<div class = "row">
+    <section class = "col-lg-5">
+        <div class = "card">
+            <div class = "card-header">
+                <h3 class = "card-title">
+                    현재 상황
+                </h3>
+            </div>
+            <div class = "card-body">
+            
+            </div>
+        </div>
+    </section>
+    <section class = "col-lg-4">
+        <div class = "card">
+            <div class = "card-header">
+                <h3 class="card-title">
+                    알림 타임라인
+                </h3>
+            </div>
+            <div class = "card-body">
+                <div class = "alarm-timeline-scroll">
+                    <div class = "timeline">
+                        <!-- 데이터 베이스 받아올 부분 (반복문으로 받아오면서 나타내기)-->
+                        <div>
+                            <i class = "fas fa-battery-quarter bg-red"></i>
+                            <div class="timeline-item">
+                                <h3 class = "timeline-header">에너지 부족</h3>
+                                <span class="time">
+                                    <i class = "fas fa-clock"></i>
+                                        2022/11/28 19:35
+                                </span>
+                                <div class="timeline-body">
+                                    저장된 에너지가 10% 이하입니다. 정전에 대비하기 위해 다른 전력공급장치를 가동하십시오.
+                                </div>
+                            </div>
+                        </div>
+                        <!--여기까지 알람 카드 한개-->
+                        <div>
+                            <i class = "fas fa-solar-panel bg-orange"></i>
+                            <div class="timeline-item">
+                                <h3 class = "timeline-header">패널 온도 상승</h3>
+                                <span class="time">
+                                    <i class = "fas fa-clock"></i>
+                                        2022/11/28 17:28
+                                </span>
+                                <div class="timeline-body">
+                                    현재 태양광 패널의 온도가 높습니다. 패널의 온도가 높을 경우 발전 효율이 떨어질 수 있습니다.
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <i class = "fas fa-solar-panel bg-orange"></i>
+                            <div class="timeline-item">
+                                <h3 class = "timeline-header">태양광 패널 오염 감지</h3>
+                                <span class="time">
+                                    <i class = "fas fa-clock"></i>
+                                    2022/11/20 16:49
+                                </span>
+                                <div class="timeline-body">
+                                    현재 1번 CCTV에 흙먼지가 감지되었습니다. 더보기를 누르시면 구체적인 정보를 확인 할 수 있습니다.
+                                </div>
+                                <div class = "timeline-footer">
+                                    <a href="javascript:void(0);" >더보기 ▼</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <i class = "fas fa-battery-full bg-green"></i>
+                            <div class="timeline-item">
+                                <h3 class = "timeline-header">에너지 과잉</h3>
+                                <span class="time">
+                                    <i class = "fas fa-clock"></i>
+                                    2022/11/20 15:01
+                                </span>
+                                <div class="timeline-body">
+                                    현재 저장된 에너지가 95% 이상입니다. 100%가 되면 더이상 에너지를 저장할 수 없습니다. 남는 에너지를 판매함으로써 수익을 낼 수 있습니다.
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <i class = "fas fa-check-circle bg-green"></i>
+                            <div class="timeline-item">
+                                <h3 class = "timeline-header">좋음</h3>
+                                <span class="time">
+                                    <i class = "fas fa-clock"></i>
+                                    2022/11/20 11:00
+                                </span>
+                                <div class="timeline-body">
+                                    현재 발전이 최고효율로 이루어지고 있습니다.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class = "col-lg-2">
+    </section>
+</div>
 {% endblock %}
