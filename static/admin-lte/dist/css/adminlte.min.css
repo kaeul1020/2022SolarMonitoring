@@ -161,7 +161,7 @@ a {
   background-color: transparent;
 }
 a:hover {
-  color: #0056b3;
+  color: #666768;
   text-decoration: none;
 }
 a:not([href]):not([class]) {
@@ -4965,6 +4965,19 @@ a.badge-dark:focus {
   border: 1px solid transparent;
   border-radius: 0.25rem;
 }
+
+.alert-footer {
+  text-align: center;
+  border-top: solid 2px #fff;
+  margin-top : 1rem;
+  padding-top : 10px;
+}
+
+.alert-footer > a {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .alert-heading {
   color: inherit;
 }
@@ -19403,7 +19416,7 @@ html.maximized-card {
 }
 .alert a {
   color: #fff;
-  text-decoration: underline;
+  text-decoration: none;
 }
 .alert-primary {
   color: #fff;
