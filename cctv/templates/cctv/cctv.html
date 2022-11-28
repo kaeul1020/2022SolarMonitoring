@@ -1,0 +1,153 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block style_sheets %}
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="{% static 'admin-lte/plugins/tempusdominus-bootstrap-4/js/tempus-dominus-forCCTV.js' %}"></script>
+<link rel="stylesheet" href="{% static 'admin-lte/plugins/tempusdominus-bootstrap-4/css/tempus-dominus-forCCTV.css' %}">
+<!--
+<script src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css" rel="stylesheet" crossorigin="anonymous">
+ -->
+{% endblock %}
+
+
+{% block page_name %}실시간 패널 오염 감지 CCTV{% endblock %}
+
+{% block body_class %}dark-mode{% endblock %} {% block content %}
+<div class="container-fluid">
+	<!-- CCTV number -->
+	<div class="row justify-content-md-center mb-2">
+		<div class="col col-lg-2">
+			<div class="btn btn-light btn-sm float-right"><i class="fas fa-chevron-left"></i></div>
+		</div>
+		<div class="col-md-auto">
+			<h4>CCTV 1</h4>
+		</div>
+		<div class="col col-lg-2">
+			<div class="btn btn-light btn-sm"><i class="fas fa-chevron-right"></i></div>
+		</div>
+	</div>
+	<!-- ./CCTV number -->
+	<!-- time -->
+	<div class="card p-2">
+		<div class="row align-items-center">
+			<div class="col">
+				<input class="form-control clock " id="example" type="text" readonly/>
+			</div>
+			<div class="col-auto mr-2 ml-2">
+				<div class="row mb-1">
+					<div class="btn btn-outline-secondary btn-sm"><i class="fas fa-chevron-up"></i></div>
+				</div>
+				<div class="row">
+					<div class="btn btn-outline-secondary btn-sm"><i class="fas fa-chevron-down"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.time -->
+	<!-- cctv image & cctv detail info -->
+	<div class="row">
+		<div class="col-6">
+			<div class="card">
+
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="card">
+				<div class="card-header ">
+					<span>패널 상세보기</span>
+					<span class="float-right">
+						<i class="fas fa-cog"></i>
+					</span>
+				</div>
+				<div class="card-body" style="overflow:auto;">
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.cctv image & cctv detail info -->
+	<!-- time -->
+	<div class="card">
+		<div class="card-header">
+			<span>오염된 패널 정보</span>
+		</div>
+		<div class="card-body">
+			<div class="row align-items-center">
+				<div class="col border-right p-3">
+					<small class="text-info text-bold">오염 유형</small>
+					<div class="row">
+						<h2 class="text-green"><small> 나뭇잎</small></h2>
+						<h2 class="text-orange"><small> 흙먼지</small></h2>
+					</div>
+				</div>
+				<div class="col border-right p-3">
+					<small class="text-info text-bold">예상 발전 감소량</small>
+					<h2>35<small>kWh</small></h2>
+				</div>
+				<div class="col border-right p-3">
+					<small class="text-info text-bold">오염된 패널 수</small>
+					<h2>4<small> / 4 개</small></h2>
+				</div>
+				<div class="col p-3">
+					<small class="text-info text-bold">오염 레벨</small>
+					<h2 class="text-warning"><small> 경고</small></h2>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- /.time -->
+</div>
+
+{% endblock %} 
+{% block js %}
+
+{% endblock %}
+{% block extra_js %}
+
+<script>
+// Vanilla JS
+new tempusDominus.TempusDominus(document.getElementById('example'), {
+	display: {
+		    // display options
+		icons: {
+			// "icons" or "sprites"
+			type: 'icons',
+			time: 'fas fa-clock',
+			date: 'fas fa-calendar',
+			up: 'fas fa-arrow-up fa-xs',
+			down: 'fas fa-arrow-down fa-xs',
+			previous: 'fas fa-chevron-left',
+			next: 'fas fa-chevron-right',
+			today: 'fas fa-calendar-check',
+			clear: 'fas fa-trash',
+			close: 'fas fa-times-circle'
+		},
+		components: {
+			useTwentyfourHour: true,
+		},
+		sideBySide: true,
+		// enable/disable buttons
+		buttons: {
+        today: true,
+      	},
+		theme: 'dark'
+		
+  	},
+	stepping: 1,
+	defaultDate: new Date(),
+	localization: {
+		dayViewHeaderFormat: { month: 'long', year: 'numeric' },
+	}
+});
+
+// jQuery
+$('#example').tempusDominus({
+  // options here
+});
+</script>
+
+
+{% endblock %}
