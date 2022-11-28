@@ -1,331 +1,153 @@
-{% extends 'home/base.html' %} {% load static %} {% block style_sheets %}
-<!-- daterange picker -->
-<link rel="stylesheet" href="{% static 'admin-lte/plugins/daterangepicker/daterangepicker.css' %}" />
-<!-- Bootstrap Color Picker -->
-<link rel="stylesheet" href="{% static 'admin-lte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}" />
-<!-- Tempusdominus Bootstrap 4 -->
-<link rel="stylesheet" href="{% static 'admin-lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}" />
-<!-- Select2 -->
-<link rel="stylesheet" href="{% static 'admin-lte/plugins/select2/css/select2.min.css' %}" />
-<link rel="stylesheet" href="{% static 'admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}" />
-<!-- Bootstrap4 Duallistbox -->
-<link rel="stylesheet" href="{% static 'admin-lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css' %}" />
-<!-- BS Stepper -->
-<link rel="stylesheet" href="{% static 'admin-lte/plugins/bs-stepper/css/bs-stepper.min.css' %}" />
-<!-- dropzonejs -->
-<link rel="stylesheet" href="{% static 'admin-lte/plugins/dropzone/min/dropzone.min.css' %}" />
-{% endblock %} {% block body_class %}dark-mode{% endblock %} {% block content %}
+{% extends 'home/base.html' %}
+{% load static %}
+{% block style_sheets %}
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="{% static 'admin-lte/plugins/tempusdominus-bootstrap-4/js/tempus-dominus-forCCTV.js' %}"></script>
+<link rel="stylesheet" href="{% static 'admin-lte/plugins/tempusdominus-bootstrap-4/css/tempus-dominus-forCCTV.css' %}">
+<!--
+<script src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css" rel="stylesheet" crossorigin="anonymous">
+ -->
+{% endblock %}
+
+
+{% block page_name %}실시간 패널 오염 감지 CCTV{% endblock %}
+
+{% block body_class %}dark-mode{% endblock %} {% block content %}
 <div class="container-fluid">
-  <div class="row">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Date picker</h3>
-      </div>
-      <div class="card-body">
-        <!-- Date -->
-        <div class="form-group">
-          <label>Date:</label>
-          <div class="input-group date" id="reservationdate" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" />
-            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-          </div>
-        </div>
-        <!-- Date and time -->
-        <div class="form-group">
-          <label>Date and time:</label>
-          <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime" />
-            <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-          </div>
-        </div>
-        <!-- /.form group -->
-        <!-- Date range -->
-        <div class="form-group">
-          <label>Date range:</label>
+	<!-- CCTV number -->
+	<div class="row justify-content-md-center mb-2">
+		<div class="col col-lg-2">
+			<div class="btn btn-light btn-sm float-right"><i class="fas fa-chevron-left"></i></div>
+		</div>
+		<div class="col-md-auto">
+			<h4>CCTV 1</h4>
+		</div>
+		<div class="col col-lg-2">
+			<div class="btn btn-light btn-sm"><i class="fas fa-chevron-right"></i></div>
+		</div>
+	</div>
+	<!-- ./CCTV number -->
+	<!-- time -->
+	<div class="card p-2">
+		<div class="row align-items-center">
+			<div class="col">
+				<input class="form-control clock " id="example" type="text" readonly/>
+			</div>
+			<div class="col-auto mr-2 ml-2">
+				<div class="row mb-1">
+					<div class="btn btn-outline-secondary btn-sm"><i class="fas fa-chevron-up"></i></div>
+				</div>
+				<div class="row">
+					<div class="btn btn-outline-secondary btn-sm"><i class="fas fa-chevron-down"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.time -->
+	<!-- cctv image & cctv detail info -->
+	<div class="row">
+		<div class="col-6">
+			<div class="card">
 
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <i class="far fa-calendar-alt"></i>
-              </span>
-            </div>
-            <input type="text" class="form-control float-right" id="reservation" />
-          </div>
-          <!-- /.input group -->
-        </div>
-        <!-- /.form group -->
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="card">
+				<div class="card-header ">
+					<span>패널 상세보기</span>
+					<span class="float-right">
+						<i class="fas fa-cog"></i>
+					</span>
+				</div>
+				<div class="card-body" style="overflow:auto;">
 
-        <!-- Date and time range -->
-        <div class="form-group">
-          <label>Date and time range:</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.cctv image & cctv detail info -->
+	<!-- time -->
+	<div class="card">
+		<div class="card-header">
+			<span>오염된 패널 정보</span>
+		</div>
+		<div class="card-body">
+			<div class="row align-items-center">
+				<div class="col border-right p-3">
+					<small class="text-info text-bold">오염 유형</small>
+					<div class="row">
+						<h2 class="text-green"><small> 나뭇잎</small></h2>
+						<h2 class="text-orange"><small> 흙먼지</small></h2>
+					</div>
+				</div>
+				<div class="col border-right p-3">
+					<small class="text-info text-bold">예상 발전 감소량</small>
+					<h2>35<small>kWh</small></h2>
+				</div>
+				<div class="col border-right p-3">
+					<small class="text-info text-bold">오염된 패널 수</small>
+					<h2>4<small> / 4 개</small></h2>
+				</div>
+				<div class="col p-3">
+					<small class="text-info text-bold">오염 레벨</small>
+					<h2 class="text-warning"><small> 경고</small></h2>
+				</div>
+			</div>
+		</div>
 
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="far fa-clock"></i></span>
-            </div>
-            <input type="text" class="form-control float-right" id="reservationtime" />
-          </div>
-          <!-- /.input group -->
-        </div>
-        <!-- /.form group -->
-
-        <!-- Date and time range -->
-        <div class="form-group">
-          <label>Date range button:</label>
-
-          <div class="input-group">
-            <button type="button" class="btn btn-default float-right" id="daterange-btn">
-              <i class="far fa-calendar-alt"></i> Date range picker
-              <i class="fas fa-caret-down"></i>
-            </button>
-          </div>
-        </div>
-        <!-- /.form group -->
-      </div>
-      <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
-  </div>
+	</div>
+	<!-- /.time -->
 </div>
-<div class="row">
-    <div class="daterangepicker">
-    <div class="ranges"></div>
-    <div class="drp-calendar left">
-        <div class="calendar-table">
-        <table class="table-condensed">
-            <thead>
-            <tr>
-                <th class="prev available"><span></span></th>
-                <th colspan="5" class="month">Nov 2022</th>
-                <th></th>
-            </tr>
-            <tr>
-                <th>Su</th>
-                <th>Mo</th>
-                <th>Tu</th>
-                <th>We</th>
-                <th>Th</th>
-                <th>Fr</th>
-                <th>Sa</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="weekend off ends available" data-title="r0c0">30</td>
-                <td class="off ends available" data-title="r0c1">31</td>
-                <td class="available" data-title="r0c2">1</td>
-                <td class="available" data-title="r0c3">2</td>
-                <td class="available" data-title="r0c4">3</td>
-                <td class="available" data-title="r0c5">4</td>
-                <td class="weekend available" data-title="r0c6">5</td>
-            </tr>
-            <tr>
-                <td class="weekend available" data-title="r1c0">6</td>
-                <td class="available" data-title="r1c1">7</td>
-                <td class="available" data-title="r1c2">8</td>
-                <td class="available" data-title="r1c3">9</td>
-                <td class="available" data-title="r1c4">10</td>
-                <td class="available" data-title="r1c5">11</td>
-                <td class="weekend available" data-title="r1c6">12</td>
-            </tr>
-            <tr>
-                <td class="weekend available" data-title="r2c0">13</td>
-                <td class="available" data-title="r2c1">14</td>
-                <td class="available" data-title="r2c2">15</td>
-                <td class="available" data-title="r2c3">16</td>
-                <td class="available" data-title="r2c4">17</td>
-                <td class="available" data-title="r2c5">18</td>
-                <td class="weekend available" data-title="r2c6">19</td>
-            </tr>
-            <tr>
-                <td class="weekend available" data-title="r3c0">20</td>
-                <td class="available" data-title="r3c1">21</td>
-                <td class="today active start-date active end-date available" data-title="r3c2">22</td>
-                <td class="available" data-title="r3c3">23</td>
-                <td class="available" data-title="r3c4">24</td>
-                <td class="available" data-title="r3c5">25</td>
-                <td class="weekend available" data-title="r3c6">26</td>
-            </tr>
-            <tr>
-                <td class="weekend available" data-title="r4c0">27</td>
-                <td class="available" data-title="r4c1">28</td>
-                <td class="available" data-title="r4c2">29</td>
-                <td class="available" data-title="r4c3">30</td>
-                <td class="off ends available" data-title="r4c4">1</td>
-                <td class="off ends available" data-title="r4c5">2</td>
-                <td class="weekend off ends available" data-title="r4c6">3</td>
-            </tr>
-            <tr>
-                <td class="weekend off ends available" data-title="r5c0">4</td>
-                <td class="off ends available" data-title="r5c1">5</td>
-                <td class="off ends available" data-title="r5c2">6</td>
-                <td class="off ends available" data-title="r5c3">7</td>
-                <td class="off ends available" data-title="r5c4">8</td>
-                <td class="off ends available" data-title="r5c5">9</td>
-                <td class="weekend off ends available" data-title="r5c6">10</td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
-        <div class="calendar-time" style="display: none"></div>
-    </div>
-    <div class="drp-calendar right">
-        <div class="calendar-table">
-        <table class="table-condensed">
-            <thead>
-            <tr>
-                <th></th>
-                <th colspan="5" class="month">Dec 2022</th>
-                <th class="next available"><span></span></th>
-            </tr>
-            <tr>
-                <th>Su</th>
-                <th>Mo</th>
-                <th>Tu</th>
-                <th>We</th>
-                <th>Th</th>
-                <th>Fr</th>
-                <th>Sa</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="weekend off ends available" data-title="r0c0">27</td>
-                <td class="off ends available" data-title="r0c1">28</td>
-                <td class="off ends available" data-title="r0c2">29</td>
-                <td class="off ends available" data-title="r0c3">30</td>
-                <td class="available" data-title="r0c4">1</td>
-                <td class="available" data-title="r0c5">2</td>
-                <td class="weekend available" data-title="r0c6">3</td>
-            </tr>
-            <tr>
-                <td class="weekend available" data-title="r1c0">4</td>
-                <td class="available" data-title="r1c1">5</td>
-                <td class="available" data-title="r1c2">6</td>
-                <td class="available" data-title="r1c3">7</td>
-                <td class="available" data-title="r1c4">8</td>
-                <td class="available" data-title="r1c5">9</td>
-                <td class="weekend available" data-title="r1c6">10</td>
-            </tr>
-            <tr>
-                <td class="weekend available" data-title="r2c0">11</td>
-                <td class="available" data-title="r2c1">12</td>
-                <td class="available" data-title="r2c2">13</td>
-                <td class="available" data-title="r2c3">14</td>
-                <td class="available" data-title="r2c4">15</td>
-                <td class="available" data-title="r2c5">16</td>
-                <td class="weekend available" data-title="r2c6">17</td>
-            </tr>
-            <tr>
-                <td class="weekend available" data-title="r3c0">18</td>
-                <td class="available" data-title="r3c1">19</td>
-                <td class="available" data-title="r3c2">20</td>
-                <td class="available" data-title="r3c3">21</td>
-                <td class="available" data-title="r3c4">22</td>
-                <td class="available" data-title="r3c5">23</td>
-                <td class="weekend available" data-title="r3c6">24</td>
-            </tr>
-            <tr>
-                <td class="weekend available" data-title="r4c0">25</td>
-                <td class="available" data-title="r4c1">26</td>
-                <td class="available" data-title="r4c2">27</td>
-                <td class="available" data-title="r4c3">28</td>
-                <td class="available" data-title="r4c4">29</td>
-                <td class="available" data-title="r4c5">30</td>
-                <td class="weekend available" data-title="r4c6">31</td>
-            </tr>
-            <tr>
-                <td class="weekend off ends available" data-title="r5c0">1</td>
-                <td class="off ends available" data-title="r5c1">2</td>
-                <td class="off ends available" data-title="r5c2">3</td>
-                <td class="off ends available" data-title="r5c3">4</td>
-                <td class="off ends available" data-title="r5c4">5</td>
-                <td class="off ends available" data-title="r5c5">6</td>
-                <td class="weekend off ends available" data-title="r5c6">7</td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
-        <div class="calendar-time" style="display: none"></div>
-    </div>
-    <div class="drp-buttons">
-        <span class="drp-selected">11/22/2022 - 11/22/2022</span><button class="cancelBtn btn btn-sm btn-default" type="button">Cancel</button
-        ><button class="applyBtn btn btn-sm btn-primary" type="button">Apply</button>
-    </div>
-    
-    </div>
-</div>
-{% endblock %} {% block extra_js %}
 
-<!-- Bootstrap4 Duallistbox -->
-<script src="{% static 'admin-lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js' %}"></script>
-<!-- InputMask -->
-<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
-<script src="{% static 'admin-lte/plugins/inputmask/jquery.inputmask.min.js' %}"></script>
-<!-- date-range-picker -->
-<script src="{% static 'admin-lte/plugins/daterangepicker/daterangepicker.js' %}"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="{% static 'admin-lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
-<!-- BS-Stepper -->
-<script src="{% static 'admin-lte/plugins/bs-stepper/js/bs-stepper.min.js' %}"></script>
+{% endblock %} 
+{% block js %}
 
-<!-- Page specific script -->
+{% endblock %}
+{% block extra_js %}
+
 <script>
-  $(function () {
-    //Datemask dd/mm/yyyy
-    $("#datemask").inputmask("dd/mm/yyyy", { placeholder: "dd/mm/yyyy" });
-    //Datemask2 mm/dd/yyyy
-    $("#datemask2").inputmask("mm/dd/yyyy", { placeholder: "mm/dd/yyyy" });
-    //Money Euro
-    $("[data-mask]").inputmask();
+// Vanilla JS
+new tempusDominus.TempusDominus(document.getElementById('example'), {
+	display: {
+		    // display options
+		icons: {
+			// "icons" or "sprites"
+			type: 'icons',
+			time: 'fas fa-clock',
+			date: 'fas fa-calendar',
+			up: 'fas fa-arrow-up fa-xs',
+			down: 'fas fa-arrow-down fa-xs',
+			previous: 'fas fa-chevron-left',
+			next: 'fas fa-chevron-right',
+			today: 'fas fa-calendar-check',
+			clear: 'fas fa-trash',
+			close: 'fas fa-times-circle'
+		},
+		components: {
+			useTwentyfourHour: true,
+		},
+		sideBySide: true,
+		// enable/disable buttons
+		buttons: {
+        today: true,
+      	},
+		theme: 'dark'
+		
+  	},
+	stepping: 1,
+	defaultDate: new Date(),
+	localization: {
+		dayViewHeaderFormat: { month: 'long', year: 'numeric' },
+	}
+});
 
-    //Date picker
-    $("#reservationdate").datetimepicker({
-      format: "L",
-    });
-
-    //Date and time picker
-    $("#reservationdatetime").datetimepicker({ icons: { time: "far fa-clock" } });
-
-    //Date range picker
-    $("#reservation").daterangepicker();
-    //Date range picker with time picker
-    $("#reservationtime").daterangepicker({
-      timePicker: true,
-      timePickerIncrement: 30,
-      locale: {
-        format: "MM/DD/YYYY hh:mm A",
-      },
-    });
-    //Date range as a button
-    $("#daterange-btn").daterangepicker(
-      {
-        ranges: {
-          Today: [moment(), moment()],
-          Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
-          "Last 7 Days": [moment().subtract(6, "days"), moment()],
-          "Last 30 Days": [moment().subtract(29, "days"), moment()],
-          "This Month": [moment().startOf("month"), moment().endOf("month")],
-          "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")],
-        },
-        startDate: moment().subtract(29, "days"),
-        endDate: moment(),
-      },
-      function (start, end) {
-        $("#reportrange span").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
-      }
-    );
-
-    //Timepicker
-    $("#timepicker").datetimepicker({
-      format: "LT",
-    });
-
-  });
+// jQuery
+$('#example').tempusDominus({
+  // options here
+});
 </script>
+
 
 {% endblock %}
