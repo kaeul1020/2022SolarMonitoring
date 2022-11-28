@@ -19979,6 +19979,27 @@ a.disabled.mailbox-attachment-close {
     display: block;
   }
 }
+.home-timeline-scroll {
+  height: 650px;
+  overflow: auto;
+}
+
+.home-timeline-scroll::-webkit-scrollbar{
+  width : 5px;
+}
+
+.home-timeline-scroll::-webkit-scrollbar-thumb{
+  height: auto;
+  background-color: var(--gray);
+
+  border-radius: 30px;
+}
+
+.home-timeline-scroll::-webkit-scrollbar-track{
+  background-color: var(--gray-dark);
+  border-radius: 30px;
+}
+
 .dark-mode .info-box {
   background-color: #343a40;
   color: #fff;
@@ -20010,24 +20031,20 @@ a.disabled.mailbox-attachment-close {
   display: table;
 }
 .timeline > div > .timeline-item {
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 0.25rem;
   background-color: #fff;
   color: #495057;
   margin-left: 60px;
-  margin-right: 15px;
   margin-top: 0;
   padding: 0;
   position: relative;
 }
 .timeline > div > .timeline-item > .time {
   color: #999;
-  float: right;
   font-size: 12px;
   padding: 10px;
 }
 .timeline > div > .timeline-item > .timeline-header {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   color: #495057;
   font-size: 16px;
   line-height: 1.1;
@@ -20050,7 +20067,10 @@ a.disabled.mailbox-attachment-close {
   margin: 0;
 }
 .timeline > div > .timeline-item > .timeline-footer > a {
-  color: #fff;
+  color: #fd9a47;
+}
+.timeline > div > .timeline-item > .timeline-footer > a:hover{
+  color: #fd7605;
 }
 .timeline > div > .fa,
 .timeline > div > .fab,
