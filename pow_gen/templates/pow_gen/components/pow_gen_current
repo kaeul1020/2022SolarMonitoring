@@ -1,0 +1,75 @@
+{% load static %}
+<div class="card">
+    <div class = "card-header">
+        <h3 class = "card-title">
+            발전 현황 
+        </h3>
+    </div>
+    <div class = "card-body">
+        <h6>
+            현재 날짜 
+        </h6>
+        <h5 id = "today" ></h5>
+        <h6>
+            현재 시간 
+        </h6>
+        <h5 id = "todayclock" ></h5>
+    </div>
+</div>
+
+<script>
+    const Cl = document.getElementById("today")
+
+    function getCl () {
+
+        var mydate = new Date()
+        var year = mydate.getFullYear()
+        var month = mydate.getMonth() +1
+        var date = mydate.getDate()
+        
+        var blank = "&nbsp"
+        for (i = 0; i<2;i++){
+            blank += blank
+        }
+
+        month = String(month).padStart(2, "0")
+        date = String(date).padStart(2, "0")
+
+        Cl.innerHTML = year + "년 " + month + "월 " + date + "일"
+    }
+
+    getCl();
+    setInterval ( getClock , 1000 );
+</script>
+
+
+<script>
+    const Cl2 = document.getElementById("todayclock")
+
+    function getCl2 () {
+        var arrDay = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+        var mydate = new Date()
+        var hour = mydate.getHours()
+        var minute = mydate.getMinutes()
+        var second = mydate.getSeconds()
+        
+        var blank = "&nbsp"
+        for (i = 0; i<2;i++){
+            blank += blank
+        }
+
+        var ampm = hour >= 12? "오후" : "오전"
+        hour = hour %12
+        hour = hour ? hour : 12
+
+        hour = String(hour).padStart(2, "0")
+        minute = String(minute).padStart(2, "0")
+        second = String(second).padStart(2, "0")
+
+        Cl2.innerHTML = ampm + ' ' + hour + "시 " + minute + "분 " + second + "초" 
+    }
+
+    getCl2();
+    setInterval ( getClock , 1000 );
+</script>

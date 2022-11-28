@@ -1,8 +1,19 @@
-{% extends "home/base.html" %}
-{% load adminlte_helpers i18n %}
-{% load static %}
+{% extends 'home/base.html' %}
 {% block body_class %}dark-mode{% endblock %}
-
-{% block contents %}
-<!-- #코드 들어갈 곳 -->
+{% block page_name %} 발전현황 {% endblock %}
+{% block content %}
+<!-- status 정보 나타내는 부분-->
+<div class="row">
+  <section class = "col-lg-5 connectedSortable ui-sortable">
+    {% include 'pow_gen/components/weather_module' %}
+  </section>
+  <section class = "col-lg-6 connectedSortable ui-sortable">
+    {% include 'pow_gen/components/pow_gen_current' %}
+  </section>
+</div>
+<div class = "row">
+  <section class = "col-lg-6 connectedSortable ui-sortable">
+    {% include 'pow_gen/components/generation_graph' %}
+  </section>
+</div>
 {% endblock %}
