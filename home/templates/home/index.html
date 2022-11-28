@@ -1,5 +1,21 @@
 {% extends 'home/base.html' %}
 {% block body_class %}dark-mode{% endblock %}
+{% block page_name %} HOME {% endblock %}
 {% block content %}
-your awesome content
+<!-- status 정보 나타내는 부분-->
+<div class="row">
+    {% include 'home/components/status_box.html' %}
+</div>
+<div class = "row">
+    <section class = "col-lg-5 connectedSortable ui-sortable">
+        {% include 'home/components/generation_graph.html' %}
+        {% include 'home/components/weather_module.html' %}
+    </section>
+    <section class = "col-lg-4 connectedSortable ui-sortable">
+        {% include 'home/components/home_cctv.html' %}
+    </section>
+    <section class = "col-lg-3 connectedSortable ui-sortable">
+        {% include 'home/components/home_alarm.html' %}
+    </section>
+</div>
 {% endblock %}
