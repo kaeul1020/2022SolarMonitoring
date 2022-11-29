@@ -17,16 +17,10 @@
 {% block body_class %}dark-mode{% endblock %} {% block content %}
 <div class="container-fluid">
 	<!-- CCTV number -->
-	<div class="row justify-content-md-center mb-2">
-		<div class="col col-lg-2">
-			<div class="btn btn-light btn-sm float-right"><i class="fas fa-chevron-left"></i></div>
-		</div>
-		<div class="col-md-auto">
-			<h4>CCTV 1</h4>
-		</div>
-		<div class="col col-lg-2">
-			<div class="btn btn-light btn-sm"><i class="fas fa-chevron-right"></i></div>
-		</div>
+	<div class="row justify-content-md-center align-items-start mb-2">
+			<div class="btn btn-info btn-sm"><i class="fas fa-chevron-left"></i></div>
+			<h4 class="font-weight-bold mr-3 ml-3">CCTV 1</h4>
+			<div class="btn btn-info btn-sm"><i class="fas fa-chevron-right"></i></div>
 	</div>
 	<!-- ./CCTV number -->
 	<!-- time -->
@@ -46,29 +40,47 @@
 		</div>
 	</div>
 	<!-- /.time -->
-	<!-- cctv image & cctv detail info -->
+	<!-- cctv image & cctv segmentation -->
 	<div class="row">
-		<div class="col-6">
+		<div class="col-8 h-100" >
 			<div class="card">
-
+				<div class="card-header">
+					<span>cctv 화면</span>
+				</div >
+				<div class="card-body" >
+					<img class="img-fluid card-img" id='cctvOriginalImage' src="{% static 'cctv_images\image_1.jpg' %}">
+				</div>
 			</div>
 		</div>
-		<div class="col-6">
-			<div class="card">
-				<div class="card-header ">
+		<div class="col-4 h-100">
+			<div class="card" >
+				<div class="card-header">
 					<span>패널 상세보기</span>
-					<span class="float-right">
+					<a class="float-right text-white" href="{% url 'cctv:cctv_setting' %}">
 						<i class="fas fa-cog"></i>
-					</span>
+					</a>
 				</div>
-				<div class="card-body" style="overflow:auto;">
-
+				<div class="card-body">
+					<div class="scroll" id="cctvSegmentedImage" >
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate0.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate1.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate2.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate3.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate4.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate5.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate6.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate7.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate8.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate9.png' %}">
+						<img class="m-1" src="{% static 'cctv_images\viz_evaluate10.png' %}">
+					</div>
 				</div>
+				
 			</div>
 		</div>
 	</div>
-	<!-- /.cctv image & cctv detail info -->
-	<!-- time -->
+	<!-- /.cctv image & cctv segmentation -->
+	<!-- cctv detail info -->
 	<div class="card">
 		<div class="card-header">
 			<span>오염된 패널 정보</span>
@@ -98,13 +110,10 @@
 		</div>
 
 	</div>
-	<!-- /.time -->
+	<!-- /.cctv detail info -->
 </div>
 
 {% endblock %} 
-{% block js %}
-
-{% endblock %}
 {% block extra_js %}
 
 <script>
@@ -148,6 +157,23 @@ $('#example').tempusDominus({
   // options here
 });
 </script>
+<script>
+    var cctvImage_height;
+ 
+    // 페이지 로드시 자동실행
+    $(window).ready(function () {
+        cctvImage_height = document.getElementById("cctvOriginalImage").offsetHeight;
+        document.getElementById("cctvSegmentedImage").style.height = cctvImage_height +'px';
+    });
+ 
+ 
+    // 화면 리사이즈시 실행
+    $(window).resize(function () {
+        cctvImage_height = document.getElementById("cctvOriginalImage").offsetHeight;
+        document.getElementById("cctvSegmentedImage").style.height = cctvImage_height+'px';
+    });
+</script>
+
 
 
 {% endblock %}
