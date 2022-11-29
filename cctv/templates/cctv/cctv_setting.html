@@ -1,0 +1,63 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block page_name %}CCTV 1 - 패널 설정 {% endblock %}
+{% block body_class %}dark-mode{% endblock %}
+{% block content %}
+<!-- Main content -->
+
+<div class="row">
+    <div class="col-8 h-100" >
+        <div class="card">
+            <div class="card-header">
+                <span>cctv 화면</span>
+            </div >
+            <div class="card-body" >
+                <img class="card-img" id='cctvOriginalImage' src="{% static 'cctv_images\image_1.jpg' %}">
+            </div>
+            <div class="card-footer">
+                <div class="row text-center">
+                    <div class="col border-right">
+                        <a class="text-light" href="{% url 'cctv:cctv' %}">패널 설정 종료</a>
+                    </div>
+                    <div class="col ">
+                        <a class="text-light" href="{% url 'cctv:cctv_cropper' %}">패널 추가</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-auto h-100" >
+        <div class="card" >
+            <div class="card-header">
+                <span>패널</span>
+            </div>
+            <div class="p-4">
+                <div class="scroll" style="height:650px;" >
+                    <div class="card">
+                        <div class="card-header">
+                            <span>panel 1</span>
+                        </div>
+                        <div class="card-body">
+                            <img class="img-fluid card-img"src="{% static 'cctv_images\20220621_142713-{01} KEI series 7.27TB-CAM4-(1)20210930_070000.jpg' %}">
+                        </div>
+                        <div class="card-footer">
+                            <div class="row text-center">
+                                <div class="col border-right">
+                                    <a class="text-light" href="{% url 'cctv:cctv_cropper' %}">수정</a>
+                                </div>
+                                <div class="col">
+                                    <a class="text-light" href="#">삭제</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- /.content -->
+{% endblock %}

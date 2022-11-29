@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'login',
     'faq',
     'cctv',
+    'report',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
