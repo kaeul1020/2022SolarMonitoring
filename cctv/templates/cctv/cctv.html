@@ -40,20 +40,27 @@
 		</div>
 	</div>
 	<!-- /.time -->
-	<!-- cctv image & cctv detail info -->
-	<div class="card-deck mb-3">
-		<div class="col-8 h-100" id='cctvOriginalImage'>
-				<img class="img-fluid" src="{% static 'cctv_images\image_1.jpg' %}">
+	<!-- cctv image & cctv segmentation -->
+	<div class="row">
+		<div class="col-8 h-100" >
+			<div class="card">
+				<div class="card-header">
+					<span>cctv 화면</span>
+				</div >
+				<div class="card-body" >
+					<img class="img-fluid card-img" id='cctvOriginalImage' src="{% static 'cctv_images\image_1.jpg' %}">
+				</div>
+			</div>
 		</div>
-		<div class="col h-100">
+		<div class="col-4 h-100">
 			<div class="card" >
-				<div class="card-header" id="cctvSegmentedHeader">
+				<div class="card-header">
 					<span>패널 상세보기</span>
-					<a class="float-right text-white" href="">
+					<a class="float-right text-white" href="{% url 'cctv:cctv_setting' %}">
 						<i class="fas fa-cog"></i>
 					</a>
 				</div>
-				<div class="pl-3 pr-3">
+				<div class="card-body">
 					<div class="scroll" id="cctvSegmentedImage" >
 						<img class="m-1" src="{% static 'cctv_images\viz_evaluate0.png' %}">
 						<img class="m-1" src="{% static 'cctv_images\viz_evaluate1.png' %}">
@@ -72,8 +79,8 @@
 			</div>
 		</div>
 	</div>
-	<!-- /.cctv image & cctv detail info -->
-	<!-- time -->
+	<!-- /.cctv image & cctv segmentation -->
+	<!-- cctv detail info -->
 	<div class="card">
 		<div class="card-header">
 			<span>오염된 패널 정보</span>
@@ -103,13 +110,10 @@
 		</div>
 
 	</div>
-	<!-- /.time -->
+	<!-- /.cctv detail info -->
 </div>
 
 {% endblock %} 
-{% block js %}
-
-{% endblock %}
 {% block extra_js %}
 
 <script>
@@ -155,21 +159,18 @@ $('#example').tempusDominus({
 </script>
 <script>
     var cctvImage_height;
-	var cardHeader_height;
  
     // 페이지 로드시 자동실행
     $(window).ready(function () {
         cctvImage_height = document.getElementById("cctvOriginalImage").offsetHeight;
-		cardHeader_height = document.getElementById("cctvSegmentedHeader").offsetHeight;
-        document.getElementById("cctvSegmentedImage").style.height = (cctvImage_height - cardHeader_height) +'px';
+        document.getElementById("cctvSegmentedImage").style.height = cctvImage_height +'px';
     });
  
  
     // 화면 리사이즈시 실행
     $(window).resize(function () {
         cctvImage_height = document.getElementById("cctvOriginalImage").offsetHeight;
-		cardHeader_height = document.getElementById("cctvSegmentedHeader").offsetHeight;
-        document.getElementById("cctvSegmentedImage").style.height = (cctvImage_height - cardHeader_height) +'px';
+        document.getElementById("cctvSegmentedImage").style.height = cctvImage_height+'px';
     });
 </script>
 
