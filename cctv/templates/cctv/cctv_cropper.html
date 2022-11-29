@@ -1,0 +1,78 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block style_sheets %}
+<!-- Jcrop-->
+<link rel="stylesheet" type="text/css" href="{% static 'admin-lte\plugins\cropper\cropper.min.css' %}">
+{% endblock %}
+{% block page_name %}CCTV 1 - 패널 위치 지정 {% endblock %}
+{% block body_class %}dark-mode{% endblock %}
+{% block content %}
+<!-- Main content -->
+
+<div class="row justify-content-md-center mb-3">
+    <div class="col-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="img-container card-img">
+                    <img id="image" src="{% static 'cctv_images\image_1.jpg' %}"  style="max-width: 100%;" alt="Picture">
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row text-center">
+                    <div class="col border-right">
+                        <a class="text-light" href="{% url 'cctv:cctv_setting' %}">패널 위치 지정 종료</a>
+                    </div>
+                    <div class="col">
+                        <a class="text-light" href="{% url 'cctv:cctv_setting' %}">패널 자르기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" hidden>
+    <div class="col-md-9 docs-buttons">
+        <div class="btn-group">
+            <button type="button" class="btn btn-outline-light" data-method="crop" title="Crop">
+                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;crop&quot;)">
+          <span class="fa fa-check"></span>
+                </span>
+            </button>
+            <button type="button" class="btn btn-outline-light" data-method="clear" title="Clear">
+                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;clear&quot;)">
+          <span class="fas fa-trash"></span>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- /.content -->
+{% endblock %}
+{% block js %}
+<script src="{% static 'admin-lte\plugins\cropper\cropper.min.js' %}"></script>
+<script src="{% static 'admin-lte\plugins\cropper\cropper-init.js' %}"></script>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+var $image = $('#image');
+
+$image.cropper({
+  aspectRatio: false,
+  crop: function(event) {
+    console.log(event.detail.x);
+    console.log(event.detail.y);
+    console.log(event.detail.width);
+    console.log(event.detail.height);
+    console.log(event.detail.rotate);
+    console.log(event.detail.scaleX);
+    console.log(event.detail.scaleY);
+  }
+});
+
+// Get the Cropper.js instance after initialized
+var cropper = $image.data('cropper');
+  </script>
+{% endblock %} 

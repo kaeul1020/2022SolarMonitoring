@@ -17,10 +17,10 @@
             <div class="card-footer">
                 <div class="row text-center">
                     <div class="col border-right">
-                        <a class="text-light" href="#">패널 추가</a>
-                    </div>
-                    <div class="col">
                         <a class="text-light" href="{% url 'cctv:cctv' %}">패널 설정 종료</a>
+                    </div>
+                    <div class="col ">
+                        <a class="text-light" href="{% url 'cctv:cctv_cropper' %}">패널 추가</a>
                     </div>
                 </div>
             </div>
@@ -36,14 +36,14 @@
                     <div class="card">
                         <div class="card-header">
                             <span>panel 1</span>
-                        </div>-+
+                        </div>
                         <div class="card-body">
                             <img class="img-fluid card-img"src="{% static 'cctv_images\20220621_142713-{01} KEI series 7.27TB-CAM4-(1)20210930_070000.jpg' %}">
                         </div>
                         <div class="card-footer">
                             <div class="row text-center">
                                 <div class="col border-right">
-                                    <a class="text-light" href="#">수정</a>
+                                    <a class="text-light" href="{% url 'cctv:cctv_cropper' %}">수정</a>
                                 </div>
                                 <div class="col">
                                     <a class="text-light" href="#">삭제</a>
