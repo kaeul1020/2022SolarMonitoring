@@ -22,7 +22,7 @@
                 </li>
             <li class="nav-header border-bottom border-info ">CCTV</li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'cctv:cctv' %}" class="nav-link {% add_active 'cctv:cctv' %}">
                     <i class="nav-icon fas fa-solar-panel fa-fw"></i>
                     <p>실시간 패널 상태</p>
                 </a>
@@ -35,20 +35,20 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'predict:predict' %}" class="nav-link {% add_active 'predict:predict' %}">
                     <i class="nav-icon fas fa-chart-line"></i>
                     <p>발전 예측</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'report:report' %}" class="nav-link {% add_active 'report:report' %}">
                     <i class="nav-icon fas fa-chart-pie"></i>
                     <p>보고서</p>
                 </a>
             </li>
             <li class="nav-header border-bottom border-info">Alert</li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{% url 'alarm:alarm' %}" class="nav-link {% add_active 'alarm:alarm' %}">
                     <i class="nav-icon far fa-bell"></i>
                     <p>알림</p>
                 </a>
