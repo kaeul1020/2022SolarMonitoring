@@ -30742,7 +30742,7 @@ blockquote.quote-gray-dark h6 {
   color: #1f2d3d;
 }
 .bg-gradient-green {
-  background: #28a745 linear-gradient(180deg, #48b461, #28a745) repeat-x !important;
+  background: #28a745 linear-gradient(180deg, #48b461, #308b7e) repeat-x !important;
   color: #fff;
 }
 .bg-gradient-green.btn.disabled,
