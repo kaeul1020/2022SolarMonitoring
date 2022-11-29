@@ -13,9 +13,18 @@
         </li>
     </ul>
 
+    <ul class="navbar-nav ml-auto mr-auto">
+      <li class="nav-item">
+          <span class="text-bold text-gray-dark">
+            <i class="fas fa-map-marker-alt ml-3"></i>
+            경기도 광명시 일직로 43 GIDC 지식산업센터 A동 옥상
+          </span>
+      </li>
+  </ul>
+
     {% block nav_custom_menu %}
         <!-- Right navbar links -->
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav float-right">
             {% block header_dropdowns %}
             {% block user_info %}
             {% if request.user.is_authenticated %}
