@@ -3,12 +3,14 @@
 {% block page_name %} 발전현황 {% endblock %}
 {% block content %}
 <!-- status 정보 나타내는 부분-->
+
 <div class="row">
   <section class = "col-lg-5 connectedSortable ui-sortable">
     {% include 'pow_gen/components/weather_module' %}
   </section>
-  <section class = "col-lg-6 connectedSortable ui-sortable">
-    {% include 'pow_gen/components/pow_gen_current' %}
+  <section class = "col-lg-7 connectedSortable ui-sortable">
+    <div class="row">
+    {% include 'pow_gen/components/pow_gen_current' %}</div>
   </section>
 </div>
 <div class = "row">
