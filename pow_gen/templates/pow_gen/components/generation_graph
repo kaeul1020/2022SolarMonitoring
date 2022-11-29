@@ -1,0 +1,97 @@
+{% load static %}
+    <div class="card">
+        <div class = "card-header">
+            <h3 class = "card-title">
+                발전량 그래프
+            </h3>
+            <div class = "card-tools">
+                <button type="button" class = "btn btn-tool">
+                    최근 12시간
+                </button>
+            </div>
+        </div>
+        <div class = "card-body">
+            <div class = "chart">
+                <canvas id ="lineChart" height="350"></canvas>
+            </div>
+        </div>
+    </div>
+<script src="../../../../static/admin-lte/plugins/jquery/jquery.min.js"></script>
+<script src="../../../../static/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../../../static/admin-lte/plugins/chart.js/Chart.min.js"></script>
+<script src="../../../../static/admin-lte/plugins/jquery/jquery.min.js"></script>
+<script>
+    $(function () {
+
+        var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+        
+        var lineChartData = {
+        labels  : ['5시', '6시', '7시', '8시', '9시', '10시', '11시', '12시', '13시', '14시', '15시', '16시'],
+        datasets: [
+            {
+            label               : '예측 발전량',
+            fill                : false,
+            backgroundColor     : 'rgba(60,141,188,1)',
+            borderColor         : 'rgba(60,141,188,1)',
+            pointRadius          : false,
+            pointColor          : '#3b8bba',
+            pointStrokeColor    : 'rgba(60,141,188,1)',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            pointStyle:'circle', //포인터 스타일 변경
+            pointBorderWidth: 2, //포인터 보더사이즈
+            pointRadius:6, //포인터 반경 범위 
+            pointBorderColor:'#3b8bba',//포인터 보더 색상
+            data                : [520, 480, 550, 570, 600, 610, 650, 630, 500, 420, 620, 570]
+            },
+            {
+            label               : '실제 발전량',
+            fill                : false,
+            backgroundColor     : 'rgba(210, 214, 222, 1)',
+            borderColor         : 'rgba(210, 214, 222, 1)',
+            pointRadius         : false,
+            pointColor          : 'rgba(210, 214, 222, 1)',
+            pointStrokeColor    : '#c1c7d1',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(220,220,220,1)',
+            pointStyle:'circle', //포인터 스타일 변경
+            pointBorderWidth: 2, //포인터 보더사이즈
+            pointRadius:6, //포인터 반경 범위 
+            pointBorderColor:'#c1c7d1',//포인터 보더 색상
+            data                : [480, 420, 500, 560, 540, 590, 620, 600, 460, 450, 580, 610]
+            },
+        ]
+        }
+
+        var lineChartOptions = {
+        maintainAspectRatio : false,
+        responsive : true,
+        legend: {
+            display: true,
+            position : 'bottom',
+            align : 'end',
+            labels: {
+                fontColor : "white"
+            }
+        },
+        scales: {
+            xAxes: [{
+            gridLines : {
+                display : false,
+            }
+            }],
+            yAxes: [{
+            gridLines : {
+                display : false,
+            }
+            }]
+        }
+        }
+
+        new Chart(lineChartCanvas, {
+        type: 'line',
+        data: lineChartData,
+        options: lineChartOptions
+        })
+    })
+</script>
