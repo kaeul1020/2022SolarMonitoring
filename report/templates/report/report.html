@@ -1,10 +1,17 @@
 {% extends 'home/base.html' %}
+{% block page_name %}보고서{% endblock %}
 {% block body_class %}dark-mode{% endblock %}
 {% block content %}
 <!-- Main content -->
 
 <!-- detail info -->
 <div class="row">
+    <section class = "col-lg-6 connectedSortable ui-sortable">
+        {% include 'report/report_graph.html' %}
+    </section>
+    <section class = "col-lg-6">
+        {% include 'report/report_table.html' %}
+    </section>
     <div class="col-12">
         <div class="card">
             <div class="card-header">
