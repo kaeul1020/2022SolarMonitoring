@@ -30430,7 +30430,7 @@ blockquote.quote-gray-dark h6 {
   color: #fff;
 }
 .bg-gradient-lightblue {
-  background: #3c8dbc linear-gradient(180deg, #599ec6, #3c8dbc) repeat-x !important;
+  background: #3c8dbc linear-gradient(180deg, #c4a4cf, #3c8dbc) repeat-x !important;
   color: #fff;
 }
 .bg-gradient-lightblue.btn.disabled,
@@ -30478,7 +30478,7 @@ blockquote.quote-gray-dark h6 {
   color: #fff;
 }
 .bg-gradient-olive {
-  background: #3d9970 linear-gradient(180deg, #5aa885, #3d9970) repeat-x !important;
+  background: #3d9970 linear-gradient(180deg, #516d76, #3d9970) repeat-x !important;
   color: #fff;
 }
 .bg-gradient-olive.btn.disabled,
@@ -30718,7 +30718,7 @@ blockquote.quote-gray-dark h6 {
   color: #fff;
 }
 .bg-gradient-yellow {
-  background: #ffc107 linear-gradient(180deg, #ffca2c, #ffc107) repeat-x !important;
+  background: #ffc107 linear-gradient(180deg, #e77705, #ffc107) repeat-x !important;
   color: #1f2d3d;
 }
 .bg-gradient-yellow.btn.disabled,
