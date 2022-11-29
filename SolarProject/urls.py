@@ -27,5 +27,6 @@ urlpatterns=[
     path('CCTV/', include('cctv.urls')),
     path('admin/', admin.site.urls),
     path("pow_gen/", include('pow_gen.urls')),
+    path("report/", include('report.urls')),
     path('alarm/', include('alarm.urls'))
 ]
