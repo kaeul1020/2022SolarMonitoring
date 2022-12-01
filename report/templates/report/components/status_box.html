@@ -1,0 +1,22 @@
+{% load static %}
+{% for status in status_box %}
+<div class="col-12 col-lg-6 col-xl-3 d-flex" >
+    <div class="info-box info-box shadow-none">
+        <div class="info-box-content">
+            <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+            <small class = "info-box-text text-black text-bold">
+                {{status.title}}
+            </small>
+            <span class = "info-box-number">
+                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+                {{status.value}}
+                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+                <small>{{status.unit}}</small>
+            </span>
+        </div><!-- info-box text-->
+        <span class="info-box-icon rounded-circle bg-info elevation-1">
+            <i class="{{status.icon_class}}"></i>
+        </span>
+    </div><!-- /.info-box -->
+</div>
+{% endfor %}

@@ -7,85 +7,19 @@
 <!-- detail info -->
 <div class="row">
     <section class = "col-lg-6 connectedSortable ui-sortable">
-        {% include 'report/report_graph.html' %}
+        {% include 'report/components/report_graph.html' %}
     </section>
     <section class = "col-lg-6">
-        {% include 'report/report_table.html' %}
+        {% include 'report/components/report_table.html' %}
     </section>
     <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <span>선택 기간의 통계치</span>
             </div>
-            <div class="card-body row">
-                <div class="col border-right">
-                    <div class="info-box shadow-none">
-                        <div class="info-box-content">
-                            <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                            <small class = "info-box-text text-teal text-bold">누적 발전량</small>
-                            <span class = "info-box-number">
-                                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                                 3,000
-                                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                                <small>MWh</small>
-                            </span>
-                        </div><!-- info-box text-->
-                        <span class="info-box-icon rounded-circle bg-gradient-green elevation-1">
-                            <i class="fas fa-solar-panel"></i>
-                        </span>
-                    </div><!-- /.info-box -->
-                </div>
-                <div class="col border-right">
-                    <div class="info-box shadow-none">
-                        <div class="info-box-content">
-                            <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                            <small class = "info-box-text text-teal text-bold">최대 발전량</small>
-                            <span class = "info-box-number">
-                                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                                 3,000
-                                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                                <small>MWh</small>
-                            </span>
-                        </div><!-- info-box text-->
-                        <span class="info-box-icon rounded-circle bg-gradient-green elevation-1">
-                            <i class="fas fa-bolt"></i>
-                        </span>
-                    </div><!-- /.info-box -->
-                </div>
-                <div class="col border-right">
-                    <div class="info-box shadow-none">
-                        <div class="info-box-content">
-                            <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                            <small class = "info-box-text text-teal text-bold">발전 최적 시간대</small>
-                            <span class = "info-box-number">
-                                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                                 11 ~ 15
-                                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                                <small>시</small>
-                            </span>
-                        </div><!-- info-box text-->
-                        <span class="info-box-icon rounded-circle bg-gradient-green elevation-1">
-                            <i class="fas fa-clock"></i>
-                        </span>
-                    </div><!-- /.info-box -->
-                </div>
-                <div class="col">
-                    <div class="info-box shadow-none">
-                        <div class="info-box-content">
-                            <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                            <small class = "info-box-text text-teal text-bold">누적 수익</small>
-                            <span class = "info-box-number">
-                                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                                 1,739,000
-                                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                                <small>원</small>
-                            </span>
-                        </div><!-- info-box text-->
-                        <span class="info-box-icon rounded-circle bg-gradient-green elevation-1">
-                            <i class="fas fa-money-bill-alt"></i>
-                        </span>
-                    </div><!-- /.info-box -->
-                </div>
+            <!-- status 정보 나타내는 부분-->
+            <div class="row card-body">
+                {% include 'report/components/status_box.html' %}
             </div>
 
         </div>
