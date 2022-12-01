@@ -1,19 +1,21 @@
 {% load static %}
-{% for i in "x"|rjust:"6" %}
-<div class="col-12 col-sm-6 col-md-2">
+{% for status in status_box %}
+<div class="col-12 col-sm-6 col-lg-4 col-xl-2">
     <div class="info-box">
         <div class="info-box-content">
             <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-            <span class = "info-box-text"><small>현재 발전량</small></span> 
+            <small class = "info-box-text text-teal text-bold">
+                {{status.title}}
+            </small>
             <span class = "info-box-number">
                 <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                 {{ forloop.counter }}
+                {{status.value}}
                 <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-                <small> kW </small>
+                <small>{{status.unit}}</small>
             </span>
         </div><!-- info-box text-->
-        <span class="info-box-icon bg-info elevation-1">
-            <i class="fas fa-cog"></i>
+        <span class="info-box-icon rounded-circle bg-gradient-green elevation-1">
+            <i class="{{status.icon_class}}"></i>
         </span>
     </div><!-- /.info-box -->
 </div>
