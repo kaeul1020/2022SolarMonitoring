@@ -87,80 +87,16 @@
 				<div class="card-header">
 					<span>오염된 패널 정보</span>
 				</div>
-				<div class="card-body row">
-					<div class="col border-right">
-						<div class="info-box shadow-none">
-							<div class="info-box-content">
-								<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-								<small class = "info-box-text text-teal text-bold">오염 유형</small>
-								<span class = "info-box-number">
-									<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-									<span>나뭇잎</span>,
-									<span>흙먼지</span>
-									<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-									
-								</span>
-							</div><!-- info-box text-->
-							<span class="info-box-icon rounded-circle bg-gradient-green elevation-1">
-								<i class="fas fa-broom"></i>
-							</span>
-						</div><!-- /.info-box -->
-					</div>
-					<div class="col border-right">
-						<div class="info-box shadow-none">
-							<div class="info-box-content">
-								<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-								<small class = "info-box-text text-teal text-bold">예상 발전 감소량</small>
-								<span class = "info-box-number">
-									<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-									 35
-									<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-									<small>kWh</small>
-								</span>
-							</div><!-- info-box text-->
-							<span class="info-box-icon rounded-circle bg-gradient-green elevation-1">
-								<i class="fas fa-bolt"></i>
-							</span>
-						</div><!-- /.info-box -->
-					</div>
-					<div class="col border-right">
-						<div class="info-box shadow-none">
-							<div class="info-box-content">
-								<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-								<small class = "info-box-text text-teal text-bold">오염된 패널 수</small>
-								<span class = "info-box-number">
-									<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-									 4 
-									<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-									<small> / 4개</small>
-								</span>
-							</div><!-- info-box text-->
-							<span class="info-box-icon rounded-circle bg-gradient-green elevation-1">
-								<i class="fas fa-solar-panel"></i>
-							</span>
-						</div><!-- /.info-box -->
-					</div>
-					<div class="col">
-						<div class="info-box shadow-none">
-							<div class="info-box-content">
-								<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-								<small class = "info-box-text text-teal text-bold">오염 레벨</small>
-								<span class = "info-box-number">
-									<!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
-									경고
-								</span>
-							</div><!-- info-box text-->
-							<span class="info-box-icon rounded-circle bg-gradient-yellow elevation-1">
-								<i class="fas fa-sad-tear"></i>
-							</span>
-						</div><!-- /.info-box -->
-					</div>
+				<!-- status 정보 나타내는 부분-->
+				<div class="row card-body">
+					{% include 'cctv/components/status_box.html' %}
 				</div>
 	
 			</div>
 		</div>
 	</div>
 	<!-- /.cctv detail info -->
+
 </div>
 
 {% endblock %} 
