@@ -1,0 +1,79 @@
+{% load static %}
+{% for status in status_box %}
+<div class="col-12 col-lg-6  d-flex" >
+    <div class="info-box info-box shadow-none">
+        <div class="info-box-content border-left">
+            <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+            <small class = "info-box-text text-black text-bold">
+                {{status.title}}
+            </small>
+            <span class = "info-box-number" id="{{status.id}}">
+                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+                {{status.value}}
+                <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
+                <small>{{status.unit}}</small>
+            </span>
+        </div><!-- info-box text-->
+        <span class="info-box-icon rounded-circle bg-info elevation-1">
+            <i class="{{status.icon_class}}"></i>
+        </span>
+    </div><!-- /.info-box -->
+</div>
+{% endfor %}
+
+
+<script>
+    const Cl = document.getElementById("today")
+
+    function getCl () {
+
+        var mydate = new Date()
+        var year = mydate.getFullYear()
+        var month = mydate.getMonth() +1
+        var date = mydate.getDate()
+        
+        var blank = "&nbsp"
+        for (i = 0; i<2;i++){
+            blank += blank
+        }
+
+        month = String(month).padStart(2, "0")
+        date = String(date).padStart(2, "0")
+
+        Cl.innerHTML = year + "." + month + "." + date + "."
+    }
+
+    getCl();
+    setInterval ( getCl , 1000 );
+</script>
+
+
+<script>
+    const Cl2 = document.getElementById("todayclock")
+
+    function getCl2 () {
+
+        var mydate = new Date()
+        var hour = mydate.getHours()
+        var minute = mydate.getMinutes()
+        var second = mydate.getSeconds()
+        
+        var blank = "&nbsp"
+        for (i = 0; i<2;i++){
+            blank += blank
+        }
+
+        var ampm = hour >= 12? "PM " : "AM "
+        hour = hour %12
+        hour = hour ? hour : 12
+
+        hour = String(hour).padStart(2, "0")
+        minute = String(minute).padStart(2, "0")
+        second = String(second).padStart(2, "0")
+
+        Cl2.innerHTML = ampm + hour + ":" + minute + ":" + second
+    }
+
+    getCl2();
+    setInterval ( getCl2 , 1000 );
+</script>

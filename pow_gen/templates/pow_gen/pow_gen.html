@@ -9,7 +9,15 @@
     {% include 'pow_gen/components/weather_module' %}
   </section>
   <section class = "col-lg-7 connectedSortable ui-sortable">
-    {% include 'pow_gen/components/pow_gen_current' %}
+    <div class="card">
+      <div class="card-header">
+          <span>발전 현황</span>
+      </div>
+      <!-- status 정보 나타내는 부분-->
+      <div class="row card-body">
+          {% include 'pow_gen/components/status_box.html' %}
+      </div>
+    </div>
   </section>
 </div>
 <div class = "row">

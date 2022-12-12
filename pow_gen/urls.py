@@ -1,9 +1,8 @@
 from django.urls import path
-from django.views.generic.base import TemplateView
+from . import views as pow_gen_view
 
 app_name = 'pow_gen'
 
 urlpatterns=[
-    path('', TemplateView.as_view(template_name='pow_gen/home.html'), name='pow_gen'),
-
+    path('', pow_gen_view.pow_gen.as_view(template_name='pow_gen/pow_gen.html'), name='pow_gen'),
 ]
