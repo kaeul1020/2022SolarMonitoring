@@ -1,6 +1,6 @@
 {% load static %}
 {% for status in status_box %}
-<div class="col-12 col-lg-6  d-flex" >
+<div class="col-12 col-lg-6  d-flex " >
     <div class="info-box info-box shadow-none">
         <div class="info-box-content border-left">
             <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
@@ -40,7 +40,7 @@
         month = String(month).padStart(2, "0")
         date = String(date).padStart(2, "0")
 
-        Cl.innerHTML = year + "." + month + "." + date + "."
+        Cl.innerHTML = year + ". " + month + "." + date + "."
     }
 
     getCl();
