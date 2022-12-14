@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
 
 data= [
     { 
@@ -67,7 +69,9 @@ now_data = [{
 
 
 
-class alarm(TemplateView):
+class alarm(LoginRequiredMixin,TemplateView):
+    login_url = settings.LOGIN_URL
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['timelines'] = data

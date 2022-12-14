@@ -17,7 +17,7 @@ status= [
 
 
 
-class login(LoginRequiredMixin, TemplateView):
+class home(LoginRequiredMixin, TemplateView):
     login_url = settings.LOGIN_URL
 
     def get_context_data(self, **kwargs):

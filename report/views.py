@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
 
 status= [
     { "title": "누적 발전량", "value": "3,000", "unit": "MWh", "icon_class": "fas fa-solar-panel fa-fw" },
@@ -10,7 +12,8 @@ status= [
 
 
 
-class report(TemplateView):
+class report(LoginRequiredMixin, TemplateView):
+    login_url = settings.LOGIN_URL
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['status_box'] = status

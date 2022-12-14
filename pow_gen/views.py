@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
 
 status= [
     { "title": "현재 날짜","id":"today", "value": "", "unit": "", "icon_class": "fas fa-calendar-alt" },
@@ -12,7 +14,8 @@ status= [
 
 
 
-class pow_gen(TemplateView):
+class pow_gen(LoginRequiredMixin, TemplateView):
+    login_url = settings.LOGIN_URL
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['status_box'] = status
