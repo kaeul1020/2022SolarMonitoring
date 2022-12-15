@@ -44,16 +44,12 @@ if __name__ == "__main__":
             ret, frame = cap.read()
             current_time = time.time() - prev_time
             if (ret is True) and (current_time > 1./ FPS) :
-                # frame_input = cv2.resize(frame,(510,380))
+                
                 cv2.imshow("Input",frame)
-                #frame = cv2.resize(frame,(112,112))
-                #frame_unet = frame
+                
                 #openCV Image to PIL Image
                 image = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
                 img = Image.fromarray(image).convert('RGB')
-                # img = image
-                # image = composed_transforms(image)
-                # image = image.unsqueeze(0)
 
                 #FCN image
                 img = np.array(img, dtype=np.uint8)[:, :, ::-1] # RGB -> BGR
@@ -62,47 +58,7 @@ if __name__ == "__main__":
                 img = img.transpose(2, 0, 1)
                 img = torch.from_numpy(img).float().unsqueeze(0)
 
-                '''
-                # u-net iamge
-                # frame_unet = cv2.resize(frame_unet,(112,112))
-                # image_unet = frame_unet
-                # image_unet = np.reshape(image_unet,(112,112,-1))
-                # image_unet = np.array([image_unet])/255
-                # pred_unet = model.predict(image_unet)
-                # pred_unet = pred_unet[0]
-
-                # _, pred_unet = cv2.threshold(np.array(pred_unet*255,dtype='uint8'),0,255,cv2.THRESH_OTSU)
-                
-                # for i in range(pred_unet.shape[0]):
-                #     for j in range(pred_unet.shape[1]):
-                #         if pred_unet[i][j] == 255:
-                #             frame_unet[i][j] = (255,255,0)
-
-                # frame_unet = cv2.resize(frame_unet,(510,380))
-                # cv2.imshow("U-Net",frame_unet)
-
-                #DeepLab
-                # model_deep.eval()
-                # with torch.no_grad():
-                #     pred = model_deep(image)
-            
-                # #frame = cv2.resize(frame,(133,133))
-                # frame_fcn = frame
-                # pred = pred.data.cpu().numpy()
-                # pred = np.argmax(pred, axis=1)
-                # pred = pred[0]
-            
-                # for i in range(pred.shape[0]):
-                #     for j in range(pred.shape[1]):
-                #         if pred[i][j] == 1:
-                #             frame[i][j] = (255,255,0)
-                # frame = cv2.resize(frame,(112,112))        
-                # frame = cv2.resize(frame,(510,380))
-                # cv2.imshow("DeepLab",frame)
-                '''
                 #FCN
-                # frame_fcn = frame
-                
                 pred_fcn = model_fcn(img)
                 pred_fcn = pred_fcn.data.max(1)[1].cpu().numpy()[0]
                 
@@ -111,8 +67,7 @@ if __name__ == "__main__":
                         if pred_fcn[i][j] == 1:
                             frame[i][j] = (255,255,0)
                 
-                
-                cv2.imshow(str((time.time() - start_time)*1000)+"s",frame)
+                cv2.imshow("FCN",frame)
                 
                 if cv2.waitKey(100) & 0xFF == ord('q'):
                     print("Stopped by q")
