@@ -1,8 +1,8 @@
 {% load static %}
 {% for status in status_box %}
-<div class="col-12 col-sm-6 col-lg-4 col-xl-2 d-flex" >
-    <div class="info-box">
-        <div class="info-box-content">
+<div class="col-12 col-lg-6 col-xl-3 d-flex" >
+    <div class="info-box info-box shadow-none">
+        <div class="info-box-content border-left">
             <!-- DB에서 어떤 값을 불러오는 지에 따라 바뀌어야 함-->
             <small class = "info-box-text text-black text-bold">
                 {{status.title}}
@@ -14,7 +14,7 @@
                 <small>{{status.unit}}</small>
             </span>
         </div><!-- info-box text-->
-        <span class="info-box-icon rounded-circle bg-info elevation-1">
+        <span class="info-box-icon rounded-circle  elevation-1 {{status.icon_color}}">
             <i class="{{status.icon_class}}"></i>
         </span>
     </div><!-- /.info-box -->
