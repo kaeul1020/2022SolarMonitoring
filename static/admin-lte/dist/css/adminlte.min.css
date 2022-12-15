@@ -156,7 +156,7 @@ sup {
   top: -0.5em;
 }
 a {
-  color: #007bff;
+  color: #c2c2c2;
   text-decoration: none;
   background-color: transparent;
 }
@@ -29561,7 +29561,7 @@ blockquote.quote-gray-dark h6 {
   padding: 0.375rem 0.6rem;
 }
 .dark-mode a:not(.btn):hover {
-  color: #3395ff;
+  color: #ffffff;
 }
 .dark-mode .attachment-block {
   background-color: #3d444b;
