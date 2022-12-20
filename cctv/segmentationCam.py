@@ -16,7 +16,7 @@ import time
 #fcn model
 device = torch.device('cpu')
 model_fcn = torchfcn.models.FCN8s(n_class=2)
-model_data = torch.load('FCN_model_best.pth.tar',map_location=device) ####### model file 위치 적어야함!
+model_data = torch.load('FCN_model_best.pth.tar',map_location=device) #model file 위치
 try:
     model_fcn.load_state_dict(model_data)
 except Exception:
