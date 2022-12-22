@@ -42,17 +42,17 @@
 	<!-- /.time -->
 	<!-- cctv image & cctv segmentation -->
 	<div class="row">
-		<div class="col-8 h-100" >
+		<div class="col h-100" >
 			<div class="card">
 				<div class="card-header">
 					<h3 class="card-title">CCTV 화면</h3>
 				</div >
 				<div class="card-body" >
-					<img class="img-fluid card-img" id='cctvOriginalImage' src="{% url 'cctv:cctv_screen' %}">
+					<img class="img-fluid card-img" id='cctvOriginalImage' src="{% static 'cctv_images\viz_evaluate1.png' %}">
 				</div>
 			</div>
 		</div>
-		<div class="col-4 h-100">
+		<div class="col h-100">
 			<div class="card" >
 				<div class="card-header">
 					<h3 class="card-title">패널 상세보기</h3>
@@ -61,8 +61,8 @@
 					</a>
 				</div>
 				<div class="card-body">
-					<div class="scroll" id="cctvSegmentedImage" >
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate0.png' %}">
+					<div class="scroll" style="overflow-x: hidden" id="cctvSegmentedImages" >
+						<img class="m-1" id = "test">
 						<img class="m-1" src="{% static 'cctv_images\viz_evaluate1.png' %}">
 						<img class="m-1" src="{% static 'cctv_images\viz_evaluate2.png' %}">
 						<img class="m-1" src="{% static 'cctv_images\viz_evaluate3.png' %}">
@@ -144,20 +144,33 @@ $('#example').tempusDominus({
 });
 </script>
 <script>
-    var cctvImage_height;
+    let cctvImage_height;
+	let cctvOriginalImage = document.getElementById("cctvOriginalImage")
+	let cctvSegmentedImages = document.getElementById("cctvSegmentedImages")
+	// const stream = await navigator.mediaDevices.getUserMedia({video: true});
+	let test = document.getElementById("test")
+	
  
     // 페이지 로드시 자동실행
     $(window).ready(function () {
-        cctvImage_height = document.getElementById("cctvOriginalImage").offsetHeight;
-        document.getElementById("cctvSegmentedImage").style.height = cctvImage_height +'px';
+
+		cctvOriginalImage.src = "{% url 'cctv:cctv_screen' %}"
+		test.src = "{% url 'cctv:cctv_seg_screen' %}"
+
+		// CCTV화면 카드와 패널 상세보기 카드 높이 맞추기
+        cctvImage_height = cctvOriginalImage.offsetHeight;
+        cctvSegmentedImages.style.height = cctvImage_height +'px';
     });
  
  
     // 화면 리사이즈시 실행
-    $(window).resize(function () {
-        cctvImage_height = document.getElementById("cctvOriginalImage").offsetHeight;
-        document.getElementById("cctvSegmentedImage").style.height = cctvImage_height+'px';
+    $(window).resize(function () { 
+		// CCTV화면 카드와 패널 상세보기 카드 높이 맞추기
+        cctvImage_height = cctvOriginalImage.offsetHeight;
+        cctvSegmentedImages.style.height = cctvImage_height+'px';
     });
+
+
 </script>
 
 
