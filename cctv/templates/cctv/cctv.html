@@ -5,10 +5,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="{% static 'admin-lte/plugins/tempusdominus-bootstrap-4/js/tempus-dominus-forCCTV.js' %}"></script>
 <link rel="stylesheet" href="{% static 'admin-lte/plugins/tempusdominus-bootstrap-4/css/tempus-dominus-forCCTV.css' %}">
-<!--
-<script src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/css/tempus-dominus.css" rel="stylesheet" crossorigin="anonymous">
- -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	$(window).ready(function (){
+
+	})
+</script>
 {% endblock %}
 
 
@@ -42,17 +44,17 @@
 	<!-- /.time -->
 	<!-- cctv image & cctv segmentation -->
 	<div class="row">
-		<div class="col-8 h-100" >
+		<div class="col h-100" >
 			<div class="card">
 				<div class="card-header">
 					<h3 class="card-title">CCTV 화면</h3>
 				</div >
 				<div class="card-body" >
-					<img class="img-fluid card-img" id='cctvOriginalImage' src="{% static 'cctv_images\image_1.jpg' %}">
+					<img class="img-fluid card-img" id='cctvOriginalImage' src = "{% url 'cctv:cctv_screen' %}">
 				</div>
 			</div>
 		</div>
-		<div class="col-4 h-100">
+		<div class="col h-100">
 			<div class="card" >
 				<div class="card-header">
 					<h3 class="card-title">패널 상세보기</h3>
@@ -61,18 +63,9 @@
 					</a>
 				</div>
 				<div class="card-body">
-					<div class="scroll" id="cctvSegmentedImage" >
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate0.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate1.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate2.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate3.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate4.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate5.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate6.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate7.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate8.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate9.png' %}">
-						<img class="m-1" src="{% static 'cctv_images\viz_evaluate10.png' %}">
+					<div class="scroll" style="overflow-x: hidden" id="cctvSegmentedImages" >
+						<img class="m-1" src = "{% url 'cctv:cctv_seg_screen' %}">
+						<p class="value"></p>
 					</div>
 				</div>
 				
@@ -97,6 +90,29 @@
 	</div>
 	<!-- /.cctv detail info -->
 
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">경고</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<div class="modal-body">
+				<p>
+					오염 범위가 <span class="segPer"></span>% 입니다.
+				</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<a href="{% url 'cctv:cctv' %}" class="btn btn-info" role="button">More info</a>
+			</div>
+		</div>
+		</div>
+	</div>
+
 </div>
 
 {% endblock %} 
@@ -104,37 +120,37 @@
 
 <script>
 // Vanilla JS
-new tempusDominus.TempusDominus(document.getElementById('example'), {
-	display: {
-		    // display options
-		icons: {
-			// "icons" or "sprites"
-			type: 'icons',
-			time: 'fas fa-clock',
-			date: 'fas fa-calendar',
-			up: 'fas fa-arrow-up fa-xs',
-			down: 'fas fa-arrow-down fa-xs',
-			previous: 'fas fa-chevron-left',
-			next: 'fas fa-chevron-right',
-			today: 'fas fa-calendar-check',
-			clear: 'fas fa-trash',
-			close: 'fas fa-times-circle'
+	new tempusDominus.TempusDominus(document.getElementById('example'), {
+		display: {
+				// display options
+			icons: {
+				// "icons" or "sprites"
+				type: 'icons',
+				time: 'fas fa-clock',
+				date: 'fas fa-calendar',
+				up: 'fas fa-arrow-up fa-xs',
+				down: 'fas fa-arrow-down fa-xs',
+				previous: 'fas fa-chevron-left',
+				next: 'fas fa-chevron-right',
+				today: 'fas fa-calendar-check',
+				clear: 'fas fa-trash',
+				close: 'fas fa-times-circle'
+			},
+			components: {
+				useTwentyfourHour: true,
+			},
+			sideBySide: true,
+			// enable/disable buttons
+			buttons: {
+			today: true,
+			},
+			theme: 'dark'
+			
 		},
-		components: {
-			useTwentyfourHour: true,
-		},
-		sideBySide: true,
-		// enable/disable buttons
-		buttons: {
-        today: true,
-      	},
-		theme: 'dark'
-		
-  	},
-	stepping: 1,
-	defaultDate: new Date(),
-	localization: {
-		dayViewHeaderFormat: { month: 'long', year: 'numeric' },
+		stepping: 1,
+		defaultDate: new Date(),
+		localization: {
+			dayViewHeaderFormat: { month: 'long', year: 'numeric' },
 	}
 });
 
@@ -143,22 +159,60 @@ $('#example').tempusDominus({
   // options here
 });
 </script>
+
 <script>
-    var cctvImage_height;
+    let cctvImage_height;
+	let cctvOriginalImage = document.getElementById("cctvOriginalImage")
+	let cctvSegmentedImages = document.getElementById("cctvSegmentedImages")
+
+	let test = document.getElementById("test")
+	
  
     // 페이지 로드시 자동실행
     $(window).ready(function () {
-        cctvImage_height = document.getElementById("cctvOriginalImage").offsetHeight;
-        document.getElementById("cctvSegmentedImage").style.height = cctvImage_height +'px';
+
+		// CCTV화면 카드와 패널 상세보기 카드 높이 맞추기
+        cctvImage_height = cctvOriginalImage.offsetHeight;
+        cctvSegmentedImages.style.height = cctvImage_height +'px';
+
+		function ScoreUpdate() {
+			$.ajax({
+				type: 'GET',
+				url: "{% url 'cctv:cctv_screen_score' %}", // data를 전송할 url 입니다.
+				data: {}, 
+				success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
+					let x = document.getElementsByClassName("value")[0]
+					let segPer= document.getElementsByClassName("segPer")[0]
+					x.innerText= response.score
+					if (response.score > 50){
+						segPer.innerText= response.score
+						$('#myModal').modal('show')
+					}
+					else{
+						$('#myModal').modal('hide')
+					}
+				}
+			})
+		}
+
+		setInterval(ScoreUpdate, 3000);
     });
+
+
  
  
     // 화면 리사이즈시 실행
-    $(window).resize(function () {
-        cctvImage_height = document.getElementById("cctvOriginalImage").offsetHeight;
-        document.getElementById("cctvSegmentedImage").style.height = cctvImage_height+'px';
+    $(window).resize(function () { 
+		// CCTV화면 카드와 패널 상세보기 카드 높이 맞추기
+        cctvImage_height = cctvOriginalImage.offsetHeight;
+        cctvSegmentedImages.style.height = cctvImage_height+'px';
     });
+
+
+
+
 </script>
+
 
 
 
