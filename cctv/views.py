@@ -12,6 +12,8 @@ import threading
 
 from multiprocessing import Process, Queue
 from cctv.segmentationCam import Segmentation as Seg
+from django.http import HttpResponse,JsonResponse
+import json
 
 status= [
     { "title": "오염 유형", "value": "나뭇잎, 흙먼지", "unit": "", "icon_color":"bg-info","icon_class": "fas fa-broom" },
@@ -21,12 +23,6 @@ status= [
 ]
 
 
-class cctv(LoginRequiredMixin, TemplateView):
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['status_box'] = status
-        return context
 
 #cam 관련 클래스
 class VideoCamera(object):
@@ -57,30 +53,38 @@ class StreamingVideoCamera(object):
     def __init__(self):
         self.camera = VideoCamera()
         self.Seg = Seg()
+        self.score =0
+    
+    def getScore(self):
+        return self.score
         
     def gen(self, segmentation=False):
         while True:
             frame = self.camera.get_frame()
+
             if segmentation ==True : 
                 print("segmentation 들어옴")
-                result = self.Seg.FCN(frame)
-                frame = result["frame"]
-                print(result["score"])
+                fcn = self.Seg.FCN(frame)
+                frame = fcn["frame"]
+                print(fcn["score"])
+                self.score=(fcn["score"])
             else :
                 pass
+
             frame = self.camera.get_image(frame=frame)
             # frame단위로 이미지를 계속 반환한다. (yield)
-            yield(b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+            yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        
+            
 
 
 class Screen(object):
     def __init__(self) -> None:
         self.cam = StreamingVideoCamera() #웹캠 호출
         pass
+
     def Origin(self,request):
         try:
-            print("스크린")
             # frame단위로 이미지를 계속 송출한다.
             return StreamingHttpResponse(self.cam.gen(), content_type="multipart/x-mixed-replace;boundary=frame")
         except:
@@ -95,3 +99,22 @@ class Screen(object):
             print("에러")
             pass
 
+    def Score(self,request):
+        if request.is_ajax(): #ajax 방식일 때 아래 코드 실행
+            print("ajax성공")
+            context = {'score' : self.cam.getScore()}
+            print("context :", context)
+            return HttpResponse(json.dumps(context), content_type='application/json')
+        else :
+            print('ajax 실패')
+            pass
+
+
+
+class cctv(LoginRequiredMixin, TemplateView):
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['status_box'] = status
+        return context

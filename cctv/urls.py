@@ -15,4 +15,5 @@ urlpatterns=[
     path('crop/', TemplateView.as_view(template_name='cctv/cctv_cropper.html'), name='cctv_cropper'),
     path('screen/', Screen.Origin, name="cctv_screen"),
     path('seg_screen/', Screen.Seg, name="cctv_seg_screen"),
+    path('screen_score/', Screen.Score, name="cctv_screen_score"),
 ]

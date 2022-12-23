@@ -51,15 +51,30 @@ class Segmentation(object):
         print("max FCN time :", time.time() - start)
 
         start = time.time()
+        try : 
+            score = np.bincount(pred_fcn.flatten().tolist())[1]
+            score = (score/(pred_fcn.shape[0]*pred_fcn.shape[1]))*100
+        except :
+            score = 0
+            
+        if score <= 25 : 
+            color = (59,167,40)
+        elif score <= 50 : 
+            color = (7,193,255)
+        elif score <= 75 : 
+            color = (20,126,253)
+        else : 
+            color = (69,53,220)
+
         cnt=0
         for i in range(pred_fcn.shape[0]):
             for j in range(pred_fcn.shape[1]):
                 if pred_fcn[i][j] == 1:
-                    frame[i][j] = (255,255,0)
+                    frame[i][j] = color
                     cnt+=1
         print("cnt :",cnt)
         print(pred_fcn.shape[0],pred_fcn.shape[1])
-        score = (cnt/(pred_fcn.shape[0]*pred_fcn.shape[1]))*100
+        
         print("seg time :", time.time() - start)
         
         return {"frame":frame, "score":score}
