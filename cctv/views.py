@@ -64,7 +64,7 @@ class StreamingVideoCamera(object):
 
             if segmentation ==True : 
                 print("segmentation 들어옴")
-                fcn = self.Seg.FCN(frame)
+                fcn = self.Seg.U_Net(frame)
                 frame = fcn["frame"]
                 print(fcn["score"])
                 self.score=(fcn["score"])
@@ -75,8 +75,6 @@ class StreamingVideoCamera(object):
             # frame단위로 이미지를 계속 반환한다. (yield)
             yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         
-            
-
 
 class Screen(object):
     def __init__(self) -> None:
