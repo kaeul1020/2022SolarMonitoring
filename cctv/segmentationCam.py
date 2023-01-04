@@ -18,8 +18,11 @@ import tensorflow as tf
 from cctv.modeling.deeplab import *
 from torchvision import transforms
 
+# realtime
+import threading
 
-class Segmentation(object):
+
+class SegmentationModels(object):
     def __init__(self):
         print("SegmentationCam.py __init__ 들어옴")
 
@@ -144,3 +147,53 @@ class Segmentation(object):
     
         print("total DeepLab time :", time.time() - start_total)
         return result
+
+
+#cam 관련 클래스
+class VideoCamera(object):
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
+        (self.grabbed, self.frame) = self.video.read()
+        threading.Thread(target=self.update, args=()).start()
+
+    def __del__(self):
+        self.video.release()
+
+    def get_image(self, frame):
+        image = frame
+        _, jpeg = cv2.imencode('.jpeg', image)
+        return jpeg.tobytes()
+
+    def get_frame(self):
+        return self.frame
+
+    def update(self):
+        while True:
+            (self.grabbed, self.frame) = self.video.read()
+
+# frame단위로 이미지를 계속 반환하게 만드는 클래스. 
+class StreamingVideoCamera(object):
+    def __init__(self):
+        self.camera = VideoCamera()
+        self.Seg = SegmentationModels()
+        self.score =0
+    
+    def getScore(self):
+        return self.score
+        
+    def gen(self, segmentation=False):
+        while True:
+            frame = self.camera.get_frame()
+
+            if segmentation ==True : 
+                print("segmentation 들어옴")
+                fcn = self.Seg.U_Net(frame)
+                frame = fcn["frame"]
+                print(fcn["score"])
+                self.score=(fcn["score"])
+            else :
+                pass
+
+            frame = self.camera.get_image(frame=frame)
+            # frame단위로 이미지를 계속 반환한다. (yield)
+            yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
