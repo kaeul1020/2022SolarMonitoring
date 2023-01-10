@@ -18,8 +18,11 @@ import tensorflow as tf
 from cctv.modeling.deeplab import *
 from torchvision import transforms
 
+#crop
+from cctv.crop import Crop
 # realtime
 import threading
+
 
 
 class SegmentationModels(object):
@@ -153,6 +156,12 @@ class SegmentationModels(object):
 class VideoCamera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)
+        if self.video.isOpened():
+            self.video.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+            self.video.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+
+            print("FRAME width, height : ", self.video.get(cv2.CAP_PROP_FRAME_WIDTH), self.video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
         (self.grabbed, self.frame) = self.video.read()
         threading.Thread(target=self.update, args=()).start()
 
@@ -176,24 +185,41 @@ class StreamingVideoCamera(object):
     def __init__(self):
         self.camera = VideoCamera()
         self.Seg = SegmentationModels()
-        self.score =0
+        self.score ={}
+        self.crop = Crop()
     
     def getScore(self):
-        return self.score
+        sum = 0
+        for score in self.score.values():
+            sum += score
+        result = sum/len(self.score.values())
+
+        return result
         
-    def gen(self, segmentation=False):
+    def gen(self, segmentation=False, pt=None):
         while True:
             frame = self.camera.get_frame()
 
             if segmentation ==True : 
                 print("segmentation 들어옴")
-                fcn = self.Seg.U_Net(frame)
-                frame = fcn["frame"]
-                print(fcn["score"])
-                self.score=(fcn["score"])
+
+                if pt is not None : 
+                    np_pt = np.array(eval(pt), dtype = "float32")
+                    frame = self.crop.getFrame(frame, np_pt)
+
+                seg = self.Seg.DeepLab(frame)
+
+                # frame을 어떻게 나눠서 할지 고민해보기
+                frame = seg["frame"]
+                print(seg["score"])
+                self.score[pt]=(seg["score"])
+                 
             else :
                 pass
 
             frame = self.camera.get_image(frame=frame)
             # frame단위로 이미지를 계속 반환한다. (yield)
             yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+
+

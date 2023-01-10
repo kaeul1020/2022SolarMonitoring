@@ -64,7 +64,9 @@
 				</div>
 				<div class="card-body">
 					<div class="scroll" style="overflow-x: hidden" id="cctvSegmentedImages" >
-						<img class="m-1" src = "{% url 'cctv:cctv_seg_screen' %}">
+						{% for pt in pts %}
+						<img class="m-1" src = "seg_screen/{{pt.loc}}/">
+						{% endfor %}
 						<p class="value"></p>
 					</div>
 				</div>

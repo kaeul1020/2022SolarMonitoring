@@ -2,12 +2,18 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.http import StreamingHttpResponse
-import cv2
+from django.shortcuts import render
 
 
-from cctv.segmentationCam import StreamingVideoCamera as Cam
+
 from django.http import HttpResponse
 import json
+
+#crop
+from cctv.segmentationCam import StreamingVideoCamera
+import numpy as np
+
+
 
 status= [
     { "title": "오염 유형", "value": "나뭇잎, 흙먼지", "unit": "", "icon_color":"bg-info","icon_class": "fas fa-broom" },
@@ -16,10 +22,17 @@ status= [
     { "title": "오염 레벨", "value": "경고", "unit": "", "icon_color":"bg-warning","icon_class": "fas fa-sad-tear" },
 ]
 
+pts= [
+    {"loc":"(451,152),(525,137),(558,220),(474,237)"},
+    {"loc":"(576,127),(655,110),(700,191),(615,207)"},
+    {"loc":"(368,270),(482,248),(525,376),(403,399)"},
+    {"loc":"(551,235),(663,211),(728,336),(605,360)"},
+]
+
 
 class Screen(object):
     def __init__(self) -> None:
-        self.cam = Cam() #웹캠 호출
+        self.cam = StreamingVideoCamera() #웹캠 호출
         pass
 
     def Origin(self,request):
@@ -30,10 +43,11 @@ class Screen(object):
             print("에러")
             pass
 
-    def Seg(self,request):
+    def Seg(self,request, pt):
         try:
             # frame단위로 이미지를 계속 송출한다
-            return StreamingHttpResponse(self.cam.gen(segmentation=True), content_type="multipart/x-mixed-replace;boundary=frame")
+            print("pt : ", pt)    
+            return StreamingHttpResponse(self.cam.gen(segmentation=True, pt=pt), content_type="multipart/x-mixed-replace;boundary=frame")
         except:
             print("에러")
             pass
@@ -56,4 +70,7 @@ class cctv(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['status_box'] = status
+        context['pts']=pts
         return context
+
+
