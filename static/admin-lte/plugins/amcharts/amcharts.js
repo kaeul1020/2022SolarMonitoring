@@ -3,7 +3,6 @@ document.write('<script src="https://cdn.amcharts.com/lib/5/index.js"></script>'
 document.write('<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>')
 document.write('<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>')
 
-
 window.onload=function() {
     am5.ready(function() {
         // Create root element

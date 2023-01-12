@@ -12,7 +12,8 @@
         </div>
         <div class = "card-body">
             <div class = "chart">
-                <canvas id ="lineChart" height="350"></canvas>
+                <canvas id ="lineChart" height="363px"></canvas> 
+                <!-- 바꿀예정 -->
             </div>
         </div>
     </div>
@@ -29,7 +30,7 @@
         labels  : ['5시', '6시', '7시', '8시', '9시', '10시', '11시', '12시', '13시', '14시', '15시', '16시'],
         datasets: [
             {
-            label               : '예측 발전량',
+            label               : '실제 발전량',
             fill                : false,
             backgroundColor     : 'rgba(60,141,188,1)',
             borderColor         : 'rgba(60,141,188,1)',
@@ -43,22 +44,6 @@
             pointRadius:6, //포인터 반경 범위 
             pointBorderColor:'#3b8bba',//포인터 보더 색상
             data                : [520, 480, 550, 570, 600, 610, 650, 630, 500, 420, 620, 570]
-            },
-            {
-            label               : '실제 발전량',
-            fill                : false,
-            backgroundColor     : 'rgba(210, 214, 222, 1)',
-            borderColor         : 'rgba(210, 214, 222, 1)',
-            pointRadius         : false,
-            pointColor          : 'rgba(210, 214, 222, 1)',
-            pointStrokeColor    : '#c1c7d1',
-            pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(220,220,220,1)',
-            pointStyle:'circle', //포인터 스타일 변경
-            pointBorderWidth: 2, //포인터 보더사이즈
-            pointRadius:6, //포인터 반경 범위 
-            pointBorderColor:'#c1c7d1',//포인터 보더 색상
-            data                : [480, 420, 500, 560, 540, 590, 620, 600, 460, 450, 580, 610]
             },
         ]
         }
