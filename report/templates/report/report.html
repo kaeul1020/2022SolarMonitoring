@@ -1,6 +1,6 @@
 {% extends 'home/base.html' %}
-{% block page_name %}보고서{% endblock %}
 {% block body_class %}dark-mode{% endblock %}
+{% block page_name %} 보고서 {% endblock %}
 {% block content %}
 <!-- Main content -->
 
@@ -12,12 +12,12 @@
     <section class = "col-lg-6">
         {% include 'report/components/report_table.html' %}
     </section>
-    <div class="col-12">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">선택 기간의 통계치</h3>
             </div>
-            <!-- status 정보 나타내는 부분-->
+            <!-- status 정보 나타내는 부분 -->
             <div class="row card-body">
                 {% include 'report/components/status_box.html' %}
             </div>
