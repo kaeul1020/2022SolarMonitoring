@@ -10,6 +10,7 @@ app_name = 'cctv'
 
 
 Screen=cctv_view.Screen()
+Cropper = cctv_view.cropper()
 
 urlpatterns=[
     path('', cctv_view.cctv.as_view(template_name='cctv/cctv.html'), name='cctv'),
@@ -18,6 +19,7 @@ urlpatterns=[
     path('screen/', Screen.Origin, name="cctv_screen"),
     path('screen_score/', Screen.Score, name="cctv_screen_score"),
     path('seg_screen/<pt>/', Screen.Seg),
+    path('testcrop/',Cropper.crop, name="testcropper"),
 ]
 
 print("!! urlpatterns : ", urlpatterns)

@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="img-container card-img">
-                    <img id="image" src="{% static 'cctv_images\image_1.jpg' %}"  style="max-width: 100%;" alt="Picture">
+                    <img id="cctvImage" src="{% static '\cctv_images\image_1.jpg' %}"  style="max-width: 100%;" alt="Picture" onClick="test()">
                 </div>
             </div>
             <div class="card-footer">
@@ -29,20 +29,16 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row" hidden>
-    <div class="col-md-9 docs-buttons">
-        <div class="btn-group">
-            <button type="button" class="btn btn-outline-light" data-method="crop" title="Crop">
-                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;crop&quot;)">
-          <span class="fa fa-check"></span>
-                </span>
-            </button>
-            <button type="button" class="btn btn-outline-light" data-method="clear" title="Clear">
-                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;clear&quot;)">
-          <span class="fas fa-trash"></span>
-                </span>
-            </button>
+    <div class="col-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">미리보기</h3>
+            </div >
+            <div class="card-body">
+                <div class="img-container card-img">
+                    <img id="cctvImagePreiew" src=""  style="max-width: 100%;" >
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -50,29 +46,54 @@
 
 <!-- /.content -->
 {% endblock %}
-{% block js %}
-<script src="{% static 'admin-lte\plugins\cropper\cropper.min.js' %}"></script>
-<script src="{% static 'admin-lte\plugins\cropper\cropper-init.js' %}"></script>
-{% endblock %}
+
 
 {% block extra_js %}
 <script>
-var $image = $('#image');
+    // 페이지 로드시 자동실행
+    $(window).ready(function () {
+        let cctvImage = document.getElementById("cctvImage")
+        let cctvImagePreiew = document.getElementById("cctvImagePreiew")
 
-$image.cropper({
-  aspectRatio: false,
-  crop: function(event) {
-    console.log(event.detail.x);
-    console.log(event.detail.y);
-    console.log(event.detail.width);
-    console.log(event.detail.height);
-    console.log(event.detail.rotate);
-    console.log(event.detail.scaleX);
-    console.log(event.detail.scaleY);
-  }
-});
 
-// Get the Cropper.js instance after initialized
-var cropper = $image.data('cropper');
-  </script>
+        // 모서리 점들의 초기 좌표
+        let srcQuad = [[[267,163]],[[398,157]],[[571,354]],[[446,420]]]
+
+        function ScoreUpdate() {
+            alert("cctvImage.src:"+cctvImage.src)
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'cctv:testcropper' %}", // data를 전송할 url 입니다.
+                data: {"img_src":cctvImage.src}, 
+                success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
+
+                    alert(response.msg)
+
+                    // let x = document.getElementsByClassName("value")[0]
+                    // let segPer= document.getElementsByClassName("segPer")[0]
+                    // x.innerText= response.score
+                    // if (response.score > 50){
+                    // 	segPer.innerText= response.score
+                    // 	$('#myModal').modal('show')
+                    // }
+                    // else{
+                    // 	$('#myModal').modal('hide')
+                    // }
+                }
+            })
+            alert("ajax 끝")
+        }
+
+        ScoreUpdate()
+    });
+
+    
+    cctvImagePreiew.src="{% static 'cctv_images\image_3.jpg' %}"
+
+
+    function test(){
+        alert("현재 좌표는 " + event.offsetX + "/" + event.offsetY)
+    }
+
+</script>
 {% endblock %} 

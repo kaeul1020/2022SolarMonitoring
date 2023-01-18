@@ -1,4 +1,4 @@
-import cv2 as cv
+import cv2
 import matplotlib.pyplot as plt
 from PIL import Image
 from matplotlib import image
@@ -78,18 +78,37 @@ class Crop(object):
             [0, maxHeight - 1]], dtype = "float32")
         
         # compute the perspective transform matrix and then apply it
-        M = cv.getPerspectiveTransform(rect, dst)
-        warped = cv.warpPerspective(image, M, (maxWidth, maxHeight))
+        M = cv2.getPerspectiveTransform(rect, dst)
+        warped = cv2.warpPerspective(image, M, (maxWidth, maxHeight))
         
         # return the warped image
         return warped
 
     def getFrame(self, frame, pt):
         # Read original image
-        image = cv.cvtColor(frame,
-                            cv.COLOR_BGR2RGB)
+        image = cv2.cvtColor(frame,
+                            cv2.COLOR_BGR2RGB)
         # Cropping
         img = self.four_point_transform(image,pt)
         
         # Save cropped image
-        return cv.cvtColor(img, cv.COLOR_BGR2RGB)
+        return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    def drawROI(self, img, corners):
+        cpy = img.copy()
+
+        c1 = (192, 192, 255)
+        c2 = (128, 128, 255)
+
+        for pt in corners:
+            print(pt)
+            cv2.circle(cpy, tuple(pt.astype(int)), 25, c1, -1, cv2.LINE_AA)
+        
+        # cv2.drawContours(cpy, [corners], -1, c2, 4)
+        cv2.line(cpy, tuple(corners[0].astype(int)), tuple(corners[1].astype(int)), c2, 4, cv2.LINE_AA)
+        cv2.line(cpy, tuple(corners[1].astype(int)), tuple(corners[2].astype(int)), c2, 4, cv2.LINE_AA)
+        cv2.line(cpy, tuple(corners[2].astype(int)), tuple(corners[3].astype(int)), c2, 4, cv2.LINE_AA)
+        cv2.line(cpy, tuple(corners[3].astype(int)), tuple(corners[0].astype(int)), c2, 4, cv2.LINE_AA)
+        disp = cv2.addWeighted(img, 0.3, cpy, 0.7, 0)
+
+        return disp

@@ -7,11 +7,17 @@ from django.shortcuts import render
 
 
 from django.http import HttpResponse
+from django.http import JsonResponse
 import json
 
-#crop
+
 from cctv.segmentationCam import StreamingVideoCamera
 import numpy as np
+from cctv.crop import Crop
+import cv2
+
+import os
+from django.conf import settings
 
 
 
@@ -23,12 +29,11 @@ status= [
 ]
 
 pts= [
-    {"loc":"(451,152),(525,137),(558,220),(474,237)"},
-    {"loc":"(576,127),(655,110),(700,191),(615,207)"},
-    {"loc":"(368,270),(482,248),(525,376),(403,399)"},
-    {"loc":"(551,235),(663,211),(728,336),(605,360)"},
+    {"name":"1", "loc":"(279,129),(402,130),(441,214),(305,214)"},
+    {"name":"2","loc":"(484,130),(607,130),(662,212),(533,212)"},
+    {"name":"3","loc":"(127,226),(313,224),(358,355),(154,357)"},
+    {"name":"4","loc":"(440,265),(607,230),(680,352),(488,354)"},
 ]
-
 
 class Screen(object):
     def __init__(self) -> None:
@@ -63,6 +68,31 @@ class Screen(object):
             pass
 
 
+class cropper(object):
+    def __init__(self) -> None:
+        self.Crop = Crop()
+        pass
+    
+    def crop(self,request):
+        if request.is_ajax(): #ajax 방식일 때 아래 코드 실행
+            print("ajax성공")
+            img_src = request.GET.get("img_src")
+            print("img_src : ", img_src)
+
+            # image_nparray = np.asarray(bytearray(img_src, dtype=np.uint8))
+            img_path = "C:/Users/dalab/Desktop/internet_panel_3.jpg"
+            print("img_path:", img_path)
+            img = cv2.imread(img_path, cv2.IMREAD_COLOR)
+            
+            
+            np_pt = np.array(eval(pts[0]['loc']), dtype = "float32")
+            cv2.imwrite('11result.png', self.Crop.drawROI(img,np_pt))
+            context = {'msg' : "성공"}
+            return JsonResponse(context)
+        else :
+            print('ajax 실패')
+            pass
+
 
 class cctv(LoginRequiredMixin, TemplateView):
 
@@ -72,5 +102,9 @@ class cctv(LoginRequiredMixin, TemplateView):
         context['status_box'] = status
         context['pts']=pts
         return context
+
+
+
+
 
 

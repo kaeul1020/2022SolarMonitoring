@@ -189,11 +189,13 @@ class StreamingVideoCamera(object):
         self.crop = Crop()
     
     def getScore(self):
-        sum = 0
-        for score in self.score.values():
-            sum += score
-        result = sum/len(self.score.values())
-
+        try : 
+            sum = 0
+            for score in self.score.values():
+                sum += score
+            result = sum/len(self.score.values())
+        except :
+            result =-1
         return result
         
     def gen(self, segmentation=False, pt=None):
@@ -201,7 +203,7 @@ class StreamingVideoCamera(object):
             frame = self.camera.get_frame()
 
             if segmentation ==True : 
-                print("segmentation 들어옴")
+                # print("segmentation 들어옴")
 
                 if pt is not None : 
                     np_pt = np.array(eval(pt), dtype = "float32")
@@ -209,10 +211,9 @@ class StreamingVideoCamera(object):
 
                 seg = self.Seg.DeepLab(frame)
 
-                # frame을 어떻게 나눠서 할지 고민해보기
                 frame = seg["frame"]
                 print(seg["score"])
-                self.score[pt]=(seg["score"])
+                self.score[pt]=(seg["score"]) # TODO : 이거 값 따로 어떻게 가져올 지 생각해보기
                  
             else :
                 pass
