@@ -4,7 +4,7 @@
 <!-- Jcrop-->
 <link rel="stylesheet" type="text/css" href="{% static 'admin-lte\plugins\cropper\cropper.min.css' %}">
 {% endblock %}
-{% block page_name %}CCTV 1 - 패널 위치 지정 {% endblock %}
+{% block page_name %}CCTV 1 - Panel {{num}} 좌표 설정 {% endblock %}
 {% block body_class %}dark-mode{% endblock %}
 {% block content %}
 <!-- Main content -->
@@ -13,18 +13,9 @@
     <div class="col-9">
         <div class="card">
             <div class="card-body">
-                <div class="img-container card-img">
-                    <img id="cctvImage" src="{% static '\cctv_images\image_1.jpg' %}"  style="max-width: 100%;" alt="Picture" onClick="test()">
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="row text-center">
-                    <div class="col border-right">
-                        <a class="text-light" href="{% url 'cctv:cctv_setting' %}">패널 위치 지정 종료</a>
-                    </div>
-                    <div class="col">
-                        <a class="text-light" href="{% url 'cctv:cctv_setting' %}">패널 자르기</a>
-                    </div>
+                <div id= "result" class="img-container">
+                    <img id="cctvImage" src="{% static '\cctv_images\PanelImageSample.jpg' %}" class="card-img" alt="Picture" onClick="selectLoc()"  >
+                    <!--  draggable="true" onmousedown="mouseDown()" onmouseup="mouseUp()" onmousemove="mouseMove()" -->
                 </div>
             </div>
         </div>
@@ -32,11 +23,29 @@
     <div class="col-3">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">미리보기</h3>
+                <h3 class="card-title">패널 좌표 설정</h3>
             </div >
             <div class="card-body">
-                <div class="img-container card-img">
-                    <img id="cctvImagePreiew" src=""  style="max-width: 100%;" >
+                <div>
+                    <ul>
+                        <li>좌측상단 : <span id="coor0"></span></li>
+                        <li>우측상단 : <span id="coor1"></span></li>
+                        <li>우측하단 : <span id="coor2"></span></li>
+                        <li>좌측하단 : <span id="coor3"></span></li>
+                    </ul>
+                </div>
+                <div class="img-container">
+                    <img id="cctvImagePreiew" src=""  class="card-img" >
+                </div>
+            </div>
+            <div class="card-footer" id= "btns" style="visibility: hidden">
+                <div class="row text-center">
+                    <div class="col border-right" id="prebtn" onclick="crop()">
+                        <a class="text-light" >미리보기</a>
+                    </div>
+                    <div class="col" id="savebtn" >
+                        <a class="text-light" onclick="CropLocSave()" href="{% url 'cctv:cctv' %}">저장하기</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,48 +59,93 @@
 
 {% block extra_js %}
 <script>
-    // 페이지 로드시 자동실행
-    $(window).ready(function () {
-        let cctvImage = document.getElementById("cctvImage")
-        let cctvImagePreiew = document.getElementById("cctvImagePreiew")
+    let cctvImage = document.getElementById("cctvImage")
+    let cctvImagePreiew = document.getElementById("cctvImagePreiew")
 
+    let result = document.getElementById("result")
 
-        // 모서리 점들의 초기 좌표
-        let srcQuad = [[[267,163]],[[398,157]],[[571,354]],[[446,420]]]
+    let srcQuad = [[0,0],[0,0],[0,0],[0,0]]
+    let srcQuadString = ""
 
-        function ScoreUpdate() {
-            alert("cctvImage.src:"+cctvImage.src)
-            $.ajax({
-                type: 'GET',
-                url: "{% url 'cctv:testcropper' %}", // data를 전송할 url 입니다.
-                data: {"img_src":cctvImage.src}, 
-                success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
-
-                    alert(response.msg)
-
-                    // let x = document.getElementsByClassName("value")[0]
-                    // let segPer= document.getElementsByClassName("segPer")[0]
-                    // x.innerText= response.score
-                    // if (response.score > 50){
-                    // 	segPer.innerText= response.score
-                    // 	$('#myModal').modal('show')
-                    // }
-                    // else{
-                    // 	$('#myModal').modal('hide')
-                    // }
-                }
-            })
-            alert("ajax 끝")
+    function srcQuadtoString(){
+        srcQuadString = ""
+        for (var i = 0; i < srcQuad.length; i++) {
+            srcQuadString = srcQuadString+"("+srcQuad[i][0]+","+srcQuad[i][1]+"),"
         }
+    }
 
-        ScoreUpdate()
-    });
+    function ImageUpdate() {
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'cctv:cropper_preview' %}", // data를 전송할 url 입니다.
+            data: {"pt" : srcQuadString}, 
+            success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
+                var time 	= new Date().getTime();	// 이미지 새로고침을 위한 랜덤 값
+                $('#cctvImage').attr('src', "/static/"+response.img_src +'?time=' + time)
+                $('#cctvImagePreiew').attr('src', "/static/"+response.crop_img_src+'?time=' + time)
+                
+            }
+        })
+    }
 
+    function crop(){
+        srcQuadtoString()
+        ImageUpdate()
+    }
+
+    crop()
+
+    let clickcnt = 0
+
+    let coors = []
+    for(let i =0; i<4 ; i++){
+        coors.push(document.getElementById(`coor${i}`))
+    }
+
+    const savebtn = document.getElementById("savebtn")
+    const prebtn = document.getElementById("prebtn")
+    const btns = document.getElementById("btns")
     
-    cctvImagePreiew.src="{% static 'cctv_images\image_3.jpg' %}"
+    function selectLoc(){
+        naturalWidth = cctvImage.naturalWidth
+        curWidth = cctvImage.width
+        
+        ratio = naturalWidth/curWidth
 
+        x = parseInt(event.offsetX*ratio)
+        y = parseInt((event.offsetY)*ratio)
 
-    function test(){
+        for (let i = 0; i<4; i++){
+            if (clickcnt%4 == i){
+
+                coors[i].innerHTML = "( x : "+ x + "/ y : " + y +" )"
+                srcQuad[i]=[x,y]
+
+                if(i == 0){
+                    coors[1].innerHTML = ""
+                    coors[2].innerHTML = ""
+                    coors[3].innerHTML = ""
+                    btns.style.visibility = 'hidden'
+                }else if(i ==3){
+                    btns.style.visibility = 'visible'
+                }
+                break
+
+            }
+        }
+        clickcnt += 1
+    }
+
+    function CropLocSave(){
+        srcQuadtoString()
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'cctv:cropper_save' %}", // data를 전송할 url 입니다.
+            data: {"num" : `{{num}}`, "pt" : srcQuadString}, 
+        })
+    }
+
+    function testalert(){
         alert("현재 좌표는 " + event.offsetX + "/" + event.offsetY)
     }
 
