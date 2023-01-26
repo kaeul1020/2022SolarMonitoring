@@ -5,14 +5,13 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 
+from django.contrib.auth.models import User
+
 class Faq(LoginRequiredMixin, TemplateView):
-    queryset = FaqModel.objects.all()  
     login_url = settings.LOGIN_URL
 
-    def get(self, request, *args, **kwargs):
-        ctx = {
-            'FAQs': self.queryset 
-        }
-        return self.render_to_response(ctx)
+    def faq_list(self,request):
+        faqs = FaqModel.objects.all() 
+        return render(request,'faq/faq.html',{'FAQs' : faqs})
 
 

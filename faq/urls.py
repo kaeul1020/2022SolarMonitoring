@@ -4,8 +4,9 @@ from . import views as faq_view
 
 
 app_name = 'faq'
+Faq = faq_view.Faq()
 
 urlpatterns=[
-    path('', faq_view.Faq.as_view(template_name='faq/faq.html'), name='faq'),
+    path('', Faq.faq_list, name='faq'),
 ]
 

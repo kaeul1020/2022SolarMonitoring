@@ -77,3 +77,4 @@ class alarm(LoginRequiredMixin,TemplateView):
         context['timelines'] = data
         context['nows'] = now_data
         return context
+
