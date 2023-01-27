@@ -13,7 +13,7 @@
             <div class = "card-body " >
                 <div class = "alarm-timeline-scroll" >
                     {% for now in nows %}
-                    <div class="small-box bg-danger">
+                    <div class="small-box {{now.color}}">
                         <div class="inner">
                             <h5 class = "alert-heading text-bold">{{now.title}}</h5>
                             <p>{{now.content}}</p>

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
+from .models import AlarmModel
 
 data= [
     { 
@@ -72,9 +73,9 @@ now_data = [{
 class alarm(LoginRequiredMixin,TemplateView):
     login_url = settings.LOGIN_URL
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['timelines'] = data
-        context['nows'] = now_data
-        return context
+    def now_alarms(self,request):
+        nows = AlarmModel.objects.filter(now = 1).order_by('-time')
+        timelines = AlarmModel.objects.order_by('-time')
+        return render(request,'alarm/alarm.html',{'nows':nows ,'timelines' : timelines})
+
 
