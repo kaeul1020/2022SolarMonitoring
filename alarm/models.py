@@ -25,3 +25,4 @@ class AlarmModel(models.Model):
         self.more_info = True
         self.save()
 
+
