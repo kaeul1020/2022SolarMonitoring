@@ -67,6 +67,14 @@
     let srcQuad = [[0,0],[0,0],[0,0],[0,0]]
     let srcQuadString = ""
 
+    
+    let locPoint = '{{loc}}'.replace(/[()]/g,"").split(',')
+    for(let i =0; i<4; i++){
+        for(let j =0; j<2; j++){
+            srcQuad[i][j] = Number(locPoint[i*2+j])
+        }
+    }
+
     function srcQuadtoString(){
         srcQuadString = ""
         for (var i = 0; i < srcQuad.length; i++) {
@@ -80,7 +88,7 @@
             url: "{% url 'cctv:cropper_preview' %}", // data를 전송할 url 입니다.
             data: {"pt" : srcQuadString}, 
             success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
-                var time 	= new Date().getTime();	// 이미지 새로고침을 위한 랜덤 값
+                let time 	= new Date().getTime();	// 이미지 새로고침을 위한 랜덤 값
                 $('#cctvImage').attr('src', "/static/"+response.img_src +'?time=' + time)
                 $('#cctvImagePreiew').attr('src', "/static/"+response.crop_img_src+'?time=' + time)
                 
