@@ -21,6 +21,9 @@ from datetime import datetime
 import os
 from django.conf import settings
 
+#알람
+from alarm.models import AlarmModel
+
 
 
 status= [
@@ -125,10 +128,9 @@ class Screen(object):
             pass
     """
 
-    def setSegImage(self, num):
+    def setSegImage(self, request, num):
         pt = self.dics.getLoc(num)
-        time = str(datetime.now())
-        
+
         #cctv 이미지 읽어오기
         img_src ="cctv_images\PanelImageSample.jpg"
         basic_img_path = settings.BASE_DIR+ settings.STATIC_URL
@@ -148,6 +150,12 @@ class Screen(object):
         #각 패널의 오염면적 저장
         self.dics.setScore(num, seg["score"])
         
+        #알림 파트 : 임의로 여기에다가 씀
+        if seg["score"] >=50 :
+            self.alram = AlarmModel()
+            print("request.user.username, 1, num, seg['score'] : ", request.user.username, 1, num, seg['score'])
+            self.alram.panel_soiling_alarm(request.user.username, 1, num, seg['score'])
+
 
 class Cropper(object):
 
@@ -207,7 +215,7 @@ class cctv(LoginRequiredMixin, TemplateView):
         global db_dics
 
         for db_dic in db_dics:
-            screen.setSegImage(num=db_dic["num"])
+            screen.setSegImage(self.request, num=db_dic["num"])
 
         context['status_box'] = status
         context['db_dics']=db_dics

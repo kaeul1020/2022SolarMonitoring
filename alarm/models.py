@@ -15,13 +15,14 @@ class AlarmModel(models.Model):
     now = models.BooleanField(default=True)
 
     #username = request.user
-    def panel_soiling_alarm(self,username,cctvnum,soiling_type):
+    def panel_soiling_alarm(self,username,cctvnum,panelnum,soiling_area):
         self.time = timezone.now()
         self.user_id = User.objects.get(username = username)
         self.title = "태양광 패널 오염 감지"
-        self.content = "현재" + str(cctvnum) + "번 CCTV에 " + str(soiling_type)+ " 가 감지되었습니다."
+        self.content = "현재" + str(cctvnum) + "번 CCTV의 "+ str(panelnum)+ "번 Panel에서 " + str(soiling_area)+ " %의 오염이 감지되었습니다."
         self.color = "bg-orange"
         self.icon_class = "fas fa-solar-panel"
         self.more_info = True
+        self.herf = "../CCTV/"
         self.save()
 
