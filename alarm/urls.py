@@ -7,5 +7,5 @@ app_name = 'alarm'
 Alarm = alarm_view.alarm()
 
 urlpatterns=[
-    path('', Alarm.now_alarms, name='alarm'),
+    path('', Alarm.alarms, name='alarm'),
 ]

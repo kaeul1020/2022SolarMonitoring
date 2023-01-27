@@ -26,3 +26,4 @@ class AlarmModel(models.Model):
         self.herf = "../CCTV/"
         self.save()
 
+
