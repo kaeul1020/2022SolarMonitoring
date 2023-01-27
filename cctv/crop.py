@@ -1,4 +1,4 @@
-import cv2 as cv
+import cv2
 import matplotlib.pyplot as plt
 from PIL import Image
 from matplotlib import image
@@ -21,36 +21,10 @@ class Crop(object):
     def __init__(self):
         print("crop 들어옴")
     
-
-    def order_points(self, pts):
-        # initialzie a list of coordinates that will be ordered
-        # such that the first entry in the list is the top-left,
-        # the second entry is the top-right, the third is the
-        # bottom-right, and the fourth is the bottom-left
-        rect = np.zeros((4, 2), dtype = "float32")
-        
-        # the top-left point will have the smallest sum, whereas
-        # the bottom-right point will have the largest sum
-        s = pts.sum(axis = 1)
-        rect[0] = pts[np.argmin(s)]
-        rect[2] = pts[np.argmax(s)]
-        
-        # now, compute the difference between the points, the
-        # top-right point will have the smallest difference,
-        # whereas the bottom-left will have the largest difference
-        diff = np.diff(pts, axis = 1)
-        rect[1] = pts[np.argmin(diff)]
-        rect[3] = pts[np.argmax(diff)]
-        
-        # return the ordered coordinates
-        return rect
-    
-
     def four_point_transform(self, image, pts):
         # obtain a consistent order of the points and unpack them
         # individually
-        rect = self.order_points(pts)
-        (tl, tr, br, bl) = rect
+        (tl, tr, br, bl) = pts
         
         # compute the width of the new image, which will be the
         # maximum distance between bottom-right and bottom-left
@@ -78,18 +52,36 @@ class Crop(object):
             [0, maxHeight - 1]], dtype = "float32")
         
         # compute the perspective transform matrix and then apply it
-        M = cv.getPerspectiveTransform(rect, dst)
-        warped = cv.warpPerspective(image, M, (maxWidth, maxHeight))
+        M = cv2.getPerspectiveTransform(pts, dst)
+        warped = cv2.warpPerspective(image, M, (maxWidth, maxHeight))
         
         # return the warped image
         return warped
 
     def getFrame(self, frame, pt):
         # Read original image
-        image = cv.cvtColor(frame,
-                            cv.COLOR_BGR2RGB)
+        image = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
         # Cropping
         img = self.four_point_transform(image,pt)
         
         # Save cropped image
-        return cv.cvtColor(img, cv.COLOR_BGR2RGB)
+        return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    def drawROI(self, img, corners):
+        cpy = img.copy()
+
+        c1 = (255, 150, 255)
+        c2 = (255, 0, 255)
+
+        for pt in corners:
+            print(pt)
+            cv2.circle(cpy, tuple(pt.astype(int)), 25, c1, -1, cv2.LINE_AA)
+        
+        # cv2.drawContours(cpy, [corners], -1, c2, 4)
+        cv2.line(cpy, tuple(corners[0].astype(int)), tuple(corners[1].astype(int)), c2, 10, cv2.LINE_AA)
+        cv2.line(cpy, tuple(corners[1].astype(int)), tuple(corners[2].astype(int)), c2, 10, cv2.LINE_AA)
+        cv2.line(cpy, tuple(corners[2].astype(int)), tuple(corners[3].astype(int)), c2, 10, cv2.LINE_AA)
+        cv2.line(cpy, tuple(corners[3].astype(int)), tuple(corners[0].astype(int)), c2,10, cv2.LINE_AA)
+        disp = cv2.addWeighted(img, 0.3, cpy, 0.7, 0)
+
+        return disp

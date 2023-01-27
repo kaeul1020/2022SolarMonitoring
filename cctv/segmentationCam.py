@@ -23,6 +23,7 @@ from cctv.crop import Crop
 # realtime
 import threading
 
+from django.conf import settings
 
 
 class SegmentationModels(object):
@@ -31,18 +32,18 @@ class SegmentationModels(object):
 
         self.device = torch.device('cpu')
 
-        # FCN setting
-        self.model_fcn = torchfcn.models.FCN8s(n_class=2)
-        self.model_fcn.eval()
-        self.model_data = torch.load('./cctv/FCN_model_best.pth.tar',map_location=self.device) #model file 위치
-        try:
-            self.model_fcn.load_state_dict(self.model_data)
-        except Exception:
-            self.model_fcn.load_state_dict(self.model_data['model_state_dict'])
-        self.mean_bgr = np.array([104.00698793, 116.66876762, 122.67891434])
+        # # FCN setting
+        # self.model_fcn = torchfcn.models.FCN8s(n_class=2)
+        # self.model_fcn.eval()
+        # self.model_data = torch.load('./cctv/FCN_model_best.pth.tar',map_location=self.device) #model file 위치
+        # try:
+        #     self.model_fcn.load_state_dict(self.model_data)
+        # except Exception:
+        #     self.model_fcn.load_state_dict(self.model_data['model_state_dict'])
+        # self.mean_bgr = np.array([104.00698793, 116.66876762, 122.67891434])
 
-        # U-Net setting
-        self.model_uNet = tf.keras.models.load_model('./cctv/UNet_0823_newdataset_pat10.h5')
+        # # U-Net setting
+        # self.model_uNet = tf.keras.models.load_model('./cctv/UNet_0823_newdataset_pat10.h5')
 
         # DeepLab setting
         self.model_deep = DeepLab(num_classes = 2,
@@ -60,7 +61,7 @@ class SegmentationModels(object):
     def predictColoring(self, frame, pred_model):
         try : 
             score = np.bincount(pred_model.flatten().tolist())[1]
-            score = (score/(pred_model.shape[0]*pred_model.shape[1]))*100
+            score = round((score/(pred_model.shape[0]*pred_model.shape[1]))*100, 4)
         except :
             score = 0
             
@@ -185,23 +186,26 @@ class StreamingVideoCamera(object):
     def __init__(self):
         self.camera = VideoCamera()
         self.Seg = SegmentationModels()
-        self.score ={}
         self.crop = Crop()
+        self.score ={}
+        
     
     def getScore(self):
-        sum = 0
-        for score in self.score.values():
-            sum += score
-        result = sum/len(self.score.values())
-
+        try : 
+            sum = 0
+            for score in self.score.values():
+                sum += score
+            result = sum/len(self.score.values())
+        except :
+            result =-1
         return result
-        
+
     def gen(self, segmentation=False, pt=None):
         while True:
             frame = self.camera.get_frame()
 
             if segmentation ==True : 
-                print("segmentation 들어옴")
+                # print("segmentation 들어옴")
 
                 if pt is not None : 
                     np_pt = np.array(eval(pt), dtype = "float32")
@@ -209,10 +213,9 @@ class StreamingVideoCamera(object):
 
                 seg = self.Seg.DeepLab(frame)
 
-                # frame을 어떻게 나눠서 할지 고민해보기
                 frame = seg["frame"]
                 print(seg["score"])
-                self.score[pt]=(seg["score"])
+                self.score[pt]=(seg["score"]) # TODO : 이거 값 따로 어떻게 가져올 지 생각해보기
                  
             else :
                 pass
@@ -220,6 +223,17 @@ class StreamingVideoCamera(object):
             frame = self.camera.get_image(frame=frame)
             # frame단위로 이미지를 계속 반환한다. (yield)
             yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+            
+    
+class StaticSegImage(object):
+    def __init__(self) -> None:
+        self.Seg = SegmentationModels()
+        self.crop = Crop()
+        pass
 
-
-
+    def getSeg(self, img, pt):
+        np_pt = np.array(eval(pt), dtype = "float32")
+        frame = self.crop.getFrame(img, np_pt)
+        seg = self.Seg.DeepLab(frame)
+        
+        return seg
