@@ -4,7 +4,8 @@ from . import views as alarm_view
 
 
 app_name = 'alarm'
+Alarm = alarm_view.alarm()
 
 urlpatterns=[
-    path('', alarm_view.alarm.as_view(template_name='alarm/alarm.html'), name='alarm'),
+    path('', Alarm.now_alarms, name='alarm'),
 ]
