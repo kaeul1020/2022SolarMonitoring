@@ -212,9 +212,9 @@ $('#example').tempusDominus({
 				document.getElementById(`PanelCard_${i}`).classList.remove("border", "border-info")
 			}
 		}else{
+			let time 	= new Date().getTime();	// 이미지 새로고침을 위한 랜덤 값
 			document.getElementById(`PanelCard_${num}`).classList.add("border", "border-info")
-			cctvOriginalImage.src = `/static/cctv_images/11result_${num}.png`
-			
+			cctvOriginalImage.src = `/static/cctv_images/11result_${num}.png?time=${time}`
 		}
 
 	}

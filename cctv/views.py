@@ -96,64 +96,74 @@ class Screen(object):
         pass
 
     # 실시간연결
-    # def Origin(self,request):
-    #     try:
-    #         # frame단위로 이미지를 계속 송출한다.
-    #         return StreamingHttpResponse(self.cam.gen(), content_type="multipart/x-mixed-replace;boundary=frame")
-    #     except:
-    #         print("에러")
-    #         pass
+    """
+    def Origin(self,request):
+        try:
+            # frame단위로 이미지를 계속 송출한다.
+            return StreamingHttpResponse(self.cam.gen(), content_type="multipart/x-mixed-replace;boundary=frame")
+        except:
+            print("에러")
+            pass
 
-    # def SegFrame(self,request, pt):
-    #     try:
-    #         # frame단위로 이미지를 계속 송출한다
-    #         print("pt : ", pt)    
-    #         return StreamingHttpResponse(self.cam.gen(segmentation=True, pt=pt), content_type="multipart/x-mixed-replace;boundary=frame")
-    #     except:
-    #         print("에러")
-    #         pass
+    def SegFrame(self,request, pt):
+        try:
+            # frame단위로 이미지를 계속 송출한다
+            print("pt : ", pt)    
+            return StreamingHttpResponse(self.cam.gen(segmentation=True, pt=pt), content_type="multipart/x-mixed-replace;boundary=frame")
+        except:
+            print("에러")
+            pass
 
-    # def Score(self,request):
-    #     if request.is_ajax(): #ajax 방식일 때 아래 코드 실행
-    #         print("score ajax성공")
-    #         context = {'score' : self.cam.getScore()}
-    #         print("context :", context)
-    #         return HttpResponse(json.dumps(context), content_type='application/json')
-    #     else :
-    #         print('ajax 실패')
-    #         pass
+    def Score(self,request):
+        if request.is_ajax(): #ajax 방식일 때 아래 코드 실행
+            print("score ajax성공")
+            context = {'score' : self.cam.getScore()}
+            print("context :", context)
+            return HttpResponse(json.dumps(context), content_type='application/json')
+        else :
+            print('ajax 실패')
+            pass
+    """
 
     def setSegImage(self, num):
         pt = self.dics.getLoc(num)
+        time = str(datetime.now())
         
+        #cctv 이미지 읽어오기
         img_src ="cctv_images\PanelImageSample.jpg"
         basic_img_path = settings.BASE_DIR+ settings.STATIC_URL
         img_path = (basic_img_path+img_src).replace('\\','/')
         img = cv2.imread(img_path, cv2.IMREAD_COLOR)
+
+        #crop + seg 이미지 저장
         seg = self.segImage.getSeg(img=img, pt=pt)
         img_path = (basic_img_path+'cctv_images/11result_seg_'+str(num)+'.png').replace('\\','/')
         cv2.imwrite(img_path, seg["frame"])
+        self.dics.setSrc(num, "/static/"+img_path)
 
+        #원본이미지 위에 crop된 위치 표시해주는 이미지 저장
         np_pt = np.array(eval(pt), dtype = "float32")
         cv2.imwrite(basic_img_path +'cctv_images/11result_'+str(num)+'.png', self.Crop.drawROI(img,np_pt))
 
+        #각 패널의 오염면적 저장
         self.dics.setScore(num, seg["score"])
-
-        time = str(datetime.now())
-        print("Num loc : ", num, " \ ",self.dics.getLoc(num))
-        self.dics.setSrc(num, "/static/"+img_path +'?time=' + time)
+        
 
 class Cropper(object):
+
+    def __init__(self) -> None:
+        self.Crop = Crop()
+        self.dics = Dics()
+        pass
 
     def cropper(self, request, num):
         context = {
             'num': num,
+            'loc' : self.dics.getLoc(num)
         }
         return render(request, 'cctv/cctv_cropper.html', context)
 
     def CropPreView(self,request):
-        self.Crop = Crop()
-        self.dics = Dics()
         if request.is_ajax(): #ajax 방식일 때 아래 코드 실행
             img_src ="cctv_images\PanelImageSample.jpg"
             pt = request.GET.get("pt")
@@ -177,7 +187,6 @@ class Cropper(object):
             pass
     
     def CropLocSave(self,request):
-        self.dics = Dics()
         if request.is_ajax(): #ajax 방식일 때 아래 코드 실행
             print("crop ajax성공")
             print(request.GET.get("num"))
