@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
+from .models import ModuleData
 import json
+from decimal import Decimal
 
 status= [
     { "title": "현재 날짜","id":"today", "value": "", "unit": "", "icon_class": "fas fa-calendar-alt" },
@@ -62,10 +64,32 @@ table_data = [
 	]
 
 
+# class pow_gen(LoginRequiredMixin, TemplateView):
+#     login_url = settings.LOGIN_URL
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+
+#         queryset = ModuleData.objects.values()
+#         # queryset_float = float(queryset.values)
+
+#         context['datas'] = json.dumps(list(queryset))
+#         return context
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return float(obj)
+        return json.JSONEncoder.default(self, obj)
+
 class pow_gen(LoginRequiredMixin, TemplateView):
     login_url = settings.LOGIN_URL
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['status_box'] = status
-        context['table_datas'] = json.dumps(table_data)
+
+        queryset = ModuleData.objects.values('dt', 'dc_kw1')
+        # queryset_float = float(queryset.values)
+
+        context['datas'] = json.dumps(list(queryset), cls=DecimalEncoder)
         return context

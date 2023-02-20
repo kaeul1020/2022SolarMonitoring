@@ -1,15 +1,8 @@
 {%load static %}
-<div class = "card">
-    <div class = "card-header">
-        <h3 class = "card-title">
-            발전량 데이터
-        </h3>
-    </div>
-    <div class = "card-body">
-        <div id="jsGrid" class="scroll"></div>
-        <div id="externalPager" class="text-center text-white"></div>
-    </div>
-</div>
+
+<div id="jsGrid"></div>
+<div id="externalPager" class="text-center text-white"></div>
+
 
 <script src="/static/admin-lte/plugins/jquery/jquery.min.js"></script>
 <script src="/static/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -17,11 +10,12 @@
 <script src="/static/admin-lte/plugins/jsgrid/jsgrid.min.js"></script>
 <script src="/static/admin-lte/dist/js/demo.js"></script>
 <script src="/static/admin-lte/dist/js/adminlte.min.js"></script>
-<script src="/static/admin-lte/dist/js/adminlte.min.js"></script>
+<script src="/static/admin-lte/dist/js/adminlte.min.js"></script> 
 
 <script>
 
-    let data = JSON.parse("{{ table_datas|escapejs }}"); //json형식으로 받은 데이터를 javascript에 넣을 때 써야함.
+    // let data = JSON.parse("{{ table_datas|escapejs }}"); //json형식으로 받은 데이터를 javascript에 넣을 때 써야함.
+    let data = JSON.parse("{{ datas|escapejs }}");
 
     let fields = [] 
     for (key in data[0]){

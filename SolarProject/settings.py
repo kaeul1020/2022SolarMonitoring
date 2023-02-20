@@ -113,16 +113,18 @@ DATABASES = {
            'unicode_results': True,
        }
    }
-#    ,
-#     'test1': {
-#     'ENGINE': 'django.db.backends.mysql',
-#     'NAME': 'master',
-#     'USER': 'dalab',
-#     'PASSWORD': '1234',
-#     'HOST': '203.255.67.231',
-#     'PORT': '11433',
-# }
+   ,
+    'test1': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'master',
+    'USER': 'external',
+    'PASSWORD': '1234',
+    'HOST': '203.255.67.231',
+    'PORT': '11433',
 }
+}
+
+DATABASE_ROUTERS = ['pow_gen.dbrouter.MultiDBRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
