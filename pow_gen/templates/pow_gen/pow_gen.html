@@ -2,7 +2,6 @@
 {% block body_class %}dark-mode{% endblock %}
 {% block page_name %} 발전현황 {% endblock %}
 {% block content %}
-<!-- status 정보 나타내는 부분-->
 
 <div class="row mb-3">
   <section class = "col-lg-5 connectedSortable ui-sortable">
@@ -13,7 +12,7 @@
       <div class="card-header">
           <h3 class="card-title">발전 현황</h3>
       </div>
-      <!-- status 정보 나타내는 부분-->
+      <!-- status 정보 나타내는 부분 -->
       <div class="row card-body">
           {% include 'pow_gen/components/status_box.html' %}
       </div>
@@ -28,4 +27,5 @@
     {% include 'pow_gen/components/pow_gen_table.html' %}
   </section>
 </div>
+
 {% endblock %}
