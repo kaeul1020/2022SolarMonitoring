@@ -1,4 +1,11 @@
 {%load static %}
+<div class="card">
+    <div class = "card-header">
+        <h3 class = "card-title">
+            발전량 데이터
+        </h3>
+    </div>
+    <div class = "card-body">
 
 <div id="jsGrid"></div>
 <div id="externalPager" class="text-center text-white"></div>
@@ -17,8 +24,30 @@
     // let data = JSON.parse("{{ table_datas|escapejs }}"); //json형식으로 받은 데이터를 javascript에 넣을 때 써야함.
     let data = JSON.parse("{{ datas|escapejs }}");
 
+    for (let i = 0; i < data.length; i++) {
+        data[i]['날짜 (년월일)'] = data[i]['dt']
+        data[i]['시간 (시)'] = data[i]['dt_hour']
+        n1 = parseFloat(data[i]['dc_kw1'])
+        n2 = parseFloat(data[i]['dc_kw2'])
+        n3 = parseFloat(data[i]['dc_kw3'])
+        data[i]['시간당 발전량 (kw)'] = (n1 + n2 + n3).toFixed(3)
+    }
+
+    for (let i = 0; i < data.length; i++) {
+        delete data[i].dt
+        delete data[i].dt_hour
+        delete data[i].dc_kw1
+        delete data[i].dc_kw2
+        delete data[i].dc_kw3
+    }
+
+    var new_data = [];
+    for (let i = data.length-12; i < data.length; i++) {
+        new_data.push(data[i])
+    }
+
     let fields = [] 
-    for (key in data[0]){
+    for (key in new_data[0]){
         fields.push({name : key})
     }
     
@@ -32,7 +61,7 @@
             sorting: true, // 칼럼의 헤더를 눌렀을 때, 그 헤더를 통한 정렬
             paging: true,
             
-            pageSize: 10, //화면에 나타날 기본 줄수
+            pageSize: 8, //화면에 나타날 기본 줄수
             pageButtonCount: 5,
             pagerContainer: "#externalPager",
             pagerFormat: "{first} {prev} {pages} {next} {last} &nbsp;&nbsp; {pageIndex} / {pageCount}",
@@ -44,8 +73,11 @@
             pageNavigatorPrevText: "&#8230;",
 
             
-            data: data, // 데이터를 받아서 
+            data: new_data, // 데이터를 받아서 
             fields: fields, // 그리드 헤더 부분에 넣기 위해서 필드 지정
         })
     })
 </script>
+
+</div>
+</div>
