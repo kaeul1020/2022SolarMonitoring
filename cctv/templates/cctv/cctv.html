@@ -64,7 +64,7 @@
 						<div class="row">
 							{% for db_dic in db_dics %}
 							<div cLass = "col-xl-6 ">
-								<div class="card d-flex " id= "PanelCard_{{db_dic.num}}" onmouseover='CardMouse("{{db_dic.num}}", -1)' onmouseout='CardMouse(-1,"{{db_dics|length}}")' >
+								<div class="card d-flex " id= "PanelCard_{{db_dic.num}}" >
 									<div class="card-header">
 										<h3 class="card-title">Panel {{db_dic.num}}</h3>
 										<a class="float-right text-white" href="crop/{{db_dic.num}}/">
@@ -73,7 +73,7 @@
 									</div>
 									<div class="card-body">
 										<!-- <img class="m-1" src = "seg_screen_frame/{{pt.loc}}/"> -->
-										<img class="m-1 img-fluid card-img" src = "{{db_dic.src}}/">
+										<img class="m-1 img-fluid card-img" src = "{{db_dic.src}}/"  onmouseover='CardMouse("{{db_dic.num}}", -1)' onmouseout='CardMouse(-1,"{{db_dics|length}}")'>
 									</div>
 									<div class="card-footer text-center">
 										오염 면적: {{db_dic.score}} %
