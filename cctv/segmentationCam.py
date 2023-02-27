@@ -32,15 +32,15 @@ class SegmentationModels(object):
 
         self.device = torch.device('cpu')
 
-        # # FCN setting
-        # self.model_fcn = torchfcn.models.FCN8s(n_class=2)
-        # self.model_fcn.eval()
-        # self.model_data = torch.load('./cctv/FCN_model_best.pth.tar',map_location=self.device) #model file 위치
-        # try:
-        #     self.model_fcn.load_state_dict(self.model_data)
-        # except Exception:
-        #     self.model_fcn.load_state_dict(self.model_data['model_state_dict'])
-        # self.mean_bgr = np.array([104.00698793, 116.66876762, 122.67891434])
+        # FCN setting
+        self.model_fcn = torchfcn.models.FCN8s(n_class=2)
+        self.model_fcn.eval()
+        self.model_data = torch.load('./cctv/FCN_model_best.pth.tar',map_location=self.device) #model file 위치
+        try:
+            self.model_fcn.load_state_dict(self.model_data)
+        except Exception:
+            self.model_fcn.load_state_dict(self.model_data['model_state_dict'])
+        self.mean_bgr = np.array([104.00698793, 116.66876762, 122.67891434])
 
         # # U-Net setting
         # self.model_uNet = tf.keras.models.load_model('./cctv/UNet_0823_newdataset_pat10.h5')
