@@ -1,10 +1,10 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from cctv.modeling.sync_batchnorm.batchnorm import SynchronizedBatchNorm2d
-from cctv.modeling.aspp import build_aspp
-from cctv.modeling.decoder import build_decoder
-from cctv.modeling.backbone import build_backbone
+from cctv.DeepLabModeling.sync_batchnorm.batchnorm import SynchronizedBatchNorm2d
+from cctv.DeepLabModeling.aspp import build_aspp
+from cctv.DeepLabModeling.decoder import build_decoder
+from cctv.DeepLabModeling.backbone import build_backbone
 
 class DeepLab(nn.Module):
     def __init__(self, backbone='resnet', output_stride=16, num_classes=21,

@@ -1,4 +1,4 @@
-from cctv.modeling.backbone import resnet, xception, drn, mobilenet
+from cctv.DeepLabModeling.backbone import resnet, xception, drn, mobilenet
 
 def build_backbone(backbone, output_stride, BatchNorm):
     if backbone == 'resnet':
