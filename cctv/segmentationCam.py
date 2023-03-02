@@ -15,7 +15,7 @@ import torchfcn
 import tensorflow as tf
 
 # DeepLab
-from cctv.modeling.deeplab import *
+from cctv.DeepLabModeling.deeplab import *
 from torchvision import transforms
 
 #crop
@@ -37,7 +37,7 @@ class SegmentationModels(object):
             # FCN setting
             self.model_fcn = torchfcn.models.FCN8s(n_class=2)
             self.model_fcn.eval()
-            self.model_data = torch.load('./cctv/FCN_model_best.pth.tar',map_location=self.device) #model file 위치
+            self.model_data = torch.load('./cctv/trainedModels/FCN_model_best.pth.tar',map_location=self.device) #model file 위치
             try:
                 self.model_fcn.load_state_dict(self.model_data)
             except Exception:
@@ -51,7 +51,7 @@ class SegmentationModels(object):
                         output_stride = 16,
                         sync_bn = False,
                         freeze_bn = False)
-            checkpoint_deeplab = torch.load('./cctv/DeepLab_model_best.pth.tar' ,map_location=self.device)
+            checkpoint_deeplab = torch.load('./cctv/trainedModels/DeepLab_model_best.pth.tar' ,map_location=self.device)
             self.model_deep.load_state_dict(checkpoint_deeplab['state_dict'])
             self.model_deep.eval()
             self.composed_transforms = transforms.Compose([
@@ -59,7 +59,7 @@ class SegmentationModels(object):
                 transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))])
         elif self.modelName == "U_Net": 
             # U-Net setting
-            self.model_uNet = tf.keras.models.load_model('./cctv/UNet_0823_newdataset_pat10.h5')
+            self.model_uNet = tf.keras.models.load_model('./cctv/trainedModels/UNet_0823_newdataset_pat10.h5')
             pass
         else :
             print("SegmentationCam.py __init__ 에서 어느 모델도 초기화 X") 
