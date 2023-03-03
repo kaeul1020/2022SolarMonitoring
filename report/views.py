@@ -85,4 +85,5 @@ class report(LoginRequiredMixin, TemplateView):
         # queryset_float = float(queryset.values)
 
         context['datas'] = json.dumps(list(queryset), cls=DecimalEncoder)
+        context['status_box'] = status
         return context
