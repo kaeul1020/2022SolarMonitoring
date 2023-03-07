@@ -1,12 +1,12 @@
 from django.urls import path
-from . import views as index_view
+from . import views as home_view
 
 
 app_name = 'home'
-
+home_data = home_view.home()
 
 urlpatterns=[
-    path('', index_view.home.as_view(template_name='home/index.html'), name='home'),
+    path('', home_data.datas, name='home'),
 ]
 
 

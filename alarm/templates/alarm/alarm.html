@@ -7,7 +7,7 @@
         <div class = "card h-100-auto">
             <div class = "card-header">
                 <h3 class = "card-title">
-                    현재 상황
+                    확인하지 않은 알림
                 </h3>
             </div>
             <div class = "card-body " >
@@ -42,33 +42,7 @@
             </div>
             <div class = "card-body" style="height: 600px;">
                 <div class = "alarm-timeline-scroll" >
-                    <div class = "timeline">
-                        {% for timeline in timelines%}
-                        <div>
-                            <i class = "{{timeline.icon_class}} {{timeline.color}}"></i>
-                            <div class="timeline-item mb-2">
-                                <p class = "timeline-header col-12">
-                                    <span class="mr-2 text-bold text-light ">
-                                        {{timeline.title}}
-                                    </span>
-                                    <span class="time float-right">
-                                        <i class = "far fa-clock mr-1 small"></i>
-                                        {{timeline.time}}
-                                    </span>
-                                </p>
-
-                                <div class="timeline-body">
-                                    {{timeline.content}}
-                                </div>
-                                {% if timeline.more_info %}
-                                <div class = "timeline-footer">
-                                    <a href="{{timeline.herf}}"  >더보기 <i class="fas fa-arrow-circle-right ml-1"></i></a>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
+                    {% include 'alarm/timeline.html'%}
                 </div>
             </div>
         </div>
