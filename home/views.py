@@ -1,10 +1,10 @@
-from django.shortcuts import render
-
 from django.contrib.auth import authenticate
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
+from alarm.models import AlarmModel
+from django.contrib.auth.models import User
 
 status= [
     { "title": "현재 발전량", "value": "672", "unit": "kW", "icon_class": "fas fa-bolt" },
@@ -15,15 +15,14 @@ status= [
     { "title": "누적 수익", "value": "67,200", "unit": "원", "icon_class": "fas fa-hand-holding-usd" },
 ]
 
-
-
 class home(LoginRequiredMixin, TemplateView):
     login_url = settings.LOGIN_URL
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['status_box'] = status
-        return context
+    def datas(self,request):
+        username = request.user
+        user = User.objects.get(username = username)
+        timelines = AlarmModel.objects.filter(user_id = user.id).order_by('-time')
+        return render(request, 'home/index.html',{'status_box':status,'timelines' : timelines})
 
 
 

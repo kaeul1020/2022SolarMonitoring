@@ -18,4 +18,4 @@ class alarm(LoginRequiredMixin,TemplateView):
             now.save()
         '''
         timelines = AlarmModel.objects.filter(user_id = user.id).order_by('-time')
-        return render(request,'alarm/alarm.html',{'nows':nows ,'timelines' : timelines})
+        return render(request,'alarm/alarm.html',{'nows':nows,'timelines' : timelines})
