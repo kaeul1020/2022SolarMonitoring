@@ -115,13 +115,27 @@ DATABASES = {
    }
    ,
     'test1': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'master',
-    'USER': 'external',
-    'PASSWORD': '1234',
-    'HOST': '203.255.67.231',
-    'PORT': '11433',
-}
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'master',
+        'USER': 'external',
+        'PASSWORD': '1234',
+        'HOST': '203.255.67.231',
+        'PORT': '11433',
+    }
+    ,
+    'powgen':{
+        'ENGINE' : 'sql_server.pyodbc',
+        'NAME' : '_dy_cbu_5.0',
+        'HOST' : '115.94.191.213,40001',
+        'USER' : 'cbnu',
+        'PASSWORD' : 'cbnu1234',
+        'driver' : 'SQL Server',
+        'OPTIONS': {
+           'driver': 'ODBC Driver 17 for SQL Server',
+           'host_is_server': True,
+           'unicode_results': True,
+       }
+    }
 }
 
 DATABASE_ROUTERS = ['pow_gen.dbrouter.MultiDBRouter']
