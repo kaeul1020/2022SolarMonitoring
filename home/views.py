@@ -4,16 +4,20 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from alarm.models import AlarmModel
-from pow_gen.models import ModuleData
+from pow_gen.models import ModuleData as predict
+from .models import ModuleData as gen
 from django.contrib.auth.models import User
+from django.db.models import Sum,Q
+from datetime import date,timedelta
+
 
 status_value= [
-    { "title": "현재 발전량", "value": "672", "unit": "kW", "icon_class": "fas fa-bolt" },
-    { "title": "누적 발전량", "value": "3,000", "unit": "MWh", "icon_class": "fas fa-battery-full" },
-    { "title": "발전 시간", "value": "10", "unit": "시간", "icon_class": "fas fa-clock" },
-    { "title": "발전 최적 시간대", "value": "11 ~ 15", "unit": "시", "icon_class": "fas fa-stopwatch" },
-    { "title": "수익", "value": "1,000", "unit": "원", "icon_class": "fas fa-coins" },
-    { "title": "누적 수익", "value": "67,200", "unit": "원", "icon_class": "fas fa-hand-holding-usd" },
+    { "title": "현재 발전량", "value": "", "unit": "kW", "icon_class": "fas fa-bolt" },
+    { "title": "금일 예측 발전량", "value": "", "unit": "kW", "icon_class": "fas fa-battery-full" },
+    { "title": "누적 발전량", "value": "", "unit": "kWh", "icon_class": "fas fa-clock" },
+    { "title": "발전시간", "value": "", "unit": "시간", "icon_class": "fas fa-stopwatch" },
+    { "title": "전일 대비 발전량", "value": "", "unit": "kW", "icon_class": "fas fa-coins" },
+    { "title": "발전 효율", "value": "", "unit": "%", "icon_class": "fas fa-hand-holding-usd" },
 ]
 
 class home(LoginRequiredMixin, TemplateView):
@@ -23,12 +27,27 @@ class home(LoginRequiredMixin, TemplateView):
         username = request.user
         user = User.objects.get(username = username)
         timelines = AlarmModel.objects.filter(user_id = user.id).order_by('-time')
+        status_value = self.get_status()
         return render(request, 'home/index.html',{'status_box' : status_value ,'timelines' : timelines})
     
-    def status(self,request):
-        return render(request, 'home/components/status_box.html',{'status_box':status_value})
+    def get_status(self):
 
+        nowgen = gen.objects.order_by('-dt','-dt_hour').first()
+        status_value[0]['title'] += '\t ('+str(nowgen.dt_hour) + '시)'
+        status_value[0]['value'] = round(nowgen.dc_kw1 + nowgen.dc_kw2 + nowgen.dc_kw3 + nowgen.dc_kw4,2)
 
+        cumulative_powgen = gen.objects.filter(dt=date.today()).aggregate(Sum('dc_kw1'),Sum('dc_kw2'),Sum('dc_kw3'),Sum('dc_kw4'))
+        status_value[2]['value'] = round(sum(cumulative_powgen.values()),1)
+
+        gen_time = gen.objects.filter(Q(dt=date.today()) & ((~Q(dc_kw1=0)) | ~Q(dc_kw2=0) | ~Q(dc_kw3=0) | ~Q(dc_kw4=0))).count()
+        status_value[3]['value'] = gen_time
+
+        yesterday = date.today() - timedelta(1)
+        yesterday_powgen = gen.objects.filter(dt=yesterday).aggregate(Sum('dc_kw1'),Sum('dc_kw2'),Sum('dc_kw3'),Sum('dc_kw4'))
+        diff = round(sum(cumulative_powgen.values()) - sum(yesterday_powgen.values()),2)
+        status_value[4]['value'] = diff
+
+        return status_value
 
 
 

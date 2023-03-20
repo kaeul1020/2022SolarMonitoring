@@ -8,6 +8,30 @@
 from django.db import models
 
 
+class ModuleData(models.Model):
+    sl_id = models.SmallIntegerField()
+    item_no = models.SmallIntegerField()
+    dt = models.CharField(max_length=10)
+    dt_hour = models.SmallIntegerField(primary_key=True)
+    dc_vol1 = models.FloatField(blank=True, null=True)
+    dc_cur1 = models.FloatField(blank=True, null=True)
+    dc_kw1 = models.FloatField(blank=True, null=True)
+    dc_vol2 = models.FloatField(blank=True, null=True)
+    dc_cur2 = models.FloatField(blank=True, null=True)
+    dc_kw2 = models.FloatField(blank=True, null=True)
+    dc_vol3 = models.FloatField(blank=True, null=True)
+    dc_cur3 = models.FloatField(blank=True, null=True)
+    dc_kw3 = models.FloatField(blank=True, null=True)
+    dc_vol4 = models.FloatField(blank=True, null=True)
+    dc_cur4 = models.FloatField(blank=True, null=True)
+    dc_kw4 = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False  # Created from a view. Don't remove.
+        app_label = "powgen"
+        db_table = 'module_data'
+
+
 class ThModuleMinute(models.Model):
     sl_id = models.SmallIntegerField()
     item_no = models.SmallIntegerField()
@@ -27,5 +51,5 @@ class ThModuleMinute(models.Model):
 
     class Meta:
         managed = False  # Created from a view. Don't remove.
-        app_label = 'powgen'
+        app_label = "powgen"
         db_table = 'th_module_minute'
