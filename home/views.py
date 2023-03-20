@@ -33,7 +33,7 @@ class home(LoginRequiredMixin, TemplateView):
     def get_status(self):
 
         nowgen = gen.objects.order_by('-dt','-dt_hour').first()
-        status_value[0]['title'] += '\t ('+str(nowgen.dt_hour) + '시)'
+        status_value[0]['title'] = '현재 발전량 \t ('+str(nowgen.dt_hour) + '시)'
         status_value[0]['value'] = round(nowgen.dc_kw1 + nowgen.dc_kw2 + nowgen.dc_kw3 + nowgen.dc_kw4,2)
 
         cumulative_powgen = gen.objects.filter(dt=date.today()).aggregate(Sum('dc_kw1'),Sum('dc_kw2'),Sum('dc_kw3'),Sum('dc_kw4'))
