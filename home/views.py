@@ -20,6 +20,13 @@ status_value= [
     { "title": "발전 효율", "value": "", "unit": "%", "icon_class": "fas fa-hand-holding-usd" },
 ]
 
+cctv_value = [
+    { "cctv_num" : 0, "im_src" : "/static/cctv_images/PanelImageSample.jpg","soiling_type" : "모래", "soiling_area" : "25%" , "active" : "active"},
+    { "cctv_num" : 1, "im_src" : "/static/cctv_images/PanelImageSample_1.jpg","soiling_type" : "새똥", "soiling_area" : "17%", "active" : ""},
+    { "cctv_num" : 2, "im_src" : "/static/cctv_images/PanelImageSample_2.jpg","soiling_type" : "꽃가루", "soiling_area" : "75%", "active" : ""},
+    { "cctv_num" : 3, "im_src" : "/static/cctv_images/PanelImageSample_3.jpg","soiling_type" : "꽃가루", "soiling_area" : "5%", "active" : ""}
+]
+
 class home(LoginRequiredMixin, TemplateView):
     login_url = settings.LOGIN_URL
 
@@ -28,7 +35,7 @@ class home(LoginRequiredMixin, TemplateView):
         user = User.objects.get(username = username)
         timelines = AlarmModel.objects.filter(user_id = user.id).order_by('-time')
         status_value = self.get_status()
-        return render(request, 'home/index.html',{'status_box' : status_value ,'timelines' : timelines})
+        return render(request, 'home/index.html',{'status_box' : status_value ,'timelines' : timelines , 'cctv' : cctv_value})
     
     def get_status(self):
 
