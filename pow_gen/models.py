@@ -33,3 +33,19 @@ class ModuleData(models.Model):
         managed = False
         app_label = "test1"
         db_table = 'module_data'
+
+class MonitoringDataset(models.Model):
+    date = models.DateTimeField()
+    year = models.IntegerField()
+    month = models.IntegerField()
+    day = models.IntegerField()
+    hour = models.IntegerField()
+    y = models.DecimalField(db_column='Y', max_digits=20, decimal_places=15)  # Field name made lowercase.
+    pred_y = models.DecimalField(db_column='pred_Y', max_digits=20, decimal_places=15)  # Field name made lowercase.
+    facility_utilization_rate = models.DecimalField(db_column='Facility_utilization_rate', max_digits=20, decimal_places=15)  # Field name made lowercase.
+    error_rate = models.DecimalField(max_digits=20, decimal_places=15)
+
+    class Meta:
+        managed = False
+        app_label = "test1"
+        db_table = 'monitoring_dataset'

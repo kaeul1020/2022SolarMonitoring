@@ -7,12 +7,12 @@ import json
 from decimal import Decimal
 
 status= [
-    { "title": "현재 날짜","id":"today", "value": "", "unit": "", "icon_class": "fas fa-calendar-alt" },
-    { "title": "현재 시간","id":"todayclock", "value": "", "unit": "", "icon_class": "fas fa-clock" },
-    { "title": "현재 발전량", "id":"power","value": "", "unit": "", "icon_class": "fas fa-bolt" },
+    { "title": "현재 발전량","id":"power", "value": "", "unit": "", "icon_class": "fas fa-calendar-alt" },
+    { "title": "금일 누적 발전량","id":"", "value": "", "unit": "", "icon_class": "fas fa-clock" },
+    { "title": "금일 예측 발전량", "id":"power","value": "", "unit": "", "icon_class": "fas fa-bolt" },
     { "title": "발전 시간", "id":"time","value": "", "unit": "", "icon_class": "fas fa-clock" },
-    { "title": "누적 발전량", "id":"happower","value": "", "unit": "", "icon_class": "fas fa-solar-panel" },
-    { "title": "수익", "id":"","value": "79,000", "unit": "원", "icon_class": "fas fa-money-bill-alt" },
+    { "title": "발전 효율", "id":"","value": "80", "unit": "%", "icon_class": "fas fa-solar-panel" },
+    { "title": "예측 정확도", "id":"","value": "95", "unit": "%", "icon_class": "fas fa-money-bill-alt" },
 ]
 
 class DecimalEncoder(json.JSONEncoder):
