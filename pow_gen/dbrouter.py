@@ -1,6 +1,6 @@
 class MultiDBRouter(object):
     def __init__(self):
-        self.model_list = ['default', 'test1']
+        self.model_list = ['default', 'test1','powgen']
 
     """
     user_data 앱의 모델을 조회하는 경우 users_db로 중계한다.
