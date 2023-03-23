@@ -47,12 +47,7 @@
     wheelY: "zoomX",
     layout: root.verticalLayout
   }));
-  
-  // Add scrollbar
-  // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-  chart.set("scrollbarX", am5.Scrollbar.new(root, {
-    orientation: "horizontal"
-  }));
+
   
   var data = [{
     "time": "03/21 06",
@@ -168,22 +163,19 @@
     valueYField: "pred",
     categoryXField: "time",
     clustered: false,
-    tooltip: am5.Tooltip.new(root, {
-      labelText: "예측 발전량: {valueY}"
-    })
   }));
   
   series0.columns.template.setAll({
     width: am5.percent(80),
     tooltipY: 0,
-    strokeOpacity: 0,
+    strokeOpacity: 1,
+    strokeDasharray: 4,
     fillOpacity: 0.5,
   });
 
-  series0.set("fill", am5.color(0x297373));
+  series0.set("fill", am5.color("#31C28E"));
   
   series0.data.setAll(data);
-  
   
   var series1 = chart.series.push(am5xy.ColumnSeries.new(root, {
     name: "발전량",
@@ -191,19 +183,16 @@
     yAxis: yAxis,
     valueYField: "actual",
     categoryXField: "time",
-    clustered: false,
-    tooltip: am5.Tooltip.new(root, {
-      labelText: "실제 발전량: {valueY}"
-    })
+    clustered: false
   }));
   
   series1.columns.template.setAll({
     width: am5.percent(50),
     tooltipY: 0,
-    strokeOpacity: 0
+    strokeOpacity: 0,
   });
   
-  series1.set("fill", am5.color(0x29734));
+  series1.set("fill", am5.color("#4FA4C0"));
 
   series1.data.setAll(data);
   
@@ -219,14 +208,14 @@
 
   legend.data.setAll([{
     name: "예측 발전량",
-    color: am5.color(0x297373)
+    color: am5.color("#31C28E")
   }, {
     name: "실제 발전량",
-    color: am5.color(0x29734)
+    color: am5.color("#4FA4C0")
   }]);
 
-  legend.get("renderer").labels.template.setAll({
-  fill: root.interfaceColors.get("alternativeText")
+  legend.labels.template.setAll({
+  fill: am5.color("#FFF")
   });
   
   
