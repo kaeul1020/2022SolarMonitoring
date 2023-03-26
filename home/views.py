@@ -4,7 +4,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from alarm.models import AlarmModel
-from pow_gen.models import ModuleData as predict
+from pow_gen.models import MonitoringDataset as predict
 from .models import ModuleData as gen
 from django.contrib.auth.models import User
 from django.db.models import Sum,Q
@@ -35,7 +35,8 @@ class home(LoginRequiredMixin, TemplateView):
         user = User.objects.get(username = username)
         timelines = AlarmModel.objects.filter(user_id = user.id).order_by('-time')
         status_value = self.get_status()
-        return render(request, 'home/index.html',{'status_box' : status_value ,'timelines' : timelines , 'cctv' : cctv_value})
+        pred_data = self.graph_status()
+        return render(request, 'home/index.html',{'status_box' : status_value ,'timelines' : timelines , 'cctv' : cctv_value , 'pred_data' : pred_data})
     
     def get_status(self):
 
@@ -55,6 +56,18 @@ class home(LoginRequiredMixin, TemplateView):
         status_value[4]['value'] = diff
 
         return status_value
+    
+    def graph_status(self):
+
+        pred_data = []
+        pred = predict.objects.filter(year = 2022 , month = 6, day = 7)
+        
+        for p in pred:
+            if p.hour >= 6 and p.hour <= 21:
+                pred_data.append({"time" : p.hour, "pred" : float(p.pred_y), "actual" : float(p.y)})
+        
+        return pred_data
+    
 
 
 
