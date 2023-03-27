@@ -25,7 +25,7 @@
 
     let data4 = JSON.parse("{{ datas|escapejs }}");
     
-    pow = (parseFloat(data4[data4.length-1]['dc_kw1']) + parseFloat(data4[data4.length-1]['dc_kw2']) + parseFloat(data4[data4.length-1]['dc_kw3']))
+    pow = (parseFloat(data4[data4.length-1]['dc_kw1']) + parseFloat(data4[data4.length-1]['dc_kw2']) + parseFloat(data4[data4.length-1]['dc_kw3'])) + parseFloat(data4[data4.length-1]['dc_kw4'])
     pow = pow.toFixed(3)
     const Cl3 = document.getElementById("power")
     Cl3.innerText = pow + ' kw'
@@ -35,35 +35,26 @@
 <script>
 
     let data5 = JSON.parse("{{ datas|escapejs }}");
-    
+    var mydate = new Date()
+    var year = mydate.getFullYear()
+    var month = mydate.getMonth() +1
+    var date = mydate.getDate()
+    d = String(year) + "-" + String(month).padStart(2, "0") + "-" + String(date)
+    var index = data5.findIndex(e => e.dt === d);
     t = 0
-    for (let i = data5.length-12; i < data5.length; i++) {
-        n1 = parseFloat(data5[i]['dc_kw1'])
-        n2 = parseFloat(data5[i]['dc_kw2'])
-        n3 = parseFloat(data5[i]['dc_kw3'])
-        n = (n1 + n2 + n3).toFixed(3)
-        if (n > 0) {
-            t += 1
-        }
+    for (let i = 0; i < data5.length; i++) {
+        if (data5[i]['dt'] == d & data5[i]['dt_hour'] >= 6 & data5[i]['dt_hour'] <= 21)
+            data5[i]['actual'] = parseFloat(data5[i]['dc_kw1'])+ parseFloat(data5[i]['dc_kw2']) + parseFloat(data5[i]['dc_kw3']) + parseFloat(data5[i]['dc_kw4'])
+    }
+    data5.splice(0, index + 6)
+    hap = 0
+    t = 0
+    for (let i = 0; i < data5.length; i++) {
+        hap += data5[i]['actual']
+        t ++
     }
     const Cl4 = document.getElementById("time")
-    Cl4.innerText = t + ' 시간'
-
-</script>
-
-<script>
-
-    let data6 = JSON.parse("{{ datas|escapejs }}");
-    hap = 0
-    for (let i = data6.length-12; i < data6.length; i++) {
-        n1 = parseFloat(data6[i]['dc_kw1'])
-        n2 = parseFloat(data6[i]['dc_kw2'])
-        n3 = parseFloat(data6[i]['dc_kw3'])
-        data6[i]['kw'] = (n1 + n2 + n3).toFixed(3)
-    }
-    for (let i = data6.length-12; i < data6.length; i++) {
-        hap += parseFloat(data6[i]['kw'])
-    }
+    Cl4.innerText = t + " 시간"
     const Cl5 = document.getElementById("happower")
     Cl5.innerText = hap.toFixed(3) + " kw"
 
