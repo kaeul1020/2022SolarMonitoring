@@ -8,4 +8,5 @@ Alarm = alarm_view.alarm()
 
 urlpatterns=[
     path('', Alarm.alarms, name='alarm'),
+    path('delallnow/',Alarm.remove_allnow, name='delallnow')
 ]
