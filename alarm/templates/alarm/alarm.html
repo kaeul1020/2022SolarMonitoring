@@ -9,6 +9,13 @@
                 <h3 class = "card-title">
                     확인하지 않은 알림
                 </h3>
+                <div class = "card-tools">
+                    <button type="button" class = "btn btn-tool">
+                        <a class="text-light" href="delallnow/">
+                            모든 알림 삭제
+                        </a>
+                    </button>
+                </div>
             </div>
             <div class = "card-body " >
                 <div class = "alarm-timeline-scroll" >
@@ -22,9 +29,20 @@
                             <i class="icon {{now.icon_class}}"></i>
                         </div>
                         {% if now.more_info %}
-                        <a href="{{now.herf}}" class="small-box-footer p-2">
-                            더보기 
-                            <i class="fas fa-arrow-circle-right ml-1"></i>
+                        <div class=" footer-container {{now.color}}">
+                            <a href="{{now.herf}}" class="border-ss border-right-3 p-2 small-box-footer-half " >
+                                더보기 
+                                <i class="fas fa-arrow-circle-right ml-1"></i>
+                            </a>
+                            <a  class=" small-box-footer-half p-2" href="delalram/{{now.id}}">
+                                삭제 
+                                <i class="fas fa-trash ml-1"></i>
+                            </a>
+                        </div>
+                        {% else %}
+                        <a class = "small-box-footer p-2" href="delalram/{{now.id}}">
+                            삭제
+                            <i class = "fas fa-trash ml-1"></i>
                         </a>
                         {% endif %}
                     </div>
