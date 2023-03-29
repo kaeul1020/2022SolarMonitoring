@@ -25,3 +25,10 @@ class alarm(LoginRequiredMixin,TemplateView):
             now.save()
         
         return redirect('alarm:alarm')
+    
+    def remove_onenow(self,request,id):
+        del_now = AlarmModel.objects.get(id=id)
+        del_now.now = False
+        del_now.save()
+        
+        return redirect('alarm:alarm')
