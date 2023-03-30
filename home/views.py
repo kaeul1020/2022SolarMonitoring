@@ -8,7 +8,7 @@ from pow_gen.models import MonitoringDataset as predict
 from .models import ModuleData as gen
 from django.contrib.auth.models import User
 from django.db.models import Sum,Q
-from datetime import date,timedelta
+from datetime import date,timedelta,datetime
 
 
 status_value= [
@@ -51,7 +51,7 @@ class home(LoginRequiredMixin, TemplateView):
         status_value[3]['value'] = gen_time
 
         yesterday = date.today() - timedelta(1)
-        yesterday_powgen = gen.objects.filter(dt=yesterday).aggregate(Sum('dc_kw1'),Sum('dc_kw2'),Sum('dc_kw3'),Sum('dc_kw4'))
+        yesterday_powgen = gen.objects.filter(dt=yesterday, dt_hour__range = [0,datetime.now().hour]).aggregate(Sum('dc_kw1'),Sum('dc_kw2'),Sum('dc_kw3'),Sum('dc_kw4'))
         diff = round(sum(cumulative_powgen.values()) - sum(yesterday_powgen.values()))
         status_value[4]['value'] = diff
 
@@ -64,7 +64,7 @@ class home(LoginRequiredMixin, TemplateView):
         
         for p in pred:
             if p.hour >= 6 and p.hour <= 21:
-                pred_data.append({"time" : p.hour, "pred" : float(p.pred_y), "actual" : float(p.y)})
+                pred_data.append({"time" : str(p.hour)+'시', "pred" : float(p.pred_y), "actual" : float(p.y)})
         
         return pred_data
     
