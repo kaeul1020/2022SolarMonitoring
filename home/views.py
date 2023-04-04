@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate
-from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
@@ -30,13 +29,24 @@ cctv_value = [
 class home(LoginRequiredMixin, TemplateView):
     login_url = settings.LOGIN_URL
 
-    def datas(self,request):
-        username = request.user
-        user = User.objects.get(username = username)
-        timelines = AlarmModel.objects.filter(user_id = user.id).order_by('-time')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        timelines = self.alarm_data()
         status_value = self.get_status()
         pred_data = self.graph_status()
-        return render(request, 'home/index.html',{'status_box' : status_value ,'timelines' : timelines , 'cctv' : cctv_value , 'pred_data' : pred_data})
+
+        context['timelines'] = timelines
+        context['status_box'] = status_value
+        context['pred_data'] = pred_data
+        context['cctv'] = cctv_value
+
+        return context
+
+    def alarm_data(self):
+        username = self.request.user
+        user = User.objects.get(username = username)
+        timelines = AlarmModel.objects.filter(user_id = user.id).order_by('-time')
+        return timelines
     
     def get_status(self):
 
