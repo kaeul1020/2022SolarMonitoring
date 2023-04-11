@@ -6343,6 +6343,9 @@ button.bg-dark:hover {
 .border-right {
   border-right: 1px solid #dee2e6 !important;
 }
+.border-right-3 {
+  border-right: 3px solid #dee2e6 !important;
+}
 .border-bottom {
   border-bottom: 1px solid #dee2e6 !important;
 }
@@ -6387,6 +6390,9 @@ button.bg-dark:hover {
 }
 .border-dark {
   border-color: #343a40 !important;
+}
+.border-ss {
+  border-color: rgba(0, 0, 0, 0.2) !important;
 }
 .border-white {
   border-color: #fff !important;
@@ -19729,10 +19735,33 @@ a.disabled.mailbox-attachment-close {
   text-decoration: none;
   z-index: 10;
 }
+
+.small-box > .footer-container {
+  display : flex
+}
+
+.small-box > .footer-container > .small-box-footer-half {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  padding: 3px 0;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  z-index: 10;
+  width: 50%
+}
+
 .small-box > .small-box-footer:hover {
   background-color: rgba(0, 0, 0, 0.15);
   color: #fff;
 }
+
+.small-box > .small-box-footer-half:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+  color: #fff;
+}
+
 .small-box h3 {
   font-size: 2.2rem;
   font-weight: 700;

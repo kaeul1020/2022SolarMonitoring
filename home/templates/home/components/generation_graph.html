@@ -13,80 +13,257 @@
             </div>
         </div>
         <div class = "card-body">
-            <div class = "chart">
-                <canvas id ="lineChart" height="350"></canvas>
+            <div id = "chartdiv">
             </div>
         </div>
     </div>
-<script src="/static/admin-lte/plugins/jquery/jquery.min.js"></script>
-<script src="/static/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/static/admin-lte/plugins/chart.js/Chart.min.js"></script>
-<script src="/static/admin-lte/dist/js/demo.js"></script>
+<!-- Styles -->
 
-<script>
-    $(function () {
-
-        var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
-        
-        var lineChartData = {
-        labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-            {
-            label               : '예측 발전량',
-            fill                : false,
-            backgroundColor     : 'rgba(60,141,188,1)',
-            borderColor         : 'rgba(60,141,188,1)',
-            pointRadius          : false,
-            pointColor          : '#3b8bba',
-            pointStrokeColor    : 'rgba(60,141,188,1)',
-            pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(60,141,188,1)',
-            data                : [520, 480, 550, 570, 600, 610, 650]
-            },
-            {
-            label               : '실제 발전량',
-            fill                : false,
-            backgroundColor     : 'rgba(210, 214, 222, 1)',
-            borderColor         : 'rgba(210, 214, 222, 1)',
-            pointRadius         : false,
-            pointColor          : 'rgba(210, 214, 222, 1)',
-            pointStrokeColor    : '#c1c7d1',
-            pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(220,220,220,1)',
-            data                : [480, 420, 500, 560, 540, 590, 620]
-            },
-        ]
-        }
-
-        var lineChartOptions = {
-        maintainAspectRatio : false,
-        responsive : true,
-        legend: {
-            display: true,
-            position : 'bottom',
-            align : 'end',
-            labels: {
-                fontColor : "white"
-            }
-        },
-        scales: {
-            xAxes: [{
-            gridLines : {
-                display : false,
-            }
-            }],
-            yAxes: [{
-            gridLines : {
-                display : false,
-            }
-            }]
-        }
-        }
-
-        new Chart(lineChartCanvas, {
-        type: 'line',
-        data: lineChartData,
-        options: lineChartOptions
-        })
+<style>
+    #chartdiv {
+      width: 100%;
+      height: 350px;
+    }
+    </style>
+    
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    
+    <!-- Chart code -->
+    <script>
+    am5.ready(function() {
+    
+    // Create root element
+    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+    var root = am5.Root.new("chartdiv");
+    
+    // Set themes
+    // https://www.amcharts.com/docs/v5/concepts/themes/
+    root.setThemes([
+      am5themes_Animated.new(root)
+    ]);
+    
+    // Create chart
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/
+    var chart = root.container.children.push(am5xy.XYChart.new(root, {
+      panX: false,
+      panY: false,
+      wheelX: "none",
+      wheelY: "none",
+      layout: root.verticalLayout
+    }));
+  
+    var data = "{{pred_data}}".replace(/&#39;/g, "\"");
+    data = JSON.parse(data);
+    //console.log(data)
+    // var data = [{
+    //   "time": "06",
+    //   "pred": 3.5,
+    //   "actual": 4.2
+    // }, {
+    //   "time": "07",
+    //   "pred": 1.7,
+    //   "actual": 3.1
+    // }, {
+    //   "time": "08",
+    //   "pred": 2.8,
+    //   "actual": 2.9
+    // }, {
+    //   "time": "09",
+    //   "pred": 2.6,
+    //   "actual": 2.3
+    // }, {
+    //   "time": "10",
+    //   "pred": 1.4,
+    //   "actual": 2.1
+    // }, {
+    //   "time": "11",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "12",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "13",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "14",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "15",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "16",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "17",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "18",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "19",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "20",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }, {
+    //   "time": "21",
+    //   "pred": 2.6,
+    //   "actual": 4.9
+    // }];
+  
+    // Create axes
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+    var xRenderer = am5xy.AxisRendererX.new(root, {
+      minGridDistance: 10
+    });
+    
+    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+      categoryField: "time",
+      renderer: xRenderer,
+    }));
+  
+    root.interfaceColors.set("grid", am5.color("#fff"));
+    
+    xRenderer.grid.template.setAll({
+      location: 1
     })
-</script>
+    
+    xAxis.data.setAll(data);
+  
+    xAxis.get("renderer").labels.template.setAll({
+    fill: root.interfaceColors.get("alternativeText")
+    });
+    
+    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+      min: 0,
+      renderer: am5xy.AxisRendererY.new(root, {
+        strokeOpacity: 0.1
+      })
+    }));
+  
+    yAxis.get("renderer").labels.template.setAll({
+    fill: root.interfaceColors.get("alternativeText")
+    });
+    
+    // Add series
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+
+    var tooltip_pred = am5.Tooltip.new(root, {
+      getFillFromSprite: false,
+      getStrokeFromSprite: true,
+      autoTextColor: false,
+      getLabelFillFromSprite: true,
+      keepTargetHover: true,
+      labeltextAlign:"middle",
+      labelText: "[bold]{name}[/] \n{valueY}"
+    });
+
+    tooltip_pred.get("background").setAll({
+      fill: am5.color(0x343a40),
+      fillOpacity: 0.8
+    });
+
+    var tooltip_gen = am5.Tooltip.new(root, {
+      getFillFromSprite: false,
+      getStrokeFromSprite: true,
+      autoTextColor: false,
+      getLabelFillFromSprite: true,
+      keepTargetHover: true,
+      labelText: "[bold]{name}[/] \n {valueY}"
+    });
+
+    tooltip_gen.get("background").setAll({
+      fill: am5.color(0x343a40),
+      fillOpacity: 0.8
+    });
+    
+    var series0 = chart.series.push(am5xy.ColumnSeries.new(root, {
+      name: "예측발전량",
+      xAxis: xAxis,
+      yAxis: yAxis,
+      valueYField: "pred",
+      categoryXField: "time",
+      clustered: false,
+      tooltip: tooltip_pred
+    }));
+    
+    series0.columns.template.setAll({
+      width: am5.percent(80),
+      tooltipText: "{name} \n {valueY}",
+      tooltipY: 0,
+      strokeOpacity: 1,
+      strokeDasharray: 4,
+      fillOpacity: 0.5,
+    });
+  
+    series0.set("fill", am5.color("#31C28E"));
+    
+    series0.data.setAll(data);
+    
+    console.log(series0.data)
+    var series1 = chart.series.push(am5xy.ColumnSeries.new(root, {
+      name: "실제발전량",
+      xAxis: xAxis,
+      yAxis: yAxis,
+      valueYField: "actual",
+      categoryXField: "time",
+      clustered: false,
+      tooltip: tooltip_gen
+    }));
+    
+    series1.columns.template.setAll({
+      width: am5.percent(50),
+      tooltipText: "{name} \n {valueY}",
+      tooltipY: 0,
+      strokeOpacity: 0
+    });
+    
+    series1.set("fill", am5.color("#4FA4C0"));
+  
+    series1.data.setAll(data);
+    
+    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+  
+    var legend = chart.children.push(am5.Legend.new(root, {
+    nameField: "name",
+    fillField: "color",
+    strokeField: "color",
+    centerX: am5.percent(50),
+    x: am5.percent(50)
+    }));
+  
+    legend.data.setAll([{
+      name: "예측 발전량",
+      color: am5.color("#31C28E")
+    }, {
+      name: "실제 발전량",
+      color: am5.color("#4FA4C0")
+    }]);
+  
+    legend.labels.template.setAll({
+    fill: am5.color("#FFF")
+    });
+    
+    
+    // Make stuff animate on load
+    // https://www.amcharts.com/docs/v5/concepts/animations/
+    chart.appear(1000, 100);
+    series0.appear();
+    series1.appear();
+    
+    }); // end am5.ready()
+    </script>
+    
