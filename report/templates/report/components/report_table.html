@@ -2,7 +2,7 @@
 <div class = "card">
     <div class = "card-header">
         <h3 class = "card-title">
-            과거 발전량 데이터
+            발전량 데이터
         </h3>
     </div>
     <div class = "card-body">
@@ -21,7 +21,8 @@
         n1 = parseFloat(data[i]['dc_kw1'])
         n2 = parseFloat(data[i]['dc_kw2'])
         n3 = parseFloat(data[i]['dc_kw3'])
-        data[i]['시간당 발전량 (kw)'] = (n1 + n2 + n3).toFixed(3)
+        n4 = parseFloat(data[i]['dc_kw4'])
+        data[i]['시간당 발전량 (kw)'] = (n1 + n2 + n3 + n4).toFixed(3)
     }
 
     for (let i = 0; i < data.length; i++) {
@@ -30,6 +31,7 @@
         delete data[i].dc_kw1
         delete data[i].dc_kw2
         delete data[i].dc_kw3
+        delete data[i].dc_kw4
     }
 
     let fields = [] 

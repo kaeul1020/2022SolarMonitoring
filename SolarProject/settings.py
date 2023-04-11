@@ -61,8 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pow_gen',
-    'alarm',
-    'predict'
+    'alarm'
 ]
 
 MIDDLEWARE = [

@@ -6,10 +6,6 @@
             </h3>
         </div>
         <div class = "card-body">
-            <div id = "chartdiv">
-            </div>
-        </div>
-    </div>
 
 <!-- Styles -->
 <style>
@@ -54,7 +50,7 @@
   var year = mydate.getFullYear()
   var month = mydate.getMonth() +1
   var date = mydate.getDate()
-  d = String(year) + "-" + String(month).padStart(2, "0") + "-" + String(date)
+  d = String(year) + "-" + String(month).padStart(2, "0") + "-" + String(date).padStart(2, "0")
 
   var index = data.findIndex(e => e.dt === d);
 
@@ -65,94 +61,54 @@
       data[i]['actual'] = parseFloat(data[i]['dc_kw1'])+ parseFloat(data[i]['dc_kw2']) + parseFloat(data[i]['dc_kw3']) + parseFloat(data[i]['dc_kw4'])
       // data[i]['actual'] = data[i]['dt_hour']
   }
+  h = mydate.getHours()
 
-  data.splice(0, index + 6)
+  // y_forecast = model.preict(x_test)
 
   pred_example = [10, 360, 750, 1000, 1200, 1220, 1400, 1200, 1120, 760, 470, 310, 115, 0, 0, 0]
   sol_rad_example = [0, 10, 30, 50, 90, 120, 200, 230, 200, 200, 170, 60, 10, 0, 0, 0]
 
-  for (let i = 0; i < data.length; i++) {
-      delete data[i].dt
-      // delete data[i].dt_hour
-      delete data[i].dc_kw1
-      delete data[i].dc_kw2
-      delete data[i].dc_kw3
-  }
+  if (h >= 6) {
+    data.splice(0, index +6)
+    
+    for (let i = 0; i < data.length; i++) {
+        delete data[i].dt
+        // delete data[i].dt_hour
+        delete data[i].dc_kw1
+        delete data[i].dc_kw2
+        delete data[i].dc_kw3
+        delete data[i].dc_kw4
+    }
 
-  for (let i = parseInt(data[data.length-1]['dt_hour']) + 1; i < 22; i++) {
-      data.push({"time": d + " " + String(i)})
-  }
+    for (let i = parseInt(data[data.length-1]['dt_hour']) + 1; i < 22; i++) {
+        data.push({"time": d + " " + String(i)})
+    }
 
-  for (let i = 0; i < data.length; i++) {
-    data[i]['pred'] = pred_example[i]
-    data[i]['sol_rad'] = sol_rad_example[i]
-  }
+    for (let i = 0; i < data.length; i++) {
+      data[i]['pred'] = pred_example[i]
+      data[i]['sol_rad'] = sol_rad_example[i]
+    }
+} else {
+    data.splice(0, index +h+1)
+    
+    for (let i = 0; i < data.length; i++) {
+        delete data[i].dt
+        // delete data[i].dt_hour
+        delete data[i].dc_kw1
+        delete data[i].dc_kw2
+        delete data[i].dc_kw3
+        delete data[i].dc_kw4
+    }
 
-  // var data = [{
-  //   "time": "03/21 06",
-  //   "pred": 3.5,
-  //   "actual": 4.2
-  // }, {
-  //   "time": "03/21 07",
-  //   "pred": 1.7,
-  //   "actual": 3.1
-  // }, {
-  //   "time": "03/21 08",
-  //   "pred": 2.8,
-  //   "actual": 2.9
-  // }, {
-  //   "time": "03/21 09",
-  //   "pred": 2.6,
-  //   "actual": 2.3
-  // }, {
-  //   "time": "03/21 10",
-  //   "pred": 1.4,
-  //   "actual": 2.1
-  // }, {
-  //   "time": "03/21 11",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 12",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 13",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 14",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 15",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 16",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 17",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 18",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 19",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 20",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }, {
-  //   "time": "03/21 21",
-  //   "pred": 2.6,
-  //   "actual": 4.9
-  // }];
+    for (let i = 6; i < 22; i++) {
+        data.push({"time": d + " " + String(i)})
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      data[i]['pred'] = pred_example[i]
+      data[i]['sol_rad'] = sol_rad_example[i]
+    }
+  }
 
   // Create axes
   // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
@@ -308,10 +264,13 @@
   series2.appear(1000);
   chart.appear(1000, 100);
   series0.appear();
-  series1.appear();
+  // series1.appear();
   
   }); // end am5.ready()
   </script>
   
   <!-- HTML -->
   <div id="chartdiv"></div>
+
+</div>
+</div>

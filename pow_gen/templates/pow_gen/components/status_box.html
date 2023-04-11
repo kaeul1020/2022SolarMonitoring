@@ -39,12 +39,15 @@
     var year = mydate.getFullYear()
     var month = mydate.getMonth() +1
     var date = mydate.getDate()
-    d = String(year) + "-" + String(month).padStart(2, "0") + "-" + String(date)
+    d = String(year) + "-" + String(month).padStart(2, "0") + "-" + String(date).padStart(2, "0")
     var index = data5.findIndex(e => e.dt === d);
     t = 0
     for (let i = 0; i < data5.length; i++) {
         if (data5[i]['dt'] == d & data5[i]['dt_hour'] >= 6 & data5[i]['dt_hour'] <= 21)
             data5[i]['actual'] = parseFloat(data5[i]['dc_kw1'])+ parseFloat(data5[i]['dc_kw2']) + parseFloat(data5[i]['dc_kw3']) + parseFloat(data5[i]['dc_kw4'])
+        if (data5[i]['dt'] == d & data5[i]['dt_hour'] < 6 | data5[i]['dt_hour'] > 21)
+            data5[i]['actual'] = 0
+            // 변경할수도 있는 부분
     }
     data5.splice(0, index + 6)
     hap = 0
@@ -54,7 +57,7 @@
         t ++
     }
     const Cl4 = document.getElementById("time")
-    Cl4.innerText = t + " 시간"
+    Cl4.innerText = (t) + " 시간"
     const Cl5 = document.getElementById("happower")
     Cl5.innerText = hap.toFixed(3) + " kw"
 

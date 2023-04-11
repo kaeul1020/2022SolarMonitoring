@@ -3,25 +3,256 @@
 <div class = "card">
     <div class = "card-header">
         <h3 class = "card-title">
-           과거 발전량 그래프
+            과거 발전량 그래프
         </h3>
     </div>
     <div class = "card-body">
-        <div id = "chartdiv">
-        </div>
-    </div>
-</div>
 
 <!-- Styles -->
 <style>
     #chartdiv {
-      width: 100%;
-      height: 500px;
-      max-width: 100%;
+        width: 100%;
+        height: 500px;
+        max-width: 100%;
     }
 </style>
     
-<!-- chart js -->
-<script src="{% static 'admin-lte\plugins\amcharts\amcharts.js' %}"></script>
+  <!-- Resources -->
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+  
+  <!-- Chart code -->
+  <script>
+  am5.ready(function() {
+  
+  // Create root element
+  // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+  var root = am5.Root.new("chartdiv");
+  
+  // Set themes
+  // https://www.amcharts.com/docs/v5/concepts/themes/
+  root.setThemes([
+    am5themes_Animated.new(root)
+  ]);
+  
+  // Create chart
+  // https://www.amcharts.com/docs/v5/charts/xy-chart/
+  var chart = root.container.children.push(am5xy.XYChart.new(root, {
+    panX: true,
+    panY: false,
+    wheelX: "panX",
+    wheelY: "zoomX",
+    layout: root.verticalLayout
+  }));
 
-    
+  let data = JSON.parse("{{ datas|escapejs }}");
+
+  var mydate = new Date()
+  var year = mydate.getFullYear()
+  var month = mydate.getMonth() +1
+  var date = mydate.getDate()
+  var y_date = mydate.getDate() - 1
+  d = String(year) + "-" + String(month).padStart(2, "0") + "-" + String(date).padStart(2, "0")
+  y_d = String(year) + "-" + String(month).padStart(2, "0") + "-" + String(y_date).padStart(2, "0")
+
+  var index2 = data.findIndex(e => e.dt === d);
+  var index = data.findIndex(e => e.dt === y_d);
+
+  for (let i = 0; i < data.length; i++) {
+    if (data[i]['dt'] == y_d & data[i]['dt_hour'] >= 6 & data[i]['dt_hour'] <= 21)
+      data[i]['date'] = data[i]['dt'] + " " + data[i]['dt_hour']
+      data[i]['time'] = data[i]['date']
+      data[i]['actual'] = parseFloat(data[i]['dc_kw1'])+ parseFloat(data[i]['dc_kw2']) + parseFloat(data[i]['dc_kw3']) + parseFloat(data[i]['dc_kw4'])
+      // data[i]['actual'] = data[i]['dt_hour']
+  }
+  h = mydate.getHours()
+
+  pred_example = [10, 360, 750, 1000, 1200, 1220, 1400, 1200, 1120, 760, 470, 310, 115, 0, 0, 0]
+  sol_rad_example = [0, 10, 30, 50, 90, 120, 200, 230, 200, 200, 170, 60, 10, 0, 0, 0]
+
+data = data.slice(index + 6, index2-2)
+
+for (let i = 0; i < data.length; i++) {
+    delete data[i].dt
+    // delete data[i].dt_hour
+    delete data[i].dc_kw1
+    delete data[i].dc_kw2
+    delete data[i].dc_kw3
+    delete data[i].dc_kw4
+    delete data[i].date
+}
+
+// for (let i = 6; i < 22; i++) {
+//     data.push({"time": y_d + " " + String(i)})
+// }
+
+for (let i = 0; i < data.length; i++) {
+    data[i]['pred'] = pred_example[i]
+    data[i]['sol_rad'] = sol_rad_example[i]
+}
+
+  // Create axes
+  // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+  var xRenderer = am5xy.AxisRendererX.new(root, {
+    minGridDistance: 70
+  });
+  
+  var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+    categoryField: "time",
+    renderer: xRenderer,
+    tooltip: am5.Tooltip.new(root, {
+      themeTags: ["axis"],
+      animationDuration: 200
+    })
+  }));
+
+  root.interfaceColors.set("grid", am5.color("#fff"));
+  
+  xRenderer.grid.template.setAll({
+    location: 1
+  })
+  
+  xAxis.data.setAll(data);
+
+  xAxis.get("renderer").labels.template.setAll({
+  fill: root.interfaceColors.get("alternativeText")
+  });
+  
+  var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+    min: 0,
+    renderer: am5xy.AxisRendererY.new(root, {
+      strokeOpacity: 0.1
+    })
+  }));
+
+  yAxis.get("renderer").labels.template.setAll({
+  fill: root.interfaceColors.get("alternativeText")
+  });
+
+  var yAxis2 = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+    // maxDeviation: 0.3,
+    // syncWithAxis: yAxis,
+    renderer: am5xy.AxisRendererY.new(root, { opposite: true })
+  }));
+
+  yAxis2.get("renderer").labels.template.setAll({
+  fill: root.interfaceColors.get("alternativeText")
+  });
+  
+  // Add series
+  // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+  
+  var series0 = chart.series.push(am5xy.ColumnSeries.new(root, {
+    name: "발전량",
+    xAxis: xAxis,
+    yAxis: yAxis,
+    valueYField: "pred",
+    categoryXField: "time",
+    clustered: false,
+    tooltip: am5.Tooltip.new(root, {
+    labelText: "예측 발전량 : {valueY}"})
+  }));
+  
+  series0.columns.template.setAll({
+    width: am5.percent(80),
+    tooltipY: 0,
+    strokeOpacity: 1,
+    strokeDasharray: 4,
+    fillOpacity: 0.5,
+  });
+
+  series0.set("fill", am5.color("#31C28E"));
+  
+  series0.data.setAll(data);
+  
+  var series1 = chart.series.push(am5xy.ColumnSeries.new(root, {
+    name: "발전량",
+    xAxis: xAxis,
+    yAxis: yAxis,
+    valueYField: "actual",
+    categoryXField: "time",
+    clustered: false,
+    tooltip: am5.Tooltip.new(root, {
+    labelText: "실제 발전량 : {valueY}"})
+  }));
+  
+  series1.columns.template.setAll({
+    width: am5.percent(50),
+    tooltipY: 0,
+    strokeOpacity: 0,
+  });
+  
+  series1.set("fill", am5.color("#4FA4C0"));
+
+  series1.data.setAll(data);
+
+  var series2 = chart.series.push(
+  am5xy.LineSeries.new(root, {
+    name: "일사량",
+    xAxis: xAxis,
+    yAxis: yAxis2,
+    valueYField: "sol_rad",
+    sequencedInterpolation: true,
+    categoryXField: "time",
+    clustered: false,
+    tooltip: am5.Tooltip.new(root, {
+      labelText: "일사량 : {valueY}"
+    })
+  })
+);
+
+  series2.strokes.template.set("strokeWidth", 2);
+  series2.set("fill", am5.color("#CC3333"));
+  series2.bullets.push(function () {
+  return am5.Bullet.new(root, {
+    locationY: 1,
+    locationX: undefined,
+    sprite: am5.Circle.new(root, {
+      radius: 5,
+      fill: lineSeries.get("fill")
+    })
+  });
+});
+  
+  var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+
+  var legend = chart.children.push(am5.Legend.new(root, {
+  nameField: "name",
+  fillField: "color",
+  strokeField: "color",
+  centerX: am5.percent(50),
+  x: am5.percent(50)
+  }));
+
+  legend.data.setAll([{
+    name: "예측 발전량",
+    color: am5.color("#31C28E")
+  }, {
+    name: "실제 발전량",
+    color: am5.color("#4FA4C0")
+  },{
+    name: "일사량",
+    color: am5.color("#CC3333")
+  }]);
+
+  legend.labels.template.setAll({
+  fill: am5.color("#FFF")
+  });
+  
+  
+  // Make stuff animate on load
+  // https://www.amcharts.com/docs/v5/concepts/animations/
+  series2.appear(1000);
+  chart.appear(1000, 100);
+  series0.appear();
+  // series1.appear();
+  
+  }); // end am5.ready()
+  </script>
+  
+  <!-- HTML -->
+  <div id="chartdiv"></div>
+
+</div>
+</div>
