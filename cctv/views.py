@@ -4,15 +4,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import StreamingHttpResponse
 from django.shortcuts import render
 
-
-
+from .apps import CctvConfig
+import time
 from django.http import HttpResponse
 from django.http import JsonResponse
 import json
 
 # 실시간 연결
 from cctv.segmentationCam import StreamingVideoCamera
-from cctv.segmentationCam import StaticSegImage
+# from cctv.segmentationCam import StaticSegImage
 import numpy as np
 from cctv.crop import Crop
 import cv2
@@ -94,7 +94,7 @@ class Screen(object):
     def __init__(self) -> None:
         self.dics = Dics()
         # self.cam = StreamingVideoCamera() #웹캠 호출
-        self.segImage = StaticSegImage()
+        # self.segImage = StaticSegImage()
         self.Crop = Crop()
         pass
 
@@ -129,7 +129,7 @@ class Screen(object):
     """
 
     def setSegImage(self, request, num):
-        pt = self.dics.getLoc(num)
+        pt = self.dics.getLoc(num)  
 
         #cctv 이미지 읽어오기
         img_src ="cctv_images\PanelImageSample.jpg"
@@ -138,14 +138,18 @@ class Screen(object):
         img = cv2.imread(img_path, cv2.IMREAD_COLOR)
 
         #crop + seg 이미지 저장
-        seg = self.segImage.getSeg(img=img, pt=pt)
+        # seg = self.segImage.getSeg(img=img, pt=pt)
+        np_pt = np.array(eval(pt),dtype="float32")
+        frame = self.Crop.getFrame(img,np_pt)
+        seg = CctvConfig.deeplab_model.model(frame)
+
         img_path = (basic_img_path+'cctv_images/11result_seg_'+str(num)+'.png').replace('\\','/')
         cv2.imwrite(img_path, seg["frame"])
         self.dics.setSrc(num, "/static/"+img_path)
 
-        #원본이미지 위에 crop된 위치 표시해주는 이미지 저장
-        np_pt = np.array(eval(pt), dtype = "float32")
-        cv2.imwrite(basic_img_path +'cctv_images/11result_'+str(num)+'.png', self.Crop.drawROI(img,np_pt))
+        #원본이미지 위에 crop된 위치 표시해주는 이미지 저장 (따로 빼서 진행할 수 있는지 확인)
+        #np_pt = np.array(eval(pt), dtype = "float32")
+        #cv2.imwrite(basic_img_path +'cctv_images/11result_'+str(num)+'.png', self.Crop.drawROI(img,np_pt))
 
         #각 패널의 오염면적 저장
         self.dics.setScore(num, seg["score"])
@@ -175,6 +179,7 @@ class Cropper(object):
         if request.is_ajax(): #ajax 방식일 때 아래 코드 실행
             img_src ="cctv_images\PanelImageSample.jpg"
             pt = request.GET.get("pt")
+            num = request.GET.get("num")
 
             basic_img_path = settings.BASE_DIR+ settings.STATIC_URL
             img_path = (basic_img_path+img_src).replace('\\','/')
@@ -183,7 +188,7 @@ class Cropper(object):
 
             np_pt = np.array(eval(pt), dtype = "float32")
 
-            new_src = 'cctv_images/11result.png'
+            new_src = 'cctv_images/11result_'+str(num)+'.png'
             new_crop_src = 'cctv_images/11result_crop.png'
             cv2.imwrite(basic_img_path +new_src, self.Crop.drawROI(img,np_pt))
             cv2.imwrite(basic_img_path +new_crop_src, self.Crop.getFrame(img,np_pt))
@@ -210,15 +215,19 @@ class Cropper(object):
 class cctv(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
+        start = time.time()
         context = super().get_context_data(**kwargs)
         screen = Screen()
         global db_dics
 
+        
         for db_dic in db_dics:
             screen.setSegImage(self.request, num=db_dic["num"])
+    
 
         context['status_box'] = status
         context['db_dics']=db_dics
+        print("CCTV 화면 로드 : ",time.time()-start)
         return context
 
 
