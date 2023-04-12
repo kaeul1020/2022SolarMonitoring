@@ -46,6 +46,8 @@ class SegmentationModels(object):
         elif self.modelName == "DeepLab" :
             # DeepLab setting
             print("DeepLab setting 들어옴")
+            self.model_deep = torch.jit.load("./cctv/trainedModels/deeplab_script.pt")
+            '''
             self.model_deep = DeepLab(num_classes = 2,
                         backbone = 'xception',
                         output_stride = 16,
@@ -54,6 +56,7 @@ class SegmentationModels(object):
             checkpoint_deeplab = torch.load('./cctv/trainedModels/DeepLab_model_best.pth.tar' ,map_location=self.device)
             self.model_deep.load_state_dict(checkpoint_deeplab['state_dict'])
             self.model_deep.eval()
+        '''
             self.composed_transforms = transforms.Compose([
                 transforms.ToTensor(),
                 transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))])
@@ -232,8 +235,10 @@ class StreamingVideoCamera(object):
             frame = self.camera.get_image(frame=frame)
             # frame단위로 이미지를 계속 반환한다. (yield)
             yield(b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-            
+
+          
 # 저장된 CCTV이미지용 seg 출력
+'''
 class StaticSegImage(object):
     def __init__(self) -> None:
         self.Seg = SegmentationModels("DeepLab")
@@ -246,3 +251,4 @@ class StaticSegImage(object):
         seg = self.Seg.model(frame)
         
         return seg
+'''
