@@ -11,11 +11,11 @@ from datetime import date,timedelta,datetime
 
 
 status_value= [
-    { "title": "현재 발전량", "value": "", "unit": "kW", "icon_class": "fas fa-bolt" },
-    { "title": "금일 예측 발전량", "value": "", "unit": "kW", "icon_class": "fas fa-battery-full" },
-    { "title": "누적 발전량", "value": "", "unit": "kWh", "icon_class": "fas fa-clock" },
+    { "title": "현재 발전량", "value": "", "unit": "W", "icon_class": "fas fa-bolt" },
+    { "title": "금일 예측 발전량", "value": "", "unit": "W", "icon_class": "fas fa-battery-full" },
+    { "title": "누적 발전량", "value": "", "unit": "Wh", "icon_class": "fas fa-clock" },
     { "title": "발전시간", "value": "", "unit": "시간", "icon_class": "fas fa-stopwatch" },
-    { "title": "전일 대비 발전량", "value": "", "unit": "kW", "icon_class": "fas fa-coins" },
+    { "title": "전일 대비 발전량", "value": "", "unit": "W", "icon_class": "fas fa-coins" },
     { "title": "발전 효율", "value": "", "unit": "%", "icon_class": "fas fa-hand-holding-usd" },
 ]
 
@@ -52,16 +52,16 @@ class home(LoginRequiredMixin, TemplateView):
 
         nowgen = gen.objects.order_by('-dt','-dt_hour').first()
         status_value[0]['title'] = '현재 발전량 \t ('+str(nowgen.dt_hour) + '시)'
-        status_value[0]['value'] = round(nowgen.dc_kw1 + nowgen.dc_kw2 + nowgen.dc_kw3 + nowgen.dc_kw4)
+        status_value[0]['value'] = round(nowgen.dc_kw4)
 
-        cumulative_powgen = gen.objects.filter(dt=date.today()).aggregate(Sum('dc_kw1'),Sum('dc_kw2'),Sum('dc_kw3'),Sum('dc_kw4'))
+        cumulative_powgen = gen.objects.filter(dt=date.today()).aggregate(Sum('dc_kw4'))
         status_value[2]['value'] = round(sum(cumulative_powgen.values()))
 
-        gen_time = gen.objects.filter(Q(dt=date.today()) & ((~Q(dc_kw1=0)) | ~Q(dc_kw2=0) | ~Q(dc_kw3=0) | ~Q(dc_kw4=0))).count()
+        gen_time = gen.objects.filter(Q(dt=date.today()) & (~Q(dc_kw4__lt=0.1))).count()
         status_value[3]['value'] = gen_time
 
         yesterday = date.today() - timedelta(1)
-        yesterday_powgen = gen.objects.filter(dt=yesterday, dt_hour__range = [0,datetime.now().hour]).aggregate(Sum('dc_kw1'),Sum('dc_kw2'),Sum('dc_kw3'),Sum('dc_kw4'))
+        yesterday_powgen = gen.objects.filter(dt=yesterday, dt_hour__range = [0,datetime.now().hour]).aggregate(Sum('dc_kw4'))
         diff = round(sum(cumulative_powgen.values()) - sum(yesterday_powgen.values()))
         status_value[4]['value'] = diff
 
